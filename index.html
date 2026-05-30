@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<script>
+  (function(){
+    var t = localStorage.getItem('sov-theme');
+    if (t === 'rose' && window.location.pathname.indexOf('index-rose') === -1) {
+      window.location.replace('/the_sovereign/index-rose.html');
+    }
+  })();
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Sovereign Woman — Gold & Wealth Toolkit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #f0d080;
+    --gold-dim: rgba(201,168,76,0.15);
+    --black: #080808;
+    --near-black: #0e0e0e;
+    --surface: #141414;
+    --surface2: #1c1c1c;
+    --text: #f5f0e8;
+    --text-muted: #9a9080;
+    --text-dim: #5a5040;
+    --border: rgba(201,168,76,0.18);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  ::selection { background: var(--gold); color: var(--black); }
+
+  /* GRAIN OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.35;
+  }
+
+  /* GOLD LINE TOP */
+  .gold-bar {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--gold) 30%, var(--gold-light) 50%, var(--gold) 70%, transparent 100%);
+  }
+
+  /* NAV */
+  nav {
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .nav-cta {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    border: 1px solid rgba(201,168,76,0.4);
+    padding: 8px 18px;
+    transition: all 0.3s;
+  }
+
+  .nav-cta:hover {
+    background: var(--gold-dim);
+    border-color: var(--gold);
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 80px 24px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .eyebrow {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 28px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 10vw, 96px);
+    font-weight: 900;
+    line-height: 0.95;
+    color: var(--text);
+    margin-bottom: 12px;
+    animation: fadeUp 0.9s 0.1s ease both;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+    display: block;
+  }
+
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 3vw, 26px);
+    font-style: italic;
+    color: var(--text-muted);
+    margin: 24px auto 0;
+    max-width: 560px;
+    line-height: 1.6;
+    animation: fadeUp 1s 0.2s ease both;
+  }
+
+  .hero-divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 36px auto;
+    animation: fadeUp 1s 0.3s ease both;
+  }
+
+  .hero-truth {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-muted);
+    max-width: 480px;
+    line-height: 1.8;
+    animation: fadeUp 1s 0.35s ease both;
+    margin-bottom: 48px;
+  }
+
+  .hero-truth strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* WAITLIST FORM */
+  .waitlist-form {
+    display: flex;
+    gap: 0;
+    max-width: 480px;
+    width: 100%;
+    animation: fadeUp 1s 0.45s ease both;
+  }
+
+  .waitlist-form input {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-right: none;
+    color: var(--text);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    padding: 16px 20px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  .waitlist-form input::placeholder { color: var(--text-dim); }
+  .waitlist-form input:focus { border-color: var(--gold); }
+
+  .waitlist-form button {
+    background: var(--gold);
+    border: 1px solid var(--gold);
+    color: var(--black);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 16px 24px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.3s;
+  }
+
+  .waitlist-form button:hover {
+    background: var(--gold-light);
+    border-color: var(--gold-light);
+  }
+
+  .form-note {
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    margin-top: 14px;
+    animation: fadeUp 1s 0.5s ease both;
+  }
+
+  /* TRUTH SECTION */
+  .section {
+    padding: 100px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 24px;
+  }
+
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  /* STATS ROW */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 60px 0;
+  }
+
+  .stat-block {
+    background: var(--near-black);
+    padding: 40px 32px;
+    text-align: center;
+  }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    max-width: 160px;
+    margin: 0 auto;
+  }
+
+  /* STORY SECTION */
+  .story-section {
+    padding: 100px 40px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .story-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .story-pull {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 4vw, 36px);
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 32px;
+    border-left: 2px solid var(--gold);
+    padding-left: 28px;
+  }
+
+  .story-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: var(--text-muted);
+    line-height: 1.85;
+  }
+
+  .story-body p { margin-bottom: 20px; }
+  .story-body strong { color: var(--text); font-weight: 600; }
+
+  .story-sig {
+    margin-top: 40px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(201,168,76,0.15);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .sig-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .sig-text { }
+  .sig-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .sig-role {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* WHAT'S INSIDE */
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 52px;
+  }
+
+  .module-card {
+    background: var(--near-black);
+    padding: 36px 32px;
+    transition: background 0.3s;
+  }
+
+  .module-card:hover { background: var(--surface); }
+
+  .module-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    margin-bottom: 14px;
+  }
+
+  .module-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+
+  .module-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.75;
+  }
+
+  .module-tag {
+    display: inline-block;
+    margin-top: 16px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 4px 10px;
+  }
+
+  /* TIERS */
+  .tiers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 52px;
+  }
+
+  .tier-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 36px 28px;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+
+  .tier-card:hover { border-color: var(--gold); }
+
+  .tier-card.featured {
+    border-color: var(--gold);
+    background: var(--surface2);
+  }
+
+  .featured-badge {
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gold);
+    color: var(--black);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    white-space: nowrap;
+  }
+
+  .tier-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    font-style: italic;
+    color: var(--gold);
+    margin-bottom: 8px;
+    letter-spacing: 0.1em;
+  }
+
+  .tier-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  .tier-price {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 4px;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .tier-price-note {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+  }
+
+  .tier-feature {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .tier-feature::before {
+    content: '→';
+    color: var(--gold);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* DOWNLOADS */
+  .downloads-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 48px;
+  }
+
+  .download-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px 22px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: border-color 0.2s, background 0.2s;
+    color: var(--text);
+  }
+  .download-item:hover {
+    border-color: var(--gold);
+    background: var(--surface2);
+  }
+
+  .dl-icon {
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(201,168,76,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--gold);
+    font-size: 14px;
+  }
+
+  .dl-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  /* FINAL CTA */
+  .final-cta {
+    padding: 120px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .final-cta::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .final-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 6vw, 68px);
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+
+  .final-title em { font-style: italic; color: var(--gold); }
+
+  .final-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: 48px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .final-form {
+    display: flex;
+    gap: 0;
+    max-width: 480px;
+    width: 100%;
+    margin: 0 auto 16px;
+  }
+
+  .final-form input {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-right: none;
+    color: var(--text);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    padding: 18px 22px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  .final-form input::placeholder { color: var(--text-dim); }
+  .final-form input:focus { border-color: var(--gold); }
+
+  .final-form button {
+    background: var(--gold);
+    border: 1px solid var(--gold);
+    color: var(--black);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 18px 28px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.3s;
+  }
+
+  .final-form button:hover { background: var(--gold-light); }
+
+  .final-note {
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.06em;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 32px 40px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .footer-note {
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .section { padding: 70px 20px; }
+    .stats-row { grid-template-columns: 1fr; }
+    .modules-grid { grid-template-columns: 1fr; }
+    .tiers-grid { grid-template-columns: 1fr; }
+    .downloads-grid { grid-template-columns: 1fr; }
+    .waitlist-form { flex-direction: column; }
+    .waitlist-form input { border-right: 1px solid var(--border); border-bottom: none; }
+    .final-form { flex-direction: column; }
+    .final-form input { border-right: 1px solid var(--border); border-bottom: none; }
+    .story-section { padding: 70px 20px; }
+    .final-cta { padding: 80px 20px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+
+  .sov-topbar { height: 2px; background: linear-gradient(90deg, transparent, var(--gold, #c9a84c), var(--gold-light, #f0d080), var(--gold, #c9a84c), transparent); }
+  .sov-nav {
+    padding: 16px 40px; border-bottom: 1px solid var(--border, rgba(201,168,76,0.15));
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 200;
+    background: var(--black, #080808); backdrop-filter: blur(12px);
+  }
+  .sov-nav-left { display: flex; align-items: center; gap: 20px; }
+  .sov-back { font-size:10px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold,#c9a84c); text-decoration:none; display:flex; align-items:center; gap:6px; opacity:0.7; transition:opacity 0.2s; }
+  .sov-back:hover { opacity:1; }
+  .sov-back::before { content:'←'; font-size:14px; }
+  .sov-brand { font-family:'Playfair Display',serif; font-size:12px; font-style:italic; color:var(--gold,#c9a84c); letter-spacing:0.1em; text-decoration:none; }
+  .sov-nav-right { display:flex; align-items:center; gap:12px; }
+  .sov-room-toggle { font-size:9px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-muted,#9a9080); text-decoration:none; border:1px solid var(--border,rgba(201,168,76,0.15)); padding:6px 14px; display:flex; align-items:center; gap:7px; transition:border-color 0.2s,color 0.2s; }
+  .sov-room-toggle:hover { border-color:var(--gold,#c9a84c); color:var(--gold,#c9a84c); }
+  .sov-room-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+  .download-item { background:var(--surface); border:1px solid var(--border); padding:20px 22px; display:flex; align-items:center; gap:16px; transition:border-color 0.2s,background 0.2s; color:var(--text); text-decoration:none; }
+  .download-item:hover { border-color:var(--gold); background:var(--surface2); }
+  @media(max-width:600px){ .sov-nav{padding:12px 16px;} }
+
+</style>
+</head>
+<body>
+<div class="sov-topbar"></div>
+<nav class="sov-nav">
+  <div class="sov-nav-left">
+    <a href="/the_sovereign/welcome.html" class="sov-back">All Rooms</a>
+    <a href="/the_sovereign/index.html" class="sov-brand">The Sovereign Woman</a>
+  </div>
+  <div class="sov-nav-right">
+    <a href="/the_sovereign/index-rose.html" class="sov-room-toggle">
+      <div class="sov-room-dot" style="background:#DB9AA4;"></div>
+      <span>Rose Room</span>
+    </a>
+  </div>
+</nav>
+
+
+<nav>
+  <div class="nav-logo">Orion PM Consulting</div>
+  <a href="#waitlist" class="nav-cta">Join the waitlist</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="eyebrow">A Gold & Wealth Toolkit — By the Founder of Orion PM Consulting</div>
+  <h1 class="hero-title">
+    The<br><em>Sovereign</em><br>Woman
+  </h1>
+  <p class="hero-subtitle">You were not bad with money. You were just never given the full system.</p>
+  <div class="hero-divider"></div>
+  <p class="hero-truth">
+    Built by a woman with <strong>8 years in the gold industry</strong> who learned financial independence not in a classroom — but in a hospital room, alone, with three children and zero backup.<br><br>
+    This is the toolkit she wished she'd had.
+  </p>
+  <form class="waitlist-form" id="waitlist" onsubmit="handleSubmit(event)">
+    <input type="email" placeholder="Your email address" required />
+    <button type="submit">Join the waitlist</button>
+  </form>
+  <p class="form-note">Early access. No spam. Ever.</p>
+</section>
+
+<!-- STATS -->
+<section class="section reveal">
+  <div class="section-label">The reality</div>
+  <h2 class="section-title">This isn't misfortune.<br><em>It's architecture.</em></h2>
+  <p style="font-size:15px;color:var(--text-muted);max-width:580px;line-height:1.8;">The financial system was designed before women had a seat at the table. These numbers aren't statistics — they're someone's life. Maybe yours.</p>
+
+  <div class="stats-row">
+    <div class="stat-block">
+      <div class="stat-number">20%</div>
+      <div class="stat-label">of women fall below the poverty line after divorce. For men — just 8%.</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-number">$10.8T</div>
+      <div class="stat-label">in unpaid care work performed by women annually. Uncounted. Unrewarded.</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-number">$1M+</div>
+      <div class="stat-label">estimated lifetime cost of a 3-year career pause. The invisible tax no one refunds.</div>
+    </div>
+  </div>
+
+  <p style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:var(--text-muted);max-width:620px;line-height:1.7;border-left:2px solid var(--gold);padding-left:24px;">
+    "The women who close the gap don't do it by working harder. They do it by owning something real."
+  </p>
+</section>
+
+<!-- STORY -->
+<div class="story-section reveal">
+  <div class="story-inner">
+    <div class="section-label">From the founder</div>
+    <div class="story-pull">
+      "There was a night in a hospital room where I understood something I couldn't ununderstand. No one was coming."
+    </div>
+    <div class="story-body">
+      <p>Three children. One crisis. Zero backup. Wi-Fi barely working and a spreadsheet open on my screen — working remotely just to keep us afloat while the man who called himself an equal had walked away. Far away.</p>
+      <p>I had spent <strong>8 years in the gold industry</strong>. I knew the cycles. The history. I'd watched gold hold value when currencies collapsed, when markets panicked, when institutions failed.</p>
+      <p>But that night, I understood it differently. Not as a professional analyzing data — as a woman who needed something <strong>no court could divide, no crisis could dissolve, no one could walk away with.</strong></p>
+      <p>I already had the knowledge. That night I finally used it for myself. I restructured everything — how I earned, how I held value, how I protected it.</p>
+      <p>And slowly, then all at once — I stopped surviving my life and started owning it.</p>
+      <p><strong>The Sovereign Woman is the system I built. And now I'm handing it to you.</strong></p>
+    </div>
+    <div class="story-sig">
+      <div class="sig-avatar">C</div>
+      <div class="sig-text">
+        <div class="sig-name">The Founder</div>
+        <div class="sig-role">Orion PM Consulting — 8 years in precious metals</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODULES -->
+<section class="section reveal">
+  <div class="section-label">What's inside</div>
+  <h2 class="section-title">Six modules.<br><em>One complete system.</em></h2>
+
+  <div class="modules-grid">
+    <div class="module-card">
+      <div class="module-num">Module 01</div>
+      <div class="module-title">Know Your Position</div>
+      <div class="module-desc">The honest financial audit no one taught you. Net worth calculator. Asset vs liability clarity. The invisible tax worksheet — putting a real number on what you've absorbed.</div>
+      <span class="module-tag">All tiers</span>
+    </div>
+    <div class="module-card">
+      <div class="module-num">Module 02</div>
+      <div class="module-title">Gold as a Woman's Asset</div>
+      <div class="module-desc">Why hard assets hit differently for women. How gold works — spot price, premiums, forms of ownership. How to buy, hold, and protect it. Eight years of industry knowledge, distilled.</div>
+      <span class="module-tag">All tiers</span>
+    </div>
+    <div class="module-card">
+      <div class="module-num">Module 03</div>
+      <div class="module-title">The Wealth Protection System</div>
+      <div class="module-desc">Divorce-proofing your finances before you need to. Legal structures for asset protection. What to own in your name. The documents every woman needs — and most never have.</div>
+      <span class="module-tag">Tier 2 + 3</span>
+    </div>
+    <div class="module-card">
+      <div class="module-num">Module 04</div>
+      <div class="module-title">Income Architecture</div>
+      <div class="module-desc">Moving from time-for-money to asset-based income. Building streams that work while you're at the school gate. The broker model — how to earn in the gold industry as a woman.</div>
+      <span class="module-tag">Tier 2 + 3</span>
+    </div>
+    <div class="module-card">
+      <div class="module-num">Module 05</div>
+      <div class="module-title">The Operator Playbook</div>
+      <div class="module-desc">Everything inside the Broker Toolkit — adapted for women entering the metals industry as operators. Client acquisition. Deal flow. Pricing frameworks. Run your metals operation like a machine.</div>
+      <span class="module-tag">Tier 3 only</span>
+    </div>
+    <div class="module-card">
+      <div class="module-num">Module 06</div>
+      <div class="module-title">The Sovereign Circle</div>
+      <div class="module-desc">Private community. Monthly live sessions with the founder. Women holding each other to the blueprint. Because sovereignty isn't built alone — it's built together.</div>
+      <span class="module-tag">Tier 3 only</span>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOADS -->
+<section class="section reveal" style="padding-top:0">
+  <div class="section-label">The toolkit layer</div>
+  <h2 class="section-title">Every tier includes<br><em>tangible tools.</em></h2>
+  <div class="downloads-grid">
+    <a class="download-item" href="/the_sovereign/invisible-tax-calculator.html" style="text-decoration:none;">
+      <div class="dl-icon">→</div>
+      <div class="dl-name">The Invisible Tax Calculator</div>
+    </a>
+    <a class="download-item" href="/the_sovereign/gold-investment-checklist.html" style="text-decoration:none;">
+      <div class="dl-icon">→</div>
+      <div class="dl-name">Gold Investment Starter Checklist</div>
+    </a>
+    <a class="download-item" href="/the_sovereign/asset-protection-checklist.html" style="text-decoration:none;">
+      <div class="dl-icon">→</div>
+      <div class="dl-name">Asset Protection Document Checklist</div>
+    </a>
+    <a class="download-item" href="/the_sovereign/net-worth-tracker.html" style="text-decoration:none;">
+      <div class="dl-icon">→</div>
+      <div class="dl-name">Personal Net Worth Tracker</div>
+    </a>
+    <a class="download-item" href="/the_sovereign/sovereign-financial-audit.html" style="text-decoration:none;">
+      <div class="dl-icon">→</div>
+      <div class="dl-name">The Sovereign Financial Audit</div>
+    </a>
+    <a class="download-item" href="/the_sovereign/scripts-banks-brokers-lawyers.html" style="text-decoration:none;">
+      <div class="dl-icon">→</div>
+      <div class="dl-name">Scripts for Banks, Brokers & Lawyers</div>
+    </a>
+    <a class="download-item" href="/the_sovereign/blueprint-journal.html" style="text-decoration:none;">
+      <div class="dl-icon">→</div>
+      <div class="dl-name">The Blueprint Journal — 90-day prompts</div>
+    </a>
+    <a class="download-item" href="/the_sovereign/pricing-margin-toolkit.html" style="text-decoration:none;">
+      <div class="dl-icon">→</div>
+      <div class="dl-name">Pricing & Margin Toolkit (Tier 3)</div>
+    </a>
+  </div>
+</section>
+
+<!-- TIERS -->
+<section class="section reveal">
+  <div class="section-label">Choose your level</div>
+  <h2 class="section-title">Three tiers.<br><em>One destination.</em></h2>
+  <p style="font-size:14px;color:var(--text-muted);margin-top:8px;margin-bottom:0;max-width:480px;line-height:1.8;">Every woman enters at a different point. Every woman arrives at the same place — sovereign.</p>
+
+  <div class="tiers-grid">
+    <div class="tier-card">
+      <div class="tier-name">Tier 1</div>
+      <div class="tier-title">The Awakening</div>
+      <div class="tier-price">$97</div>
+      <div class="tier-price-note">Early bird — limited spots</div>
+      <div class="tier-feature">Modules 1 & 2</div>
+      <div class="tier-feature">Gold Investment Starter Checklist</div>
+      <div class="tier-feature">The Invisible Tax Calculator</div>
+      <div class="tier-feature">Sovereign Financial Audit</div>
+    </div>
+    <div class="tier-card featured">
+      <div class="featured-badge">Most chosen</div>
+      <div class="tier-name">Tier 2</div>
+      <div class="tier-title">The Builder</div>
+      <div class="tier-price">$297</div>
+      <div class="tier-price-note">Early bird — limited spots</div>
+      <div class="tier-feature">All Tier 1 content</div>
+      <div class="tier-feature">Modules 3 & 4</div>
+      <div class="tier-feature">Wealth Protection System</div>
+      <div class="tier-feature">Income Architecture Framework</div>
+      <div class="tier-feature">Full Toolkit Downloads</div>
+    </div>
+    <div class="tier-card">
+      <div class="tier-name">Tier 3</div>
+      <div class="tier-title">The Sovereign</div>
+      <div class="tier-price">$497</div>
+      <div class="tier-price-note">Early bird — limited spots</div>
+      <div class="tier-feature">Complete system — all 6 modules</div>
+      <div class="tier-feature">The Operator Playbook</div>
+      <div class="tier-feature">The Sovereign Circle community</div>
+      <div class="tier-feature">Monthly live sessions with the founder</div>
+      <div class="tier-feature">All toolkit downloads</div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta reveal">
+  <h2 class="final-title">Begin.<br><em>Own something real.</em><br>Build something yours.</h2>
+  <p class="final-sub">The moment no one comes to save you is the moment you discover you were never waiting to be saved.</p>
+  <form class="final-form" onsubmit="handleSubmit(event)">
+    <input type="email" placeholder="Your email address" required />
+    <button type="submit">Claim your spot</button>
+  </form>
+  <p class="final-note">Early bird pricing ends at launch. No spam. Unsubscribe any time.</p>
+</section>
+
+<footer>
+  <div class="footer-logo">The Sovereign Woman — Orion PM Consulting</div>
+  <div class="footer-note">© 2026 Orion PM Consulting. All rights reserved.</div>
+</footer>
+
+<script>
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    const input = e.target.querySelector('input');
+    btn.textContent = 'You\'re on the list ✓';
+    btn.style.background = '#2a5a2a';
+    btn.style.borderColor = '#2a5a2a';
+    btn.style.color = '#90d090';
+    input.disabled = true;
+    btn.disabled = true;
+  }
+
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+</script>
+
+<a href="/the_sovereign/index-rose.html" style="position:fixed;bottom:24px;right:24px;z-index:500;background:rgba(10,10,10,0.95);border:1px solid rgba(201,168,76,0.3);padding:10px 16px;display:flex;align-items:center;gap:10px;text-decoration:none;backdrop-filter:blur(8px);transition:border-color 0.2s;" onmouseover="this.style.borderColor='#c9a84c'" onmouseout="this.style.borderColor='rgba(201,168,76,0.3)'">
+  <div style="width:10px;height:10px;border-radius:50%;background:#DB9AA4;flex-shrink:0;"></div>
+  <span style="font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#9a9080;white-space:nowrap;">Switch to Rose Room</span>
+</a>
+</body>
+</html>

@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing & Margin Toolkit — The Sovereign Woman</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body { background: var(--black); color: var(--text); font-family: 'Montserrat', sans-serif; min-height: 100vh; padding-bottom: 80px; }
+  body::after { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 999; opacity: 0.4; }
+  .gold-bar { height: 2px; background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent); }
+  header { padding: 24px 40px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .header-brand { font-family: 'Playfair Display', serif; font-size: 11px; font-style: italic; color: var(--gold); }
+  .header-tag { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--negative); background: rgba(192,80,58,0.1); padding: 3px 10px; }
+  .hero { text-align: center; padding: 52px 24px 40px; max-width: 680px; margin: 0 auto; }
+  .hero-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 5vw, 48px); font-weight: 900; line-height: 1.05; color: var(--text); margin-bottom: 14px; }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-sub { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--text-muted); line-height: 1.7; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+  .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  @media (max-width: 680px) { .tool-grid { grid-template-columns: 1fr; } header { padding: 16px 20px; } }
+  .calc-panel { background: var(--surface); border: 1px solid var(--border); padding: 28px 24px; }
+  .calc-title { font-size: 9px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+  .field { margin-bottom: 18px; }
+  .field-label { font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 7px; display: flex; justify-content: space-between; }
+  .field-val { color: var(--gold); }
+  input[type="range"] { width: 100%; -webkit-appearance: none; height: 2px; background: var(--surface3); outline: none; cursor: pointer; }
+  input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: var(--gold); border-radius: 50%; cursor: pointer; }
+  input[type="number"] { width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text); font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600; padding: 11px 14px; outline: none; transition: border-color 0.2s; }
+  input[type="number"]:focus { border-color: var(--gold); }
+  .result-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .result-name { font-size: 12px; color: var(--text-muted); }
+  .result-val { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; }
+  .result-val.positive { color: var(--positive); }
+  .result-val.gold { color: var(--gold-light); }
+  .result-val.neutral { color: var(--text); }
+  .result-val.negative { color: var(--negative); }
+  .result-highlight { background: var(--surface2); padding: 18px 20px; margin-top: 12px; text-align: center; }
+  .highlight-label { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
+  .highlight-num { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 900; transition: all 0.3s; }
+  .fx-table { background: var(--surface); border: 1px solid var(--border); }
+  .fx-header { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; background: var(--surface2); padding: 12px 18px; font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); gap: 8px; }
+  .fx-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; padding: 12px 18px; border-top: 1px solid rgba(255,255,255,0.04); font-size: 13px; gap: 8px; align-items: center; }
+  .fx-row:hover { background: var(--surface2); }
+  .fx-currency { font-weight: 600; color: var(--text); }
+  .fx-rate { color: var(--text-muted); }
+  .fx-oz { color: var(--gold); font-weight: 600; }
+  .fx-margin { color: var(--positive); }
+  .cheat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 20px; }
+  @media (max-width: 600px) { .cheat-grid { grid-template-columns: 1fr 1fr; } }
+  .cheat-cell { background: var(--surface); padding: 20px 16px; }
+  .cheat-label { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
+  .cheat-value { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--gold); margin-bottom: 4px; }
+  .cheat-note { font-size: 10px; color: var(--text-dim); font-style: italic; line-height: 1.5; }
+  .insight-box { background: var(--gold-dim); border-left: 2px solid var(--gold); padding: 18px 22px; margin-bottom: 20px; }
+  .insight-text { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-style: italic; color: var(--text-muted); line-height: 1.7; }
+  .insight-text strong { color: var(--gold); font-style: normal; }
+  .section-title { font-size: 9px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; margin-top: 28px; }
+  footer { text-align: center; margin-top: 40px; padding: 0 24px; }
+  .footer-text { font-size: 11px; color: var(--text-dim); line-height: 1.8; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 12px; font-style: italic; color: var(--gold); margin-top: 10px; }
+
+  /* === SOVEREIGN NAV INJECTION === */
+  .sov-topbar { height: 2px; background: linear-gradient(90deg, transparent, var(--gold, #c9a84c), var(--gold-light, #f0d080), var(--gold, #c9a84c), transparent); }
+  .sov-nav {
+    padding: 16px 40px;
+    border-bottom: 1px solid var(--border, rgba(201,168,76,0.15));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: var(--black, #080808);
+    backdrop-filter: blur(12px);
+  }
+  .sov-nav-left { display: flex; align-items: center; gap: 20px; }
+  .sov-back {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold, #c9a84c);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .sov-back:hover { opacity: 1; }
+  .sov-back::before { content: '←'; font-size: 14px; }
+  .sov-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--gold, #c9a84c);
+    letter-spacing: 0.1em;
+    text-decoration: none;
+  }
+  .sov-nav-right { display: flex; align-items: center; gap: 12px; }
+  .sov-room-toggle {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted, #9a9080);
+    text-decoration: none;
+    border: 1px solid var(--border, rgba(201,168,76,0.15));
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .sov-room-toggle:hover { border-color: var(--gold, #c9a84c); color: var(--gold, #c9a84c); }
+  .sov-room-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  @media (max-width: 600px) {
+    .sov-nav { padding: 12px 16px; }
+    .sov-room-toggle span.sov-room-label { display: none; }
+  }
+  /* === END SOVEREIGN NAV === */
+
+
+  /* ===== THEME SYSTEM ===== */
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #f0d080;
+    --gold-dim: rgba(201,168,76,0.12);
+    --black: #080808;
+    --surface: #121212;
+    --surface2: #1a1a1a;
+    --surface3: #222;
+    --text: #f5f0e8;
+    --text-muted: #9a9080;
+    --text-dim: #4a4438;
+    --border: rgba(201,168,76,0.15);
+    --border-strong: rgba(201,168,76,0.35);
+    --accent: #c9a84c;
+    --accent-light: #f0d080;
+    --accent-dim: rgba(201,168,76,0.12);
+    --bg-body: #080808;
+    --toggle-dot: #DB9AA4;
+    --toggle-label: "Switch to Rose Room";
+  }
+
+  [data-theme="rose"] {
+    --gold: #B55E75;
+    --gold-light: #DB9AA4;
+    --gold-dim: rgba(181,94,117,0.1);
+    --black: #fdf6f0;
+    --surface: #ffffff;
+    --surface2: #f9eff3;
+    --surface3: #f3e4e9;
+    --text: #2e1a22;
+    --text-muted: #7a4a58;
+    --text-dim: #b89aa4;
+    --border: rgba(181,94,117,0.15);
+    --border-strong: rgba(181,94,117,0.35);
+    --accent: #B55E75;
+    --accent-light: #DB9AA4;
+    --accent-dim: rgba(181,94,117,0.1);
+    --bg-body: #fdf6f0;
+    --toggle-dot: #c9a84c;
+    --positive: #2e7d5a;
+    --negative: #a0392a;
+  }
+
+  [data-theme="rose"] body {
+    background: #fdf6f0;
+    color: #2e1a22;
+  }
+
+  [data-theme="rose"] body::after { opacity: 0.15; }
+
+  [data-theme="rose"] .sov-nav {
+    background: rgba(253,246,240,0.97);
+    border-bottom: 1px solid rgba(181,94,117,0.15);
+  }
+
+  [data-theme="rose"] .sov-topbar {
+    background: linear-gradient(90deg, transparent, #DB9AA4, #EDC526, #DB9AA4, transparent);
+  }
+
+  [data-theme="rose"] input[type="number"],
+  [data-theme="rose"] input[type="text"],
+  [data-theme="rose"] textarea,
+  [data-theme="rose"] .entry-label,
+  [data-theme="rose"] .entry-amount {
+    background: #f9eff3;
+    border-color: rgba(181,94,117,0.2);
+    color: #2e1a22;
+  }
+
+  [data-theme="rose"] input[type="range"] {
+    background: #f3e4e9;
+  }
+
+  [data-theme="rose"] input[type="range"]::-webkit-slider-thumb {
+    background: #B55E75;
+  }
+
+  [data-theme="rose"] .opt-btn,
+  [data-theme="rose"] .scale-btn {
+    background: #f9eff3;
+    border-color: rgba(181,94,117,0.2);
+    color: #7a4a58;
+  }
+
+  [data-theme="rose"] .opt-btn.selected,
+  [data-theme="rose"] .scale-btn.selected {
+    background: rgba(181,94,117,0.1);
+    border-color: #B55E75;
+    color: #B55E75;
+  }
+
+  [data-theme="rose"] .opt-btn:hover,
+  [data-theme="rose"] .scale-btn:hover {
+    border-color: #B55E75;
+    color: #B55E75;
+  }
+
+  [data-theme="rose"] .check-item:hover { background: #f9eff3; }
+  [data-theme="rose"] .check-item.done .check-box { background: #B55E75; border-color: #B55E75; }
+  [data-theme="rose"] .add-btn:hover { border-color: #B55E75; color: #B55E75; }
+  [data-theme="rose"] .remove-btn:hover { border-color: #c0503a; color: #c0503a; }
+
+  [data-theme="rose"] .phase-tab.active {
+    border-color: #B55E75;
+    color: #B55E75;
+    background: rgba(181,94,117,0.08);
+  }
+
+  [data-theme="rose"] .week-header,
+  [data-theme="rose"] .phase-header,
+  [data-theme="rose"] .section-header {
+    background: #ffffff;
+    border-color: rgba(181,94,117,0.15);
+  }
+
+  [data-theme="rose"] .script-box {
+    background: #f9eff3;
+    border-left-color: #B55E75;
+  }
+
+  [data-theme="rose"] .objection {
+    background: #f3e4e9;
+    border-color: rgba(181,94,117,0.15);
+  }
+
+  [data-theme="rose"] .result-highlight,
+  [data-theme="rose"] .total-block,
+  [data-theme="rose"] .proj-cell {
+    background: #f9eff3;
+  }
+
+  [data-theme="rose"] .stat-block,
+  [data-theme="rose"] .summary-cell,
+  [data-theme="rose"] .result-block,
+  [data-theme="rose"] .cheat-cell,
+  [data-theme="rose"] .fx-table,
+  [data-theme="rose"] .fx-header,
+  [data-theme="rose"] .fx-row:hover {
+    background: #f9eff3;
+  }
+
+  /* Toggle button */
+  .theme-switch-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    background: none;
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .theme-switch-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .theme-switch-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: background 0.3s;
+  }
+
+  .theme-switch-label { transition: all 0.2s; }
+  /* ===== END THEME SYSTEM ===== */
+
+</style>
+</head>
+<body>
+<div class="sov-topbar"></div>
+<nav class="sov-nav">
+  <div class="sov-nav-left">
+    <a href="/the_sovereign/index.html" class="sov-back" id="navHomeLink">Home</a>
+    <a href="/the_sovereign/index.html" class="sov-brand" id="navBrandLink">The Sovereign Woman</a>
+  </div>
+  <div class="sov-nav-right">
+    <button class="theme-switch-btn" onclick="toggleTheme()" id="themeSwitchBtn" aria-label="Switch room theme">
+      <div class="theme-switch-dot" id="themeDot"></div>
+      <span class="theme-switch-label" id="themeLabel">Rose Room</span>
+    </button>
+  </div>
+</nav>
+
+<header style="display:none">
+  <div class="header-brand">The Sovereign Woman</div>
+  <div class="header-tag">Tier 3 Exclusive</div>
+</header>
+<div class="hero">
+  <div class="hero-eyebrow">Download 08 of 08</div>
+  <h1 class="hero-title">Pricing & Margin<br><em>Toolkit</em></h1>
+  <p class="hero-sub">The exact calculators, margin frameworks, and FX cheat sheets used by professional metals brokers — adapted for women entering the gold industry as operators.</p>
+</div>
+<div class="wrap">
+
+  <div class="insight-box">
+    <div class="insight-text">One good client in precious metals generates thousands in margin. But only if you price correctly. <strong>This toolkit ensures you never leave money on the table — and never quote a price that costs you the deal.</strong></div>
+  </div>
+
+  <!-- CALCULATORS -->
+  <div class="tool-grid">
+
+    <!-- DEAL CALCULATOR -->
+    <div class="calc-panel">
+      <div class="calc-title">Deal margin calculator</div>
+      <div class="field">
+        <div class="field-label"><span>Spot price (per troy oz, USD)</span><span class="field-val" id="spotVal">$2,400</span></div>
+        <input type="range" min="1500" max="4000" step="10" value="2400" id="spot" oninput="calcDeal()">
+      </div>
+      <div class="field">
+        <div class="field-label"><span>Weight (troy oz)</span><span class="field-val" id="weightVal">100 oz</span></div>
+        <input type="range" min="1" max="1000" step="1" value="100" id="weight" oninput="calcDeal()">
+      </div>
+      <div class="field">
+        <div class="field-label"><span>Buy premium (% above spot)</span><span class="field-val" id="buyPremVal">0.5%</span></div>
+        <input type="range" min="0" max="5" step="0.1" value="0.5" id="buyPrem" oninput="calcDeal()">
+      </div>
+      <div class="field">
+        <div class="field-label"><span>Sell premium (% above spot)</span><span class="field-val" id="sellPremVal">1.8%</span></div>
+        <input type="range" min="0.5" max="8" step="0.1" value="1.8" id="sellPrem" oninput="calcDeal()">
+      </div>
+      <div class="result-row"><span class="result-name">Buy price (cost)</span><span class="result-val neutral" id="buyPrice">$241,200</span></div>
+      <div class="result-row"><span class="result-name">Sell price (to client)</span><span class="result-val neutral" id="sellPrice">$244,320</span></div>
+      <div class="result-row"><span class="result-name">Gross margin</span><span class="result-val positive" id="grossMargin">$3,120</span></div>
+      <div class="result-highlight">
+        <div class="highlight-label">Margin %</div>
+        <div class="highlight-num positive" id="marginPct">1.29%</div>
+      </div>
+    </div>
+
+    <!-- COMMISSION CALCULATOR -->
+    <div class="calc-panel">
+      <div class="calc-title">Commission & fee calculator</div>
+      <div class="field">
+        <div class="field-label"><span>Deal value (USD)</span><span class="field-val" id="dealVal">$244,320</span></div>
+        <input type="range" min="10000" max="5000000" step="10000" value="244320" id="dealSize" oninput="calcComm()">
+      </div>
+      <div class="field">
+        <div class="field-label"><span>Your broker commission (%)</span><span class="field-val" id="commVal">0.8%</span></div>
+        <input type="range" min="0.1" max="3" step="0.05" value="0.8" id="comm" oninput="calcComm()">
+      </div>
+      <div class="field">
+        <div class="field-label"><span>Storage fee (annual, %)</span><span class="field-val" id="storageVal">0.15%</span></div>
+        <input type="range" min="0" max="1" step="0.05" value="0.15" id="storage" oninput="calcComm()">
+      </div>
+      <div class="field">
+        <div class="field-label"><span>Insurance fee (annual, %)</span><span class="field-val" id="insurVal">0.1%</span></div>
+        <input type="range" min="0" max="0.5" step="0.02" value="0.1" id="insur" oninput="calcComm()">
+      </div>
+      <div class="result-row"><span class="result-name">Broker commission</span><span class="result-val positive" id="commEarned">$1,955</span></div>
+      <div class="result-row"><span class="result-name">Annual storage revenue</span><span class="result-val gold" id="storageEarned">$367</span></div>
+      <div class="result-row"><span class="result-name">Annual insurance revenue</span><span class="result-val gold" id="insurEarned">$244</span></div>
+      <div class="result-highlight">
+        <div class="highlight-label">Total year-1 revenue per client</div>
+        <div class="highlight-num gold" id="totalRevenue">$2,566</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CHEAT SHEET -->
+  <div class="section-title">Industry benchmarks — cheat sheet</div>
+  <div class="cheat-grid">
+    <div class="cheat-cell"><div class="cheat-label">Typical buy premium</div><div class="cheat-value">0.2–0.8%</div><div class="cheat-note">Coins carry higher premiums than bars. LBMA bars lowest.</div></div>
+    <div class="cheat-cell"><div class="cheat-label">Typical sell premium</div><div class="cheat-value">1.0–3.0%</div><div class="cheat-note">HNW clients expect 1–1.5%. Retail up to 3%. Know your market.</div></div>
+    <div class="cheat-cell"><div class="cheat-label">Broker commission range</div><div class="cheat-value">0.3–1.5%</div><div class="cheat-note">Higher for smaller deals. Negotiate down for repeat large volume.</div></div>
+    <div class="cheat-cell"><div class="cheat-label">Vault storage annual fee</div><div class="cheat-value">0.1–0.5%</div><div class="cheat-note">Allocated storage at reputable vaults. Pass cost to client + margin.</div></div>
+    <div class="cheat-cell"><div class="cheat-label">Minimum viable deal</div><div class="cheat-value">$50K+</div><div class="cheat-note">Below this, margins rarely justify the time. Focus on $100K+ deals.</div></div>
+    <div class="cheat-cell"><div class="cheat-label">Target margin per deal</div><div class="cheat-value">1.0–1.5%</div><div class="cheat-note">On $250K deal that's $2,500–$3,750. One deal per week = real income.</div></div>
+  </div>
+
+  <!-- FX TABLE -->
+  <div class="section-title">FX & spot price reference (live rates — update manually)</div>
+  <div class="fx-table" id="fxTable">
+    <div class="fx-header"><span>Currency</span><span>FX rate (to USD)</span><span>Spot price per oz</span><span>Per gram</span></div>
+  </div>
+
+</div>
+<footer>
+  <p class="footer-text">This toolkit is for operational reference. It does not constitute financial or investment advice.<br>Always verify spot prices and FX rates with live market feeds before quoting.</p>
+  <div class="footer-brand">The Sovereign Woman — Orion PM Consulting</div>
+</footer>
+<script>
+  function fmt(n, prefix='$') {
+    if (n >= 1000000) return prefix + (n/1000000).toFixed(2) + 'M';
+    if (n >= 1000) return prefix + n.toLocaleString('en-US', {maximumFractionDigits:0});
+    return prefix + n.toFixed(2);
+  }
+
+  function calcDeal() {
+    const spot = +document.getElementById('spot').value;
+    const weight = +document.getElementById('weight').value;
+    const buyPrem = +document.getElementById('buyPrem').value;
+    const sellPrem = +document.getElementById('sellPrem').value;
+    document.getElementById('spotVal').textContent = '$' + spot.toLocaleString();
+    document.getElementById('weightVal').textContent = weight + ' oz';
+    document.getElementById('buyPremVal').textContent = buyPrem.toFixed(1) + '%';
+    document.getElementById('sellPremVal').textContent = sellPrem.toFixed(1) + '%';
+    const buyPrice = spot * weight * (1 + buyPrem/100);
+    const sellPrice = spot * weight * (1 + sellPrem/100);
+    const gross = sellPrice - buyPrice;
+    const pct = (gross / buyPrice) * 100;
+    document.getElementById('buyPrice').textContent = fmt(Math.round(buyPrice));
+    document.getElementById('sellPrice').textContent = fmt(Math.round(sellPrice));
+    document.getElementById('grossMargin').textContent = fmt(Math.round(gross));
+    document.getElementById('marginPct').textContent = pct.toFixed(2) + '%';
+    document.getElementById('marginPct').className = 'highlight-num ' + (pct > 0 ? 'positive' : 'negative');
+    document.getElementById('dealSize').value = Math.round(sellPrice);
+    document.getElementById('dealVal').textContent = fmt(Math.round(sellPrice));
+    calcComm();
+    buildFX(spot);
+  }
+
+  function calcComm() {
+    const deal = +document.getElementById('dealSize').value;
+    const comm = +document.getElementById('comm').value;
+    const storage = +document.getElementById('storage').value;
+    const insur = +document.getElementById('insur').value;
+    document.getElementById('dealVal').textContent = fmt(Math.round(deal));
+    document.getElementById('commVal').textContent = comm.toFixed(2) + '%';
+    document.getElementById('storageVal').textContent = storage.toFixed(2) + '%';
+    document.getElementById('insurVal').textContent = insur.toFixed(2) + '%';
+    const commEarned = deal * comm / 100;
+    const storageEarned = deal * storage / 100;
+    const insurEarned = deal * insur / 100;
+    const total = commEarned + storageEarned + insurEarned;
+    document.getElementById('commEarned').textContent = fmt(Math.round(commEarned));
+    document.getElementById('storageEarned').textContent = fmt(Math.round(storageEarned));
+    document.getElementById('insurEarned').textContent = fmt(Math.round(insurEarned));
+    document.getElementById('totalRevenue').textContent = fmt(Math.round(total));
+  }
+
+  const FX_PAIRS = [
+    { currency: 'EUR', symbol: '€', rate: 0.92 },
+    { currency: 'GBP', symbol: '£', rate: 0.79 },
+    { currency: 'CHF', symbol: 'CHF', rate: 0.90 },
+    { currency: 'AED', symbol: 'AED', rate: 3.67 },
+    { currency: 'SGD', symbol: 'SGD', rate: 1.35 },
+    { currency: 'HKD', symbol: 'HKD', rate: 7.82 },
+  ];
+
+  function buildFX(spotUSD) {
+    const table = document.getElementById('fxTable');
+    const existing = table.querySelectorAll('.fx-row');
+    existing.forEach(r => r.remove());
+    FX_PAIRS.forEach(pair => {
+      const pricePerOz = spotUSD * pair.rate;
+      const pricePerGram = pricePerOz / 31.1035;
+      const row = document.createElement('div');
+      row.className = 'fx-row';
+      row.innerHTML = `<span class="fx-currency">${pair.currency}</span><span class="fx-rate">${pair.rate.toFixed(4)}</span><span class="fx-oz">${pair.symbol}${Math.round(pricePerOz).toLocaleString()}</span><span class="fx-margin">${pair.symbol}${pricePerGram.toFixed(2)}/g</span>`;
+      table.appendChild(row);
+    });
+  }
+
+  calcDeal();
+</script>
+
+<script id="themeScript">
+  (function() {
+    var saved = localStorage.getItem('sov-theme') || 'dark';
+    applyTheme(saved, false);
+
+    function applyTheme(theme, save) {
+      document.documentElement.setAttribute('data-theme', theme === 'rose' ? 'rose' : '');
+      var dot = document.getElementById('themeDot');
+      var label = document.getElementById('themeLabel');
+      var homeLink = document.getElementById('navHomeLink');
+      var brandLink = document.getElementById('navBrandLink');
+      if (dot && label) {
+        if (theme === 'rose') {
+          dot.style.background = '#c9a84c';
+          label.textContent = 'Obsidian Room';
+          if (homeLink) homeLink.href = '/the_sovereign/index.html';
+          if (brandLink) brandLink.href = '/the_sovereign/index.html';
+        } else {
+          dot.style.background = '#DB9AA4';
+          label.textContent = 'Rose Room';
+          if (homeLink) homeLink.href = '/the_sovereign/index.html';
+          if (brandLink) brandLink.href = '/the_sovereign/index.html';
+        }
+      }
+      if (save) localStorage.setItem('sov-theme', theme);
+    }
+
+    window.toggleTheme = function() {
+      var current = localStorage.getItem('sov-theme') || 'dark';
+      var next = current === 'rose' ? 'dark' : 'rose';
+      applyTheme(next, true);
+    };
+  })();
+</script>
+
+</body>
+</html>

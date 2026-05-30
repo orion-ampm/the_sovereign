@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<script>
+  (function(){
+    var t = localStorage.getItem('sov-theme');
+    if (t === 'rose') window.location.replace('/the_sovereign/index-rose.html');
+    else if (t === 'dark') window.location.replace('/the_sovereign/index.html');
+  })();
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Sovereign Woman — Choose Your Room</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* SPLIT LAYOUT */
+  .rooms {
+    display: flex;
+    flex: 1;
+    height: 100vh;
+    position: relative;
+  }
+
+  /* DIVIDER */
+  .divider {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: rgba(255,255,255,0.15);
+    z-index: 10;
+    transform: translateX(-50%);
+    transition: left 0.5s ease;
+  }
+
+  .divider-word {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 10px 16px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    white-space: nowrap;
+    z-index: 20;
+    writing-mode: vertical-rl;
+  }
+
+  /* ROOM BASE */
+  .room {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 48px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: flex 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .room:hover { flex: 1.15; }
+
+  .room::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+
+  .room:hover::before { opacity: 1; }
+
+  /* ROOM DARK */
+  .room-dark {
+    background: #080808;
+  }
+
+  .room-dark::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  .room-dark::before {
+    background: radial-gradient(ellipse at center, rgba(201,168,76,0.08) 0%, transparent 70%);
+  }
+
+  /* ROOM ROSE */
+  .room-rose {
+    background: #fdf6f0;
+  }
+
+  .room-rose::before {
+    background: radial-gradient(ellipse at center, rgba(181,94,117,0.08) 0%, transparent 70%);
+  }
+
+  /* ORNAMENT */
+  .ornament {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 28px;
+    opacity: 0.6;
+    transition: opacity 0.3s, transform 0.3s;
+  }
+
+  .room:hover .ornament {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+
+  /* ROOM LABEL */
+  .room-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    transition: opacity 0.3s;
+  }
+
+  .room-dark .room-label { color: #c9a84c; }
+  .room-rose .room-label { color: #B55E75; }
+
+  /* ROOM TITLE */
+  .room-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 8px;
+    transition: transform 0.3s;
+  }
+
+  .room:hover .room-title { transform: translateY(-3px); }
+
+  .room-dark .room-title { color: #f5f0e8; }
+  .room-dark .room-title em { color: #c9a84c; font-style: italic; display: block; }
+
+  .room-rose .room-title { color: #3a2028; }
+  .room-rose .room-title em { color: #B55E75; font-style: italic; display: block; }
+
+  /* ROOM PERSONA */
+  .room-persona {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(14px, 2vw, 20px);
+    font-style: italic;
+    line-height: 1.65;
+    max-width: 340px;
+    margin: 0 auto 28px;
+    transition: opacity 0.3s;
+  }
+
+  .room-dark .room-persona { color: #9a9080; }
+  .room-rose .room-persona { color: #8a5a65; }
+
+  /* ROOM WORDS */
+  .room-words {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 36px;
+  }
+
+  .word-pill {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 20px;
+    transition: all 0.2s;
+  }
+
+  .room-dark .word-pill {
+    border: 1px solid rgba(201,168,76,0.25);
+    color: rgba(201,168,76,0.7);
+  }
+
+  .room:hover.room-dark .word-pill {
+    border-color: rgba(201,168,76,0.5);
+    color: #c9a84c;
+  }
+
+  .room-rose .word-pill {
+    border: 1px solid rgba(181,94,117,0.25);
+    color: rgba(181,94,117,0.7);
+  }
+
+  .room:hover.room-rose .word-pill {
+    border-color: rgba(181,94,117,0.5);
+    color: #B55E75;
+  }
+
+  /* ENTER BUTTON */
+  .enter-btn {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s;
+    position: relative;
+    z-index: 5;
+  }
+
+  .room-dark .enter-btn {
+    background: #c9a84c;
+    color: #080808;
+    border: 1px solid #c9a84c;
+  }
+
+  .room-dark .enter-btn:hover {
+    background: #f0d080;
+    border-color: #f0d080;
+  }
+
+  .room-rose .enter-btn {
+    background: #B55E75;
+    color: #fff;
+    border: 1px solid #B55E75;
+  }
+
+  .room-rose .enter-btn:hover {
+    background: #DB9AA4;
+    border-color: #DB9AA4;
+  }
+
+  /* ROOM QUOTE */
+  .room-quote {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    font-style: italic;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.4s 0.1s;
+    z-index: 5;
+  }
+
+  .room:hover .room-quote { opacity: 1; }
+  .room-dark .room-quote { color: rgba(201,168,76,0.6); }
+  .room-rose .room-quote { color: rgba(181,94,117,0.6); }
+
+  /* CENTER BRAND */
+  .center-brand {
+    position: absolute;
+    top: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 30;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .brand-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    font-style: italic;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.15em;
+    white-space: nowrap;
+  }
+
+  /* MOBILE */
+  @media (max-width: 640px) {
+    .rooms { flex-direction: column; overflow-y: auto; }
+    html, body { overflow: auto; }
+    .room { min-height: 50vh; flex: none !important; padding: 52px 28px; }
+    .room:hover { flex: none !important; }
+    .divider { width: 100%; height: 1px; top: 50%; left: 0; right: 0; bottom: auto; transform: translateY(-50%); }
+    .divider-word { writing-mode: horizontal-tb; top: 50%; left: 50%; }
+    .room-quote { display: none; }
+    .center-brand { top: 16px; }
+  }
+
+  /* FADE IN */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .room-label { animation: fadeIn 0.8s ease both; }
+  .room-dark .room-label { animation-delay: 0.2s; }
+  .room-rose .room-label { animation-delay: 0.3s; }
+  .room-title { animation: fadeIn 0.8s ease both; }
+  .room-dark .room-title { animation-delay: 0.3s; }
+  .room-rose .room-title { animation-delay: 0.4s; }
+  .room-persona { animation: fadeIn 0.8s ease both; }
+  .room-dark .room-persona { animation-delay: 0.4s; }
+  .room-rose .room-persona { animation-delay: 0.5s; }
+  .enter-btn { animation: fadeIn 0.8s ease both; }
+  .room-dark .enter-btn { animation-delay: 0.5s; }
+  .room-rose .enter-btn { animation-delay: 0.6s; }
+</style>
+</head>
+<body>
+
+<div class="rooms">
+
+  <!-- CENTER BRAND -->
+  <div class="center-brand">
+    <div class="brand-name">The Sovereign Woman</div>
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="divider">
+    <div class="divider-word">Choose your room</div>
+  </div>
+
+  <!-- DARK ROOM -->
+  <div class="room room-dark">
+    <svg class="ornament" viewBox="0 0 48 48" fill="none">
+      <circle cx="24" cy="24" r="22" stroke="#c9a84c" stroke-width="0.8"/>
+      <circle cx="24" cy="24" r="14" stroke="#c9a84c" stroke-width="0.5"/>
+      <line x1="24" y1="2" x2="24" y2="46" stroke="#c9a84c" stroke-width="0.5"/>
+      <line x1="2" y1="24" x2="46" y2="24" stroke="#c9a84c" stroke-width="0.5"/>
+      <circle cx="24" cy="24" r="3" fill="#c9a84c"/>
+    </svg>
+
+    <div class="room-label">The Obsidian Room</div>
+    <h2 class="room-title">Fierce.<br><em>Unapologetic.</em></h2>
+    <p class="room-persona">For the woman who is done being quiet about money. Who has carried everything and is ready to build something no one can take.</p>
+
+    <div class="room-words">
+      <span class="word-pill">Raw</span>
+      <span class="word-pill">Bold</span>
+      <span class="word-pill">Structural</span>
+      <span class="word-pill">Unbreakable</span>
+    </div>
+
+    <a href="/the_sovereign/index.html" class="enter-btn">Enter this room →</a>
+
+    <div class="room-quote">"She is not broken. She is the blueprint."</div>
+  </div>
+
+  <!-- ROSE ROOM -->
+  <div class="room room-rose">
+    <svg class="ornament" viewBox="0 0 48 48" fill="none">
+      <circle cx="24" cy="24" r="22" stroke="#B55E75" stroke-width="0.8"/>
+      <circle cx="24" cy="24" r="8" stroke="#B55E75" stroke-width="0.5"/>
+      <path d="M24 2 C24 2 28 12 24 24 C20 12 24 2 24 2Z" fill="#DB9AA4" opacity="0.4"/>
+      <path d="M46 24 C46 24 36 28 24 24 C36 20 46 24 46 24Z" fill="#DB9AA4" opacity="0.4"/>
+      <path d="M24 46 C24 46 20 36 24 24 C28 36 24 46 24 46Z" fill="#DB9AA4" opacity="0.4"/>
+      <path d="M2 24 C2 24 12 20 24 24 C12 28 2 24 2 24Z" fill="#DB9AA4" opacity="0.4"/>
+      <circle cx="24" cy="24" r="3" fill="#B55E75"/>
+    </svg>
+
+    <div class="room-label">The Rose Room</div>
+    <h2 class="room-title">Gentle.<br><em>Radiant.</em></h2>
+    <p class="room-persona">For the woman who is still finding her footing. Who wants to be held as she learns, guided as she grows, and celebrated every step of the way.</p>
+
+    <div class="room-words">
+      <span class="word-pill">Warm</span>
+      <span class="word-pill">Nurturing</span>
+      <span class="word-pill">Empowering</span>
+      <span class="word-pill">Soft power</span>
+    </div>
+
+    <a href="/the_sovereign/index-rose.html" class="enter-btn">Enter this room →</a>
+
+    <div class="room-quote">"Begin where you are. Build from there."</div>
+  </div>
+
+</div>
+
+</body>
+</html>

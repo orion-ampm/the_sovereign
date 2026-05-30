@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asset Protection Checklist — The Sovereign Woman</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body { background: var(--black); color: var(--text); font-family: 'Montserrat', sans-serif; min-height: 100vh; padding-bottom: 80px; }
+  body::after { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 999; opacity: 0.4; }
+  .gold-bar { height: 2px; background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent); }
+  header { padding: 24px 40px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .header-brand { font-family: 'Playfair Display', serif; font-size: 11px; font-style: italic; color: var(--gold); }
+  .header-tag { font-size: 9px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim); }
+  .hero { text-align: center; padding: 52px 24px 40px; max-width: 680px; margin: 0 auto; }
+  .hero-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 5vw, 48px); font-weight: 900; line-height: 1.05; color: var(--text); margin-bottom: 14px; }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-sub { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--text-muted); line-height: 1.7; }
+  .progress-bar-wrap { max-width: 700px; margin: 0 auto 32px; padding: 0 24px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-dim); margin-bottom: 8px; }
+  .progress-track { height: 3px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 2px; transition: width 0.4s; width: 0%; }
+  .wrap { max-width: 700px; margin: 0 auto; padding: 0 24px; }
+  .phase { margin-bottom: 20px; }
+  .phase-header { background: var(--surface); border: 1px solid var(--border); border-bottom: none; padding: 18px 24px; display: flex; align-items: center; gap: 14px; }
+  .phase-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--gold); opacity: 0.4; line-height: 1; }
+  .phase-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--text); }
+  .phase-desc { font-size: 11px; color: var(--text-muted); margin-top: 3px; font-style: italic; }
+  .checklist { background: var(--surface); border: 1px solid var(--border); }
+  .check-item { display: flex; align-items: flex-start; gap: 14px; padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.2s; }
+  .check-item:last-child { border-bottom: none; }
+  .check-item:hover { background: var(--surface2); }
+  .check-item.done { opacity: 0.6; }
+  .check-box { width: 20px; height: 20px; border: 1px solid var(--border-strong); flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+  .check-item.done .check-box { background: var(--gold); border-color: var(--gold); }
+  .check-tick { color: var(--black); font-size: 12px; font-weight: 700; opacity: 0; transition: opacity 0.2s; }
+  .check-item.done .check-tick { opacity: 1; }
+  .check-content { flex: 1; }
+  .check-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; line-height: 1.4; }
+  .check-item.done .check-title { text-decoration: line-through; color: var(--text-muted); }
+  .check-detail { font-size: 11px; color: var(--text-dim); line-height: 1.6; font-style: italic; }
+  .priority { font-size: 9px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 2px 8px; margin-bottom: 6px; display: inline-block; }
+  .p-critical { color: var(--danger); background: rgba(192,80,58,0.1); }
+  .p-important { color: var(--warn); background: rgba(201,168,76,0.1); }
+  .p-recommended { color: var(--positive); background: rgba(76,175,125,0.1); }
+  .insight-box { background: var(--gold-dim); border-left: 2px solid var(--gold); padding: 18px 22px; margin: 16px 0; }
+  .insight-text { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-style: italic; color: var(--text-muted); line-height: 1.7; }
+  .insight-text strong { color: var(--gold); font-style: normal; }
+  footer { text-align: center; margin-top: 40px; padding: 0 24px; }
+  .footer-text { font-size: 11px; color: var(--text-dim); line-height: 1.8; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 12px; font-style: italic; color: var(--gold); margin-top: 10px; }
+  @media (max-width: 500px) { header { padding: 16px 20px; } }
+
+  /* === SOVEREIGN NAV INJECTION === */
+  .sov-topbar { height: 2px; background: linear-gradient(90deg, transparent, var(--gold, #c9a84c), var(--gold-light, #f0d080), var(--gold, #c9a84c), transparent); }
+  .sov-nav {
+    padding: 16px 40px;
+    border-bottom: 1px solid var(--border, rgba(201,168,76,0.15));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: var(--black, #080808);
+    backdrop-filter: blur(12px);
+  }
+  .sov-nav-left { display: flex; align-items: center; gap: 20px; }
+  .sov-back {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold, #c9a84c);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .sov-back:hover { opacity: 1; }
+  .sov-back::before { content: '←'; font-size: 14px; }
+  .sov-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--gold, #c9a84c);
+    letter-spacing: 0.1em;
+    text-decoration: none;
+  }
+  .sov-nav-right { display: flex; align-items: center; gap: 12px; }
+  .sov-room-toggle {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted, #9a9080);
+    text-decoration: none;
+    border: 1px solid var(--border, rgba(201,168,76,0.15));
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .sov-room-toggle:hover { border-color: var(--gold, #c9a84c); color: var(--gold, #c9a84c); }
+  .sov-room-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  @media (max-width: 600px) {
+    .sov-nav { padding: 12px 16px; }
+    .sov-room-toggle span.sov-room-label { display: none; }
+  }
+  /* === END SOVEREIGN NAV === */
+
+
+  /* ===== THEME SYSTEM ===== */
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #f0d080;
+    --gold-dim: rgba(201,168,76,0.12);
+    --black: #080808;
+    --surface: #121212;
+    --surface2: #1a1a1a;
+    --surface3: #222;
+    --text: #f5f0e8;
+    --text-muted: #9a9080;
+    --text-dim: #4a4438;
+    --border: rgba(201,168,76,0.15);
+    --border-strong: rgba(201,168,76,0.35);
+    --accent: #c9a84c;
+    --accent-light: #f0d080;
+    --accent-dim: rgba(201,168,76,0.12);
+    --bg-body: #080808;
+    --toggle-dot: #DB9AA4;
+    --toggle-label: "Switch to Rose Room";
+  }
+
+  [data-theme="rose"] {
+    --gold: #B55E75;
+    --gold-light: #DB9AA4;
+    --gold-dim: rgba(181,94,117,0.1);
+    --black: #fdf6f0;
+    --surface: #ffffff;
+    --surface2: #f9eff3;
+    --surface3: #f3e4e9;
+    --text: #2e1a22;
+    --text-muted: #7a4a58;
+    --text-dim: #b89aa4;
+    --border: rgba(181,94,117,0.15);
+    --border-strong: rgba(181,94,117,0.35);
+    --accent: #B55E75;
+    --accent-light: #DB9AA4;
+    --accent-dim: rgba(181,94,117,0.1);
+    --bg-body: #fdf6f0;
+    --toggle-dot: #c9a84c;
+    --positive: #2e7d5a;
+    --negative: #a0392a;
+  }
+
+  [data-theme="rose"] body {
+    background: #fdf6f0;
+    color: #2e1a22;
+  }
+
+  [data-theme="rose"] body::after { opacity: 0.15; }
+
+  [data-theme="rose"] .sov-nav {
+    background: rgba(253,246,240,0.97);
+    border-bottom: 1px solid rgba(181,94,117,0.15);
+  }
+
+  [data-theme="rose"] .sov-topbar {
+    background: linear-gradient(90deg, transparent, #DB9AA4, #EDC526, #DB9AA4, transparent);
+  }
+
+  [data-theme="rose"] input[type="number"],
+  [data-theme="rose"] input[type="text"],
+  [data-theme="rose"] textarea,
+  [data-theme="rose"] .entry-label,
+  [data-theme="rose"] .entry-amount {
+    background: #f9eff3;
+    border-color: rgba(181,94,117,0.2);
+    color: #2e1a22;
+  }
+
+  [data-theme="rose"] input[type="range"] {
+    background: #f3e4e9;
+  }
+
+  [data-theme="rose"] input[type="range"]::-webkit-slider-thumb {
+    background: #B55E75;
+  }
+
+  [data-theme="rose"] .opt-btn,
+  [data-theme="rose"] .scale-btn {
+    background: #f9eff3;
+    border-color: rgba(181,94,117,0.2);
+    color: #7a4a58;
+  }
+
+  [data-theme="rose"] .opt-btn.selected,
+  [data-theme="rose"] .scale-btn.selected {
+    background: rgba(181,94,117,0.1);
+    border-color: #B55E75;
+    color: #B55E75;
+  }
+
+  [data-theme="rose"] .opt-btn:hover,
+  [data-theme="rose"] .scale-btn:hover {
+    border-color: #B55E75;
+    color: #B55E75;
+  }
+
+  [data-theme="rose"] .check-item:hover { background: #f9eff3; }
+  [data-theme="rose"] .check-item.done .check-box { background: #B55E75; border-color: #B55E75; }
+  [data-theme="rose"] .add-btn:hover { border-color: #B55E75; color: #B55E75; }
+  [data-theme="rose"] .remove-btn:hover { border-color: #c0503a; color: #c0503a; }
+
+  [data-theme="rose"] .phase-tab.active {
+    border-color: #B55E75;
+    color: #B55E75;
+    background: rgba(181,94,117,0.08);
+  }
+
+  [data-theme="rose"] .week-header,
+  [data-theme="rose"] .phase-header,
+  [data-theme="rose"] .section-header {
+    background: #ffffff;
+    border-color: rgba(181,94,117,0.15);
+  }
+
+  [data-theme="rose"] .script-box {
+    background: #f9eff3;
+    border-left-color: #B55E75;
+  }
+
+  [data-theme="rose"] .objection {
+    background: #f3e4e9;
+    border-color: rgba(181,94,117,0.15);
+  }
+
+  [data-theme="rose"] .result-highlight,
+  [data-theme="rose"] .total-block,
+  [data-theme="rose"] .proj-cell {
+    background: #f9eff3;
+  }
+
+  [data-theme="rose"] .stat-block,
+  [data-theme="rose"] .summary-cell,
+  [data-theme="rose"] .result-block,
+  [data-theme="rose"] .cheat-cell,
+  [data-theme="rose"] .fx-table,
+  [data-theme="rose"] .fx-header,
+  [data-theme="rose"] .fx-row:hover {
+    background: #f9eff3;
+  }
+
+  /* Toggle button */
+  .theme-switch-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    background: none;
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .theme-switch-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .theme-switch-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: background 0.3s;
+  }
+
+  .theme-switch-label { transition: all 0.2s; }
+  /* ===== END THEME SYSTEM ===== */
+
+</style>
+</head>
+<body>
+<div class="sov-topbar"></div>
+<nav class="sov-nav">
+  <div class="sov-nav-left">
+    <a href="/the_sovereign/index.html" class="sov-back" id="navHomeLink">Home</a>
+    <a href="/the_sovereign/index.html" class="sov-brand" id="navBrandLink">The Sovereign Woman</a>
+  </div>
+  <div class="sov-nav-right">
+    <button class="theme-switch-btn" onclick="toggleTheme()" id="themeSwitchBtn" aria-label="Switch room theme">
+      <div class="theme-switch-dot" id="themeDot"></div>
+      <span class="theme-switch-label" id="themeLabel">Rose Room</span>
+    </button>
+  </div>
+</nav>
+
+<header style="display:none">
+  <div class="header-brand">The Sovereign Woman</div>
+  <div class="header-tag">Orion PM Consulting</div>
+</header>
+<div class="hero">
+  <div class="hero-eyebrow">Download 05 of 08</div>
+  <h1 class="hero-title">Asset Protection<br><em>Document Checklist</em></h1>
+  <p class="hero-sub">The documents every woman needs — and most never have. Your legal and financial protection, laid out clearly, so nothing can be taken without a fight.</p>
+</div>
+<div class="progress-bar-wrap">
+  <div class="progress-label"><span id="doneCount">0 of 22 completed</span><span id="pct">0%</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+<div class="wrap">
+
+  <div class="insight-box">
+    <div class="insight-text">Most women don't think about asset protection until they need it. By then, it's too late to put the right structures in place. <strong>This checklist is for before the storm. That's when it matters most.</strong></div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-header"><div class="phase-num">01</div><div class="phase-info"><div class="phase-title">Identity & legal foundations</div><div class="phase-desc">The documents that prove who you are and what you're entitled to</div></div></div>
+    <div class="checklist">
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><div class="check-content"><span class="priority p-critical">Critical</span><div class="check-title">Valid passport & national ID — copies stored securely</div><div class="check-detail">Keep certified copies in a separate location from originals. Store one copy with a trusted person outside your household.</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><div class="check-content"><span class="priority p-critical">Critical</span><div class="check-title">Birth certificate — original and certified copies</div><div class="check-detail">Required for virtually every legal process. If you don't have a copy, order one now from the relevant government registry.</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><div class="check-content"><span class="priority p-important">Important</span><div class="check-title">Marriage / divorce certificate (if applicable)</div><div class="check-detail">Affects asset division, name changes, inheritance, and pension rights. Know where yours is.</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><div class="check-content"><span class="priority p-important">Important</span><div class="check-title">Children's birth certificates stored and accessible</div><div class="check-detail">You may need these urgently in family law, medical, or international situations.</div></div></div>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-header"><div class="phase-num">02</div><div class="phase-info"><div class="phase-title">Financial documents</div><div class="phase-desc">Everything that proves what you own and what you're owed</div></div></div>
+    <div class="checklist">
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><div class="check-content"><span class="priority p-critical">Critical</span><div class="check-title">Bank account statements — 3 years minimum</div><div class="check-detail">Kept digitally in a secure location. These establish financial history for loans, legal proceedings, and tax purposes.</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><div class="check-content"><span class="priority p-critical">Critical</span><div class="check-title">Tax returns — 7 years minimum</div><div class="check-detail">The standard audit window in most jurisdictions. Keep originals and submitted copies, along with any supporting documents.</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><div class="check-content"><span class="priority p-important">Important</span><div class="check-title">Investment and brokerage account statements</div><div class="check-detail">Including gold purchase receipts, certificates, and vault storage agreements.</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><div class="check-content"><span class="priority p-important">Important</span><div class="check-title">Pension documents and statements</div><div class="check-detail">Know what you have in every pension — including any from previous employers. Unclaimed pensions are more common than you think.</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><div class="check-content"><span class="priority p-recommended">Recommended</span><div class="check-title">Business registration and ownership documents</div><div class="check-detail">If you own a business: articles of incorporation, shareholder agreements, and annual filings. Know exactly what percentage you own.</div></div></div>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-header"><div class="phase-num">03</div><div class="phase-info"><div class="phase-title">Property & assets</div><div class="phase-desc">Proof of what you own — before anyone tries to claim otherwise</div></div></div>
+    <div class="checklist">
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><div class="check-content"><span class="priority p-critical">Critical</span><div class="check-title">Property deeds / title documents</div><div class="check-detail">Know whose name is on every property you have a stake in. If it's not in your name — understand why and what your legal position is.</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><div class="check-content"><span class="priority p-important">Important</span><div class="check-title">Vehicle titles and registration</div><div class="check-detail">Again — whose name? Jointly held assets complicate separation. Know your position.</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><div class="check-content"><span class="priority p-important">Important</span><div class="check-title">Gold and precious metals purchase receipts</div><div class="check-detail">Proof of provenance, payment, and ownership. Essential for insurance, estate, and resale. Never discard these.</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><div class="check-content"><span class="priority p-recommended">Recommended</span><div class="check-title">Insurance policies — home, health, life, contents</div><div class="check-detail">Know every policy, every expiry date, every exclusion. Store copies digitally and physically.</div></div></div>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-header"><div class="phase-num">04</div><div class="phase-info"><div class="phase-title">Legal protection documents</div><div class="phase-desc">The documents that protect you when things fall apart</div></div></div>
+    <div class="checklist">
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><div class="check-content"><span class="priority p-critical">Critical</span><div class="check-title">A valid, up-to-date will</div><div class="check-detail">Without a will, the state decides who gets what. Update it after every major life change: marriage, divorce, birth of a child, significant asset acquisition.</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><div class="check-content"><span class="priority p-critical">Critical</span><div class="check-title">Power of attorney — financial and medical</div><div class="check-detail">Designates who can act on your behalf if you are incapacitated. One of the most important documents you will ever sign.</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><div class="check-content"><span class="priority p-important">Important</span><div class="check-title">Beneficiary designations on all accounts</div><div class="check-detail">Pensions, life insurance, and some investment accounts pass outside of your will — directly to named beneficiaries. Check and update every one.</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><div class="check-content"><span class="priority p-important">Important</span><div class="check-title">Prenuptial or postnuptial agreement (if applicable)</div><div class="check-detail">If you have significant assets entering or during a marriage — these documents exist to protect them. Not unromantic. Sovereign.</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><div class="check-content"><span class="priority p-recommended">Recommended</span><div class="check-title">A trusted advisor — solicitor or financial planner — on file</div><div class="check-detail">Know who you would call in a crisis. Have their number. Have your documents ready to share. Don't find your lawyer in an emergency.</div></div></div>
+    </div>
+  </div>
+
+  <div class="insight-box" style="margin-top: 24px;">
+    <div class="insight-text">A woman with her documents in order is a woman who cannot be blindsided. <strong>This checklist is not about fear. It is about preparation. There is a difference.</strong></div>
+  </div>
+
+</div>
+<footer>
+  <p class="footer-text">This checklist is for educational purposes and does not constitute legal advice.<br>Consult a qualified solicitor or attorney for your specific legal protection needs.</p>
+  <div class="footer-brand">The Sovereign Woman — Orion PM Consulting</div>
+</footer>
+<script>
+  function toggle(item) { item.classList.toggle('done'); updateProgress(); }
+  function updateProgress() {
+    const total = document.querySelectorAll('.check-item').length;
+    const done = document.querySelectorAll('.check-item.done').length;
+    const pct = Math.round((done / total) * 100);
+    document.getElementById('doneCount').textContent = done + ' of ' + total + ' completed';
+    document.getElementById('pct').textContent = pct + '%';
+    document.getElementById('progressFill').style.width = pct + '%';
+  }
+  updateProgress();
+</script>
+
+<script id="themeScript">
+  (function() {
+    var saved = localStorage.getItem('sov-theme') || 'dark';
+    applyTheme(saved, false);
+
+    function applyTheme(theme, save) {
+      document.documentElement.setAttribute('data-theme', theme === 'rose' ? 'rose' : '');
+      var dot = document.getElementById('themeDot');
+      var label = document.getElementById('themeLabel');
+      var homeLink = document.getElementById('navHomeLink');
+      var brandLink = document.getElementById('navBrandLink');
+      if (dot && label) {
+        if (theme === 'rose') {
+          dot.style.background = '#c9a84c';
+          label.textContent = 'Obsidian Room';
+          if (homeLink) homeLink.href = '/the_sovereign/index.html';
+          if (brandLink) brandLink.href = '/the_sovereign/index.html';
+        } else {
+          dot.style.background = '#DB9AA4';
+          label.textContent = 'Rose Room';
+          if (homeLink) homeLink.href = '/the_sovereign/index.html';
+          if (brandLink) brandLink.href = '/the_sovereign/index.html';
+        }
+      }
+      if (save) localStorage.setItem('sov-theme', theme);
+    }
+
+    window.toggleTheme = function() {
+      var current = localStorage.getItem('sov-theme') || 'dark';
+      var next = current === 'rose' ? 'dark' : 'rose';
+      applyTheme(next, true);
+    };
+  })();
+</script>
+
+</body>
+</html>

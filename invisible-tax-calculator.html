@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Invisible Tax Calculator — The Sovereign Woman</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  .gold-bar { height: 2px; background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent); }
+
+  header {
+    padding: 28px 40px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .header-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    font-style: italic;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+  .header-tag {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .hero {
+    text-align: center;
+    padding: 60px 24px 48px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .hero-eyebrow {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 6vw, 56px);
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    font-style: italic;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .calculator {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  @media (max-width: 700px) {
+    .calculator { grid-template-columns: 1fr; }
+    header { padding: 20px; }
+  }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 32px 28px;
+  }
+
+  .panel-title {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .field { margin-bottom: 22px; }
+
+  .field-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .field-value {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 2px;
+    background: var(--surface3);
+    outline: none;
+    cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: var(--gold);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  input[type="range"]::-webkit-slider-thumb:hover { background: var(--gold-light); }
+
+  input[type="number"] {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 12px 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input[type="number"]:focus { border-color: var(--gold); }
+  input[type="number"]::placeholder { color: var(--text-dim); }
+
+  .field-hint {
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+
+  /* RESULTS */
+  .results-panel {
+    grid-column: 1 / -1;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    padding: 36px 32px;
+  }
+
+  .results-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    margin-bottom: 28px;
+  }
+
+  @media (max-width: 700px) {
+    .results-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .result-block {
+    background: var(--surface2);
+    padding: 24px 20px;
+    text-align: center;
+  }
+
+  .result-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .result-number {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 6px;
+    transition: all 0.4s ease;
+  }
+
+  .result-sub {
+    font-size: 10px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .total-block {
+    background: var(--surface3);
+    border: 1px solid var(--border-strong);
+    padding: 28px 32px;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .total-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .total-number {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(44px, 8vw, 72px);
+    font-weight: 900;
+    color: var(--gold-light);
+    line-height: 1;
+    transition: all 0.5s ease;
+  }
+
+  .total-note {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-style: italic;
+    color: var(--text-muted);
+    margin-top: 12px;
+  }
+
+  .verdict {
+    background: var(--gold-dim);
+    border-left: 2px solid var(--gold);
+    padding: 20px 24px;
+    margin-top: 4px;
+  }
+
+  .verdict-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  .verdict-text strong { color: var(--gold); font-style: normal; font-weight: 600; }
+
+  .breakdown {
+    margin-top: 24px;
+  }
+
+  .breakdown-title {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+  }
+
+  .breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 12px;
+  }
+
+  .breakdown-name { color: var(--text-muted); }
+  .breakdown-amount { color: var(--text); font-weight: 600; font-family: 'Playfair Display', serif; }
+  .breakdown-amount.highlight { color: var(--gold); }
+
+  footer {
+    max-width: 860px;
+    margin: 40px auto 0;
+    padding: 0 24px;
+    text-align: center;
+  }
+
+  .footer-text {
+    font-size: 11px;
+    color: var(--text-dim);
+    line-height: 1.8;
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--gold);
+    margin-top: 12px;
+  }
+
+  /* === SOVEREIGN NAV INJECTION === */
+  .sov-topbar { height: 2px; background: linear-gradient(90deg, transparent, var(--gold, #c9a84c), var(--gold-light, #f0d080), var(--gold, #c9a84c), transparent); }
+  .sov-nav {
+    padding: 16px 40px;
+    border-bottom: 1px solid var(--border, rgba(201,168,76,0.15));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: var(--black, #080808);
+    backdrop-filter: blur(12px);
+  }
+  .sov-nav-left { display: flex; align-items: center; gap: 20px; }
+  .sov-back {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold, #c9a84c);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .sov-back:hover { opacity: 1; }
+  .sov-back::before { content: '←'; font-size: 14px; }
+  .sov-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--gold, #c9a84c);
+    letter-spacing: 0.1em;
+    text-decoration: none;
+  }
+  .sov-nav-right { display: flex; align-items: center; gap: 12px; }
+  .sov-room-toggle {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted, #9a9080);
+    text-decoration: none;
+    border: 1px solid var(--border, rgba(201,168,76,0.15));
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .sov-room-toggle:hover { border-color: var(--gold, #c9a84c); color: var(--gold, #c9a84c); }
+  .sov-room-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  @media (max-width: 600px) {
+    .sov-nav { padding: 12px 16px; }
+    .sov-room-toggle span.sov-room-label { display: none; }
+  }
+  /* === END SOVEREIGN NAV === */
+
+
+  /* ===== THEME SYSTEM ===== */
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #f0d080;
+    --gold-dim: rgba(201,168,76,0.12);
+    --black: #080808;
+    --surface: #121212;
+    --surface2: #1a1a1a;
+    --surface3: #222;
+    --text: #f5f0e8;
+    --text-muted: #9a9080;
+    --text-dim: #4a4438;
+    --border: rgba(201,168,76,0.15);
+    --border-strong: rgba(201,168,76,0.35);
+    --accent: #c9a84c;
+    --accent-light: #f0d080;
+    --accent-dim: rgba(201,168,76,0.12);
+    --bg-body: #080808;
+    --toggle-dot: #DB9AA4;
+    --toggle-label: "Switch to Rose Room";
+  }
+
+  [data-theme="rose"] {
+    --gold: #B55E75;
+    --gold-light: #DB9AA4;
+    --gold-dim: rgba(181,94,117,0.1);
+    --black: #fdf6f0;
+    --surface: #ffffff;
+    --surface2: #f9eff3;
+    --surface3: #f3e4e9;
+    --text: #2e1a22;
+    --text-muted: #7a4a58;
+    --text-dim: #b89aa4;
+    --border: rgba(181,94,117,0.15);
+    --border-strong: rgba(181,94,117,0.35);
+    --accent: #B55E75;
+    --accent-light: #DB9AA4;
+    --accent-dim: rgba(181,94,117,0.1);
+    --bg-body: #fdf6f0;
+    --toggle-dot: #c9a84c;
+    --positive: #2e7d5a;
+    --negative: #a0392a;
+  }
+
+  [data-theme="rose"] body {
+    background: #fdf6f0;
+    color: #2e1a22;
+  }
+
+  [data-theme="rose"] body::after { opacity: 0.15; }
+
+  [data-theme="rose"] .sov-nav {
+    background: rgba(253,246,240,0.97);
+    border-bottom: 1px solid rgba(181,94,117,0.15);
+  }
+
+  [data-theme="rose"] .sov-topbar {
+    background: linear-gradient(90deg, transparent, #DB9AA4, #EDC526, #DB9AA4, transparent);
+  }
+
+  [data-theme="rose"] input[type="number"],
+  [data-theme="rose"] input[type="text"],
+  [data-theme="rose"] textarea,
+  [data-theme="rose"] .entry-label,
+  [data-theme="rose"] .entry-amount {
+    background: #f9eff3;
+    border-color: rgba(181,94,117,0.2);
+    color: #2e1a22;
+  }
+
+  [data-theme="rose"] input[type="range"] {
+    background: #f3e4e9;
+  }
+
+  [data-theme="rose"] input[type="range"]::-webkit-slider-thumb {
+    background: #B55E75;
+  }
+
+  [data-theme="rose"] .opt-btn,
+  [data-theme="rose"] .scale-btn {
+    background: #f9eff3;
+    border-color: rgba(181,94,117,0.2);
+    color: #7a4a58;
+  }
+
+  [data-theme="rose"] .opt-btn.selected,
+  [data-theme="rose"] .scale-btn.selected {
+    background: rgba(181,94,117,0.1);
+    border-color: #B55E75;
+    color: #B55E75;
+  }
+
+  [data-theme="rose"] .opt-btn:hover,
+  [data-theme="rose"] .scale-btn:hover {
+    border-color: #B55E75;
+    color: #B55E75;
+  }
+
+  [data-theme="rose"] .check-item:hover { background: #f9eff3; }
+  [data-theme="rose"] .check-item.done .check-box { background: #B55E75; border-color: #B55E75; }
+  [data-theme="rose"] .add-btn:hover { border-color: #B55E75; color: #B55E75; }
+  [data-theme="rose"] .remove-btn:hover { border-color: #c0503a; color: #c0503a; }
+
+  [data-theme="rose"] .phase-tab.active {
+    border-color: #B55E75;
+    color: #B55E75;
+    background: rgba(181,94,117,0.08);
+  }
+
+  [data-theme="rose"] .week-header,
+  [data-theme="rose"] .phase-header,
+  [data-theme="rose"] .section-header {
+    background: #ffffff;
+    border-color: rgba(181,94,117,0.15);
+  }
+
+  [data-theme="rose"] .script-box {
+    background: #f9eff3;
+    border-left-color: #B55E75;
+  }
+
+  [data-theme="rose"] .objection {
+    background: #f3e4e9;
+    border-color: rgba(181,94,117,0.15);
+  }
+
+  [data-theme="rose"] .result-highlight,
+  [data-theme="rose"] .total-block,
+  [data-theme="rose"] .proj-cell {
+    background: #f9eff3;
+  }
+
+  [data-theme="rose"] .stat-block,
+  [data-theme="rose"] .summary-cell,
+  [data-theme="rose"] .result-block,
+  [data-theme="rose"] .cheat-cell,
+  [data-theme="rose"] .fx-table,
+  [data-theme="rose"] .fx-header,
+  [data-theme="rose"] .fx-row:hover {
+    background: #f9eff3;
+  }
+
+  /* Toggle button */
+  .theme-switch-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    background: none;
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .theme-switch-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .theme-switch-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: background 0.3s;
+  }
+
+  .theme-switch-label { transition: all 0.2s; }
+  /* ===== END THEME SYSTEM ===== */
+
+</style>
+</head>
+<body>
+<div class="sov-topbar"></div>
+<nav class="sov-nav">
+  <div class="sov-nav-left">
+    <a href="/the_sovereign/index.html" class="sov-back" id="navHomeLink">Home</a>
+    <a href="/the_sovereign/index.html" class="sov-brand" id="navBrandLink">The Sovereign Woman</a>
+  </div>
+  <div class="sov-nav-right">
+    <button class="theme-switch-btn" onclick="toggleTheme()" id="themeSwitchBtn" aria-label="Switch room theme">
+      <div class="theme-switch-dot" id="themeDot"></div>
+      <span class="theme-switch-label" id="themeLabel">Rose Room</span>
+    </button>
+  </div>
+</nav>
+
+
+
+<header style="display:none">
+  <div class="header-brand">The Sovereign Woman</div>
+  <div class="header-tag">Orion PM Consulting</div>
+</header>
+
+<div class="hero">
+  <div class="hero-eyebrow">Download 01 of 08</div>
+  <h1 class="hero-title">The Invisible<br><em>Tax Calculator</em></h1>
+  <p class="hero-sub">There is a tax no government collects. This tool puts a real number on what womanhood has cost you — and what you can still reclaim.</p>
+</div>
+
+<div class="calculator">
+
+  <!-- INPUT PANEL 1 -->
+  <div class="panel">
+    <div class="panel-title">Your situation</div>
+
+    <div class="field">
+      <div class="field-label">
+        <span>Annual salary (or last salary)</span>
+        <span class="field-value" id="salaryVal">$60,000</span>
+      </div>
+      <input type="range" min="20000" max="300000" step="5000" value="60000" id="salary" oninput="update()">
+      <div class="field-hint">Use your current salary, or last salary before any career pause.</div>
+    </div>
+
+    <div class="field">
+      <div class="field-label">
+        <span>Years of career pause / reduced hours</span>
+        <span class="field-value" id="pauseVal">3 years</span>
+      </div>
+      <input type="range" min="0" max="20" step="0.5" value="3" id="pause" oninput="update()">
+      <div class="field-hint">Maternity leave, caregiving, illness, relationship breakdown, relocation for a partner.</div>
+    </div>
+
+    <div class="field">
+      <div class="field-label">
+        <span>Weekly unpaid care hours</span>
+        <span class="field-value" id="careVal">20 hrs/wk</span>
+      </div>
+      <input type="range" min="0" max="80" step="1" value="20" id="care" oninput="update()">
+      <div class="field-hint">Childcare, eldercare, household management, emotional labor — work that has no payslip.</div>
+    </div>
+
+    <div class="field">
+      <div class="field-label">
+        <span>Years of unpaid care work</span>
+        <span class="field-value" id="careYrsVal">10 years</span>
+      </div>
+      <input type="range" min="0" max="40" step="1" value="10" id="careYrs" oninput="update()">
+    </div>
+  </div>
+
+  <!-- INPUT PANEL 2 -->
+  <div class="panel">
+    <div class="panel-title">Financial impact</div>
+
+    <div class="field">
+      <div class="field-label">
+        <span>Estimated salary reduction after pause</span>
+        <span class="field-value" id="reductionVal">18%</span>
+      </div>
+      <input type="range" min="0" max="60" step="1" value="18" id="reduction" oninput="update()">
+      <div class="field-hint">Women returning after a career pause earn on average 18–37% less. Adjust to your experience.</div>
+    </div>
+
+    <div class="field">
+      <div class="field-label">
+        <span>Years until retirement</span>
+        <span class="field-value" id="retireVal">25 years</span>
+      </div>
+      <input type="range" min="1" max="40" step="1" value="25" id="retire" oninput="update()">
+    </div>
+
+    <div class="field">
+      <div class="field-label">
+        <span>Average investment return</span>
+        <span class="field-value" id="returnVal">6%</span>
+      </div>
+      <input type="range" min="2" max="12" step="0.5" value="6" id="investReturn" oninput="update()">
+      <div class="field-hint">Historical average for a balanced portfolio. Gold has averaged ~8% over 20 years.</div>
+    </div>
+
+    <div class="field">
+      <div class="field-label">
+        <span>Pension / retirement contributions missed</span>
+        <span class="field-value" id="pensionVal">$3,000/yr</span>
+      </div>
+      <input type="range" min="0" max="20000" step="500" value="3000" id="pension" oninput="update()">
+      <div class="field-hint">Annual contributions lost during your career pause years.</div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results-panel">
+    <div class="results-title">Your invisible tax — calculated</div>
+
+    <div class="results-grid">
+      <div class="result-block">
+        <div class="result-label">Lost income during pause</div>
+        <div class="result-number" id="r1">$180,000</div>
+        <div class="result-sub">Direct earnings lost</div>
+      </div>
+      <div class="result-block">
+        <div class="result-label">Unpaid care work value</div>
+        <div class="result-number" id="r2">$312,000</div>
+        <div class="result-sub">At market rate ($30/hr)</div>
+      </div>
+      <div class="result-block">
+        <div class="result-label">Compound growth lost</div>
+        <div class="result-number" id="r3">$214,000</div>
+        <div class="result-sub">If invested over time</div>
+      </div>
+      <div class="result-block">
+        <div class="result-label">Pension shortfall</div>
+        <div class="result-number" id="r4">$119,000</div>
+        <div class="result-sub">Retirement gap</div>
+      </div>
+    </div>
+
+    <div class="total-block">
+      <div class="total-label">Your total invisible tax</div>
+      <div class="total-number" id="total">$825,000</div>
+      <div class="total-note">This is what the system has cost you. It has a number now.</div>
+    </div>
+
+    <div class="verdict">
+      <div class="verdict-text" id="verdictText">
+        Over your lifetime, the invisible tax on your womanhood amounts to an estimated <strong id="verdictNum">$825,000</strong>. This isn't failure. This isn't bad luck. This is the compounded cost of a system that was never designed to account for your reality. <strong>Now you know the number. Now you can build against it.</strong>
+      </div>
+    </div>
+
+    <div class="breakdown">
+      <div class="breakdown-title">Full breakdown</div>
+      <div class="breakdown-row">
+        <span class="breakdown-name">Direct income lost during career pause</span>
+        <span class="breakdown-amount highlight" id="b1">$180,000</span>
+      </div>
+      <div class="breakdown-row">
+        <span class="breakdown-name">Salary reduction impact (remaining career)</span>
+        <span class="breakdown-amount" id="b2">$0</span>
+      </div>
+      <div class="breakdown-row">
+        <span class="breakdown-name">Unpaid care work (at $30/hr market rate)</span>
+        <span class="breakdown-amount" id="b3">$312,000</span>
+      </div>
+      <div class="breakdown-row">
+        <span class="breakdown-name">Investment compound growth lost</span>
+        <span class="breakdown-amount" id="b4">$214,000</span>
+      </div>
+      <div class="breakdown-row">
+        <span class="breakdown-name">Pension / retirement contributions missed</span>
+        <span class="breakdown-amount" id="b5">$9,000</span>
+      </div>
+      <div class="breakdown-row">
+        <span class="breakdown-name">Pension compound growth lost</span>
+        <span class="breakdown-amount" id="b6">$110,000</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p class="footer-text">This calculator provides an educational estimate based on your inputs and published research on the gender wealth gap.<br>It is not financial advice. Figures are illustrative — the real cost is often higher.</p>
+  <div class="footer-brand">The Sovereign Woman — Orion PM Consulting</div>
+</footer>
+
+<script>
+  function fmt(n) {
+    if (n >= 1000000) return '$' + (n/1000000).toFixed(2) + 'M';
+    if (n >= 1000) return '$' + Math.round(n/1000) + 'K';
+    return '$' + Math.round(n).toLocaleString();
+  }
+
+  function compound(annual, rate, years) {
+    if (years <= 0) return 0;
+    return annual * ((Math.pow(1 + rate/100, years) - 1) / (rate/100));
+  }
+
+  function update() {
+    const salary = +document.getElementById('salary').value;
+    const pause = +document.getElementById('pause').value;
+    const care = +document.getElementById('care').value;
+    const careYrs = +document.getElementById('careYrs').value;
+    const reduction = +document.getElementById('reduction').value;
+    const retire = +document.getElementById('retire').value;
+    const ret = +document.getElementById('investReturn').value;
+    const pension = +document.getElementById('pension').value;
+
+    document.getElementById('salaryVal').textContent = '$' + salary.toLocaleString();
+    document.getElementById('pauseVal').textContent = pause + (pause === 1 ? ' year' : ' years');
+    document.getElementById('careVal').textContent = care + ' hrs/wk';
+    document.getElementById('careYrsVal').textContent = careYrs + (careYrs === 1 ? ' year' : ' years');
+    document.getElementById('reductionVal').textContent = reduction + '%';
+    document.getElementById('retireVal').textContent = retire + (retire === 1 ? ' year' : ' years');
+    document.getElementById('returnVal').textContent = ret + '%';
+    document.getElementById('pensionVal').textContent = '$' + pension.toLocaleString() + '/yr';
+
+    const lostIncome = Math.round(salary * pause);
+    const careValue = Math.round(care * 52 * 30 * careYrs);
+    const compoundLost = Math.round(compound(salary * 0.2, ret, retire));
+    const salaryReductionImpact = Math.round((salary * reduction / 100) * retire);
+    const pensionMissed = Math.round(pension * pause);
+    const pensionCompound = Math.round(compound(pension, ret, retire));
+    const total = lostIncome + careValue + compoundLost + salaryReductionImpact + pensionMissed + pensionCompound;
+
+    document.getElementById('r1').textContent = fmt(lostIncome);
+    document.getElementById('r2').textContent = fmt(careValue);
+    document.getElementById('r3').textContent = fmt(compoundLost);
+    document.getElementById('r4').textContent = fmt(pensionMissed + pensionCompound);
+    document.getElementById('total').textContent = fmt(total);
+    document.getElementById('verdictNum').textContent = fmt(total);
+    document.getElementById('b1').textContent = fmt(lostIncome);
+    document.getElementById('b2').textContent = fmt(salaryReductionImpact);
+    document.getElementById('b3').textContent = fmt(careValue);
+    document.getElementById('b4').textContent = fmt(compoundLost);
+    document.getElementById('b5').textContent = fmt(pensionMissed);
+    document.getElementById('b6').textContent = fmt(pensionCompound);
+  }
+
+  update();
+</script>
+
+<script id="themeScript">
+  (function() {
+    var saved = localStorage.getItem('sov-theme') || 'dark';
+    applyTheme(saved, false);
+
+    function applyTheme(theme, save) {
+      document.documentElement.setAttribute('data-theme', theme === 'rose' ? 'rose' : '');
+      var dot = document.getElementById('themeDot');
+      var label = document.getElementById('themeLabel');
+      var homeLink = document.getElementById('navHomeLink');
+      var brandLink = document.getElementById('navBrandLink');
+      if (dot && label) {
+        if (theme === 'rose') {
+          dot.style.background = '#c9a84c';
+          label.textContent = 'Obsidian Room';
+          if (homeLink) homeLink.href = '/the_sovereign/index.html';
+          if (brandLink) brandLink.href = '/the_sovereign/index.html';
+        } else {
+          dot.style.background = '#DB9AA4';
+          label.textContent = 'Rose Room';
+          if (homeLink) homeLink.href = '/the_sovereign/index.html';
+          if (brandLink) brandLink.href = '/the_sovereign/index.html';
+        }
+      }
+      if (save) localStorage.setItem('sov-theme', theme);
+    }
+
+    window.toggleTheme = function() {
+      var current = localStorage.getItem('sov-theme') || 'dark';
+      var next = current === 'rose' ? 'dark' : 'rose';
+      applyTheme(next, true);
+    };
+  })();
+</script>
+
+</body>
+</html>

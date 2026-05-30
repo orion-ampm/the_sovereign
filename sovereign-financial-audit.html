@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Sovereign Financial Audit — The Sovereign Woman</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body { background: var(--black); color: var(--text); font-family: 'Montserrat', sans-serif; min-height: 100vh; padding-bottom: 80px; }
+  body::after { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 999; opacity: 0.4; }
+  .gold-bar { height: 2px; background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent); }
+  header { padding: 24px 40px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .header-brand { font-family: 'Playfair Display', serif; font-size: 11px; font-style: italic; color: var(--gold); }
+  .header-tag { font-size: 9px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim); }
+
+  .hero { text-align: center; padding: 52px 24px 40px; max-width: 700px; margin: 0 auto; }
+  .hero-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 5vw, 48px); font-weight: 900; line-height: 1.05; color: var(--text); margin-bottom: 14px; }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-sub { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--text-muted); line-height: 1.7; }
+
+  .score-bar { max-width: 860px; margin: 0 auto 28px; padding: 0 24px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border-strong); border: 1px solid var(--border-strong); }
+  .score-cell { background: var(--surface2); padding: 20px 16px; text-align: center; }
+  .score-label { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
+  .score-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--gold); transition: all 0.3s; }
+  .score-sub { font-size: 10px; color: var(--text-dim); margin-top: 4px; }
+
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+  .section { background: var(--surface); border: 1px solid var(--border); padding: 32px 28px; margin-bottom: 16px; }
+  .section-header { margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+  .section-num { font-size: 9px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--text); }
+  .section-desc { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-style: italic; color: var(--text-muted); margin-top: 6px; line-height: 1.6; }
+
+  .question { margin-bottom: 20px; }
+  .q-text { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 10px; line-height: 1.6; }
+  .q-hint { font-size: 11px; color: var(--text-dim); margin-bottom: 10px; font-style: italic; }
+
+  textarea {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text); font-family: 'Cormorant Garamond', serif; font-size: 16px;
+    padding: 14px 16px; outline: none; resize: vertical; min-height: 80px;
+    line-height: 1.7; transition: border-color 0.2s;
+  }
+  textarea:focus { border-color: var(--gold); }
+  textarea::placeholder { color: var(--text-dim); font-style: italic; }
+
+  .options-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .opt-btn {
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text-muted); font-family: 'Montserrat', sans-serif;
+    font-size: 11px; font-weight: 500; padding: 8px 16px; cursor: pointer;
+    transition: all 0.2s; letter-spacing: 0.05em;
+  }
+  .opt-btn:hover { border-color: var(--gold); color: var(--gold-light); }
+  .opt-btn.selected { background: var(--gold-dim); border-color: var(--gold); color: var(--gold-light); }
+
+  .scale-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .scale-label { font-size: 10px; color: var(--text-dim); min-width: 60px; }
+  .scale-label:last-child { text-align: right; }
+  .scale-btns { display: flex; gap: 4px; flex: 1; }
+  .scale-btn {
+    flex: 1; background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text-dim); font-size: 11px; font-weight: 600; padding: 8px 4px;
+    cursor: pointer; transition: all 0.2s; text-align: center;
+  }
+  .scale-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .scale-btn.selected { background: var(--gold-dim); border-color: var(--gold); color: var(--gold-light); }
+
+  .verdict { background: var(--gold-dim); border-left: 2px solid var(--gold); padding: 24px 28px; margin-bottom: 16px; }
+  .verdict-title { font-size: 9px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+  .verdict-text { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-style: italic; color: var(--text); line-height: 1.75; }
+  .verdict-text strong { color: var(--gold); font-style: normal; }
+
+  .print-btn {
+    width: 100%; background: var(--gold); border: none; color: var(--black);
+    font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase; padding: 18px;
+    cursor: pointer; margin-bottom: 16px; transition: background 0.2s;
+  }
+  .print-btn:hover { background: var(--gold-light); }
+
+  footer { text-align: center; margin-top: 32px; }
+  .footer-text { font-size: 11px; color: var(--text-dim); line-height: 1.8; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 12px; font-style: italic; color: var(--gold); margin-top: 10px; }
+
+  @media (max-width: 600px) {
+    header { padding: 16px 20px; }
+    .score-bar { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media print {
+    body { background: white; color: black; }
+    .gold-bar, .print-btn { display: none; }
+  }
+
+  /* === SOVEREIGN NAV INJECTION === */
+  .sov-topbar { height: 2px; background: linear-gradient(90deg, transparent, var(--gold, #c9a84c), var(--gold-light, #f0d080), var(--gold, #c9a84c), transparent); }
+  .sov-nav {
+    padding: 16px 40px;
+    border-bottom: 1px solid var(--border, rgba(201,168,76,0.15));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: var(--black, #080808);
+    backdrop-filter: blur(12px);
+  }
+  .sov-nav-left { display: flex; align-items: center; gap: 20px; }
+  .sov-back {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold, #c9a84c);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .sov-back:hover { opacity: 1; }
+  .sov-back::before { content: '←'; font-size: 14px; }
+  .sov-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--gold, #c9a84c);
+    letter-spacing: 0.1em;
+    text-decoration: none;
+  }
+  .sov-nav-right { display: flex; align-items: center; gap: 12px; }
+  .sov-room-toggle {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted, #9a9080);
+    text-decoration: none;
+    border: 1px solid var(--border, rgba(201,168,76,0.15));
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .sov-room-toggle:hover { border-color: var(--gold, #c9a84c); color: var(--gold, #c9a84c); }
+  .sov-room-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  @media (max-width: 600px) {
+    .sov-nav { padding: 12px 16px; }
+    .sov-room-toggle span.sov-room-label { display: none; }
+  }
+  /* === END SOVEREIGN NAV === */
+
+
+  /* ===== THEME SYSTEM ===== */
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #f0d080;
+    --gold-dim: rgba(201,168,76,0.12);
+    --black: #080808;
+    --surface: #121212;
+    --surface2: #1a1a1a;
+    --surface3: #222;
+    --text: #f5f0e8;
+    --text-muted: #9a9080;
+    --text-dim: #4a4438;
+    --border: rgba(201,168,76,0.15);
+    --border-strong: rgba(201,168,76,0.35);
+    --accent: #c9a84c;
+    --accent-light: #f0d080;
+    --accent-dim: rgba(201,168,76,0.12);
+    --bg-body: #080808;
+    --toggle-dot: #DB9AA4;
+    --toggle-label: "Switch to Rose Room";
+  }
+
+  [data-theme="rose"] {
+    --gold: #B55E75;
+    --gold-light: #DB9AA4;
+    --gold-dim: rgba(181,94,117,0.1);
+    --black: #fdf6f0;
+    --surface: #ffffff;
+    --surface2: #f9eff3;
+    --surface3: #f3e4e9;
+    --text: #2e1a22;
+    --text-muted: #7a4a58;
+    --text-dim: #b89aa4;
+    --border: rgba(181,94,117,0.15);
+    --border-strong: rgba(181,94,117,0.35);
+    --accent: #B55E75;
+    --accent-light: #DB9AA4;
+    --accent-dim: rgba(181,94,117,0.1);
+    --bg-body: #fdf6f0;
+    --toggle-dot: #c9a84c;
+    --positive: #2e7d5a;
+    --negative: #a0392a;
+  }
+
+  [data-theme="rose"] body {
+    background: #fdf6f0;
+    color: #2e1a22;
+  }
+
+  [data-theme="rose"] body::after { opacity: 0.15; }
+
+  [data-theme="rose"] .sov-nav {
+    background: rgba(253,246,240,0.97);
+    border-bottom: 1px solid rgba(181,94,117,0.15);
+  }
+
+  [data-theme="rose"] .sov-topbar {
+    background: linear-gradient(90deg, transparent, #DB9AA4, #EDC526, #DB9AA4, transparent);
+  }
+
+  [data-theme="rose"] input[type="number"],
+  [data-theme="rose"] input[type="text"],
+  [data-theme="rose"] textarea,
+  [data-theme="rose"] .entry-label,
+  [data-theme="rose"] .entry-amount {
+    background: #f9eff3;
+    border-color: rgba(181,94,117,0.2);
+    color: #2e1a22;
+  }
+
+  [data-theme="rose"] input[type="range"] {
+    background: #f3e4e9;
+  }
+
+  [data-theme="rose"] input[type="range"]::-webkit-slider-thumb {
+    background: #B55E75;
+  }
+
+  [data-theme="rose"] .opt-btn,
+  [data-theme="rose"] .scale-btn {
+    background: #f9eff3;
+    border-color: rgba(181,94,117,0.2);
+    color: #7a4a58;
+  }
+
+  [data-theme="rose"] .opt-btn.selected,
+  [data-theme="rose"] .scale-btn.selected {
+    background: rgba(181,94,117,0.1);
+    border-color: #B55E75;
+    color: #B55E75;
+  }
+
+  [data-theme="rose"] .opt-btn:hover,
+  [data-theme="rose"] .scale-btn:hover {
+    border-color: #B55E75;
+    color: #B55E75;
+  }
+
+  [data-theme="rose"] .check-item:hover { background: #f9eff3; }
+  [data-theme="rose"] .check-item.done .check-box { background: #B55E75; border-color: #B55E75; }
+  [data-theme="rose"] .add-btn:hover { border-color: #B55E75; color: #B55E75; }
+  [data-theme="rose"] .remove-btn:hover { border-color: #c0503a; color: #c0503a; }
+
+  [data-theme="rose"] .phase-tab.active {
+    border-color: #B55E75;
+    color: #B55E75;
+    background: rgba(181,94,117,0.08);
+  }
+
+  [data-theme="rose"] .week-header,
+  [data-theme="rose"] .phase-header,
+  [data-theme="rose"] .section-header {
+    background: #ffffff;
+    border-color: rgba(181,94,117,0.15);
+  }
+
+  [data-theme="rose"] .script-box {
+    background: #f9eff3;
+    border-left-color: #B55E75;
+  }
+
+  [data-theme="rose"] .objection {
+    background: #f3e4e9;
+    border-color: rgba(181,94,117,0.15);
+  }
+
+  [data-theme="rose"] .result-highlight,
+  [data-theme="rose"] .total-block,
+  [data-theme="rose"] .proj-cell {
+    background: #f9eff3;
+  }
+
+  [data-theme="rose"] .stat-block,
+  [data-theme="rose"] .summary-cell,
+  [data-theme="rose"] .result-block,
+  [data-theme="rose"] .cheat-cell,
+  [data-theme="rose"] .fx-table,
+  [data-theme="rose"] .fx-header,
+  [data-theme="rose"] .fx-row:hover {
+    background: #f9eff3;
+  }
+
+  /* Toggle button */
+  .theme-switch-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    background: none;
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .theme-switch-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .theme-switch-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: background 0.3s;
+  }
+
+  .theme-switch-label { transition: all 0.2s; }
+  /* ===== END THEME SYSTEM ===== */
+
+</style>
+</head>
+<body>
+<div class="sov-topbar"></div>
+<nav class="sov-nav">
+  <div class="sov-nav-left">
+    <a href="/the_sovereign/index.html" class="sov-back" id="navHomeLink">Home</a>
+    <a href="/the_sovereign/index.html" class="sov-brand" id="navBrandLink">The Sovereign Woman</a>
+  </div>
+  <div class="sov-nav-right">
+    <button class="theme-switch-btn" onclick="toggleTheme()" id="themeSwitchBtn" aria-label="Switch room theme">
+      <div class="theme-switch-dot" id="themeDot"></div>
+      <span class="theme-switch-label" id="themeLabel">Rose Room</span>
+    </button>
+  </div>
+</nav>
+
+<header style="display:none">
+  <div class="header-brand">The Sovereign Woman</div>
+  <div class="header-tag">Orion PM Consulting</div>
+</header>
+
+<div class="hero">
+  <div class="hero-eyebrow">Download 03 of 08</div>
+  <h1 class="hero-title">The Sovereign<br><em>Financial Audit</em></h1>
+  <p class="hero-sub">The honest conversation about money you've never had with yourself. Answer every question. Nothing is judged. Everything is useful.</p>
+</div>
+
+<div class="score-bar">
+  <div class="score-cell"><div class="score-label">Clarity score</div><div class="score-num" id="clarityScore">0%</div><div class="score-sub">How well you know your position</div></div>
+  <div class="score-cell"><div class="score-label">Protection score</div><div class="score-num" id="protectScore">0%</div><div class="score-sub">How protected your assets are</div></div>
+  <div class="score-cell"><div class="score-label">Growth score</div><div class="score-num" id="growthScore">0%</div><div class="score-sub">How actively you are building</div></div>
+  <div class="score-cell"><div class="score-label">Overall</div><div class="score-num" id="overallScore">0%</div><div class="score-sub">Your sovereign readiness</div></div>
+</div>
+
+<div class="wrap">
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">Section 01</div>
+      <div class="section-title">Financial Clarity</div>
+      <div class="section-desc">What you know — and what you've been avoiding knowing.</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text">Do you know your exact net worth right now?</div>
+      <div class="options-row" id="q1">
+        <button class="opt-btn" onclick="select('q1',this,3)">Yes, to the dollar</button>
+        <button class="opt-btn" onclick="select('q1',this,2)">Roughly, yes</button>
+        <button class="opt-btn" onclick="select('q1',this,1)">I have a sense of it</button>
+        <button class="opt-btn" onclick="select('q1',this,0)">No idea</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-text">Do you have a monthly budget you actually track?</div>
+      <div class="options-row" id="q2">
+        <button class="opt-btn" onclick="select('q2',this,3)">Yes, consistently</button>
+        <button class="opt-btn" onclick="select('q2',this,2)">Sometimes</button>
+        <button class="opt-btn" onclick="select('q2',this,1)">I have one but don't use it</button>
+        <button class="opt-btn" onclick="select('q2',this,0)">No</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-text">How would you describe your relationship with money?</div>
+      <div class="q-hint">Be honest. This is for you.</div>
+      <textarea placeholder="e.g. Anxious. Avoidant. Curious but overwhelmed. Getting clearer..." oninput="updateScore()"></textarea>
+    </div>
+
+    <div class="question">
+      <div class="q-text">What is your single biggest financial fear?</div>
+      <textarea placeholder="e.g. Running out. Depending on someone else. Losing what I've built..." oninput="updateScore()"></textarea>
+    </div>
+
+    <div class="question">
+      <div class="q-text">Rate your financial confidence today (1 = no confidence, 10 = fully sovereign)</div>
+      <div class="scale-row">
+        <span class="scale-label">Low</span>
+        <div class="scale-btns" id="q3">
+          <button class="scale-btn" onclick="selectScale('q3',this,1)">1</button>
+          <button class="scale-btn" onclick="selectScale('q3',this,2)">2</button>
+          <button class="scale-btn" onclick="selectScale('q3',this,3)">3</button>
+          <button class="scale-btn" onclick="selectScale('q3',this,4)">4</button>
+          <button class="scale-btn" onclick="selectScale('q3',this,5)">5</button>
+          <button class="scale-btn" onclick="selectScale('q3',this,6)">6</button>
+          <button class="scale-btn" onclick="selectScale('q3',this,7)">7</button>
+          <button class="scale-btn" onclick="selectScale('q3',this,8)">8</button>
+          <button class="scale-btn" onclick="selectScale('q3',this,9)">9</button>
+          <button class="scale-btn" onclick="selectScale('q3',this,10)">10</button>
+        </div>
+        <span class="scale-label">Sovereign</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">Section 02</div>
+      <div class="section-title">Protection & Security</div>
+      <div class="section-desc">What you own, who can touch it, and what happens if everything falls apart tomorrow.</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text">Do you have assets in your name only — not jointly held?</div>
+      <div class="options-row" id="q4">
+        <button class="opt-btn" onclick="select('q4',this,3)">Yes, significant assets</button>
+        <button class="opt-btn" onclick="select('q4',this,2)">Some</button>
+        <button class="opt-btn" onclick="select('q4',this,1)">Very little</button>
+        <button class="opt-btn" onclick="select('q4',this,0)">Nothing in my name alone</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-text">Do you have a will, or any formal financial protection documents?</div>
+      <div class="options-row" id="q5">
+        <button class="opt-btn" onclick="select('q5',this,3)">Yes, fully in place</button>
+        <button class="opt-btn" onclick="select('q5',this,2)">Partially</button>
+        <button class="opt-btn" onclick="select('q5',this,1)">On my list, not done</button>
+        <button class="opt-btn" onclick="select('q5',this,0)">No</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-text">If your income stopped tomorrow, how long could you sustain yourself?</div>
+      <div class="options-row" id="q6">
+        <button class="opt-btn" onclick="select('q6',this,3)">12+ months</button>
+        <button class="opt-btn" onclick="select('q6',this,2)">3–12 months</button>
+        <button class="opt-btn" onclick="select('q6',this,1)">Less than 3 months</button>
+        <button class="opt-btn" onclick="select('q6',this,0)">Less than 1 month</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-text">Do you own any hard assets — gold, property, tangible investments not tied to markets?</div>
+      <div class="options-row" id="q7">
+        <button class="opt-btn" onclick="select('q7',this,3)">Yes, deliberately</button>
+        <button class="opt-btn" onclick="select('q7',this,2)">Some property</button>
+        <button class="opt-btn" onclick="select('q7',this,1)">Not yet, but I want to</button>
+        <button class="opt-btn" onclick="select('q7',this,0)">No</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-text">What would need to be true for you to feel financially protected? Describe it.</div>
+      <textarea placeholder="e.g. Six months of savings. Assets in my name. Income that doesn't depend on one job or one person..." oninput="updateScore()"></textarea>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">Section 03</div>
+      <div class="section-title">Building & Growth</div>
+      <div class="section-desc">How actively you are building a future that is entirely yours.</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text">Do you currently invest — in any form?</div>
+      <div class="options-row" id="q8">
+        <button class="opt-btn" onclick="select('q8',this,3)">Yes, regularly and intentionally</button>
+        <button class="opt-btn" onclick="select('q8',this,2)">Sometimes / irregularly</button>
+        <button class="opt-btn" onclick="select('q8',this,1)">I've been meaning to start</button>
+        <button class="opt-btn" onclick="select('q8',this,0)">No</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-text">Do you have income sources beyond your primary job or role?</div>
+      <div class="options-row" id="q9">
+        <button class="opt-btn" onclick="select('q9',this,3)">Yes, multiple</button>
+        <button class="opt-btn" onclick="select('q9',this,2)">One additional source</button>
+        <button class="opt-btn" onclick="select('q9',this,1)">Working on it</button>
+        <button class="opt-btn" onclick="select('q9',this,0)">No</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-text">Rate your financial growth momentum right now (1 = stagnant, 10 = building fast)</div>
+      <div class="scale-row">
+        <span class="scale-label">Stagnant</span>
+        <div class="scale-btns" id="q10">
+          <button class="scale-btn" onclick="selectScale('q10',this,1)">1</button>
+          <button class="scale-btn" onclick="selectScale('q10',this,2)">2</button>
+          <button class="scale-btn" onclick="selectScale('q10',this,3)">3</button>
+          <button class="scale-btn" onclick="selectScale('q10',this,4)">4</button>
+          <button class="scale-btn" onclick="selectScale('q10',this,5)">5</button>
+          <button class="scale-btn" onclick="selectScale('q10',this,6)">6</button>
+          <button class="scale-btn" onclick="selectScale('q10',this,7)">7</button>
+          <button class="scale-btn" onclick="selectScale('q10',this,8)">8</button>
+          <button class="scale-btn" onclick="selectScale('q10',this,9)">9</button>
+          <button class="scale-btn" onclick="selectScale('q10',this,10)">10</button>
+        </div>
+        <span class="scale-label">Building fast</span>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-text">What is the one financial decision you've been putting off that would change everything?</div>
+      <textarea placeholder="Be specific. Name it. Write it here." oninput="updateScore()"></textarea>
+    </div>
+
+    <div class="question">
+      <div class="q-text">In 5 years, what does financial sovereignty look like for you — in your own words?</div>
+      <textarea style="min-height:120px;" placeholder="Describe it like it already happened. Where are you? What do you own? Who do you answer to?" oninput="updateScore()"></textarea>
+    </div>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="verdict">
+    <div class="verdict-title">Your audit verdict</div>
+    <div class="verdict-text" id="verdictText">Complete the sections above to receive your personal financial sovereignty assessment.</div>
+  </div>
+
+  <button class="print-btn" onclick="window.print()">Save / Print your audit →</button>
+
+</div>
+
+<footer>
+  <p class="footer-text">Your answers are private — nothing is stored or transmitted. This audit is for your eyes only.<br>Use it as your starting point. Return to it in 90 days to measure your growth.</p>
+  <div class="footer-brand">The Sovereign Woman — Orion PM Consulting</div>
+</footer>
+
+<script>
+  const scores = {};
+
+  function select(groupId, btn, value) {
+    document.querySelectorAll(`#${groupId} .opt-btn`).forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    scores[groupId] = value;
+    updateScore();
+  }
+
+  function selectScale(groupId, btn, value) {
+    document.querySelectorAll(`#${groupId} .scale-btn`).forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    scores[groupId] = value;
+    updateScore();
+  }
+
+  function pct(keys, max) {
+    const answered = keys.filter(k => scores[k] !== undefined);
+    if (answered.length === 0) return 0;
+    const total = answered.reduce((s, k) => s + scores[k], 0);
+    return Math.round((total / (answered.length * max)) * 100);
+  }
+
+  function updateScore() {
+    const clarity = pct(['q1','q2','q3'], 3);
+    const protect = pct(['q4','q5','q6','q7'], 3);
+    const growth = pct(['q8','q9','q10'], 3);
+    const overall = Math.round((clarity + protect + growth) / 3);
+
+    document.getElementById('clarityScore').textContent = clarity + '%';
+    document.getElementById('protectScore').textContent = protect + '%';
+    document.getElementById('growthScore').textContent = growth + '%';
+    document.getElementById('overallScore').textContent = overall + '%';
+
+    let verdict = '';
+    if (overall === 0) {
+      verdict = 'Complete the sections above to receive your personal financial sovereignty assessment.';
+    } else if (overall < 35) {
+      verdict = `Your overall sovereign readiness score is <strong>${overall}%</strong>. You are at the beginning — and that is exactly where every builder starts. The audit has given you your honest starting point. <strong>The Sovereign Woman toolkit was built for this exact moment.</strong>`;
+    } else if (overall < 65) {
+      verdict = `Your overall score is <strong>${overall}%</strong>. You have foundations — but gaps remain, particularly in ${protect < growth ? 'asset protection' : 'active wealth building'}. You are not behind. You are becoming aware. <strong>Awareness is the first act of sovereignty.</strong>`;
+    } else {
+      verdict = `Your sovereign readiness score is <strong>${overall}%</strong>. You are already building. The question now is whether what you are building is <strong>truly yours</strong> — protected, diversified, and designed to outlast any crisis. The Sovereign Woman will take you the rest of the way.`;
+    }
+    document.getElementById('verdictText').innerHTML = verdict;
+  }
+
+  updateScore();
+</script>
+
+<script id="themeScript">
+  (function() {
+    var saved = localStorage.getItem('sov-theme') || 'dark';
+    applyTheme(saved, false);
+
+    function applyTheme(theme, save) {
+      document.documentElement.setAttribute('data-theme', theme === 'rose' ? 'rose' : '');
+      var dot = document.getElementById('themeDot');
+      var label = document.getElementById('themeLabel');
+      var homeLink = document.getElementById('navHomeLink');
+      var brandLink = document.getElementById('navBrandLink');
+      if (dot && label) {
+        if (theme === 'rose') {
+          dot.style.background = '#c9a84c';
+          label.textContent = 'Obsidian Room';
+          if (homeLink) homeLink.href = '/the_sovereign/index.html';
+          if (brandLink) brandLink.href = '/the_sovereign/index.html';
+        } else {
+          dot.style.background = '#DB9AA4';
+          label.textContent = 'Rose Room';
+          if (homeLink) homeLink.href = '/the_sovereign/index.html';
+          if (brandLink) brandLink.href = '/the_sovereign/index.html';
+        }
+      }
+      if (save) localStorage.setItem('sov-theme', theme);
+    }
+
+    window.toggleTheme = function() {
+      var current = localStorage.getItem('sov-theme') || 'dark';
+      var next = current === 'rose' ? 'dark' : 'rose';
+      applyTheme(next, true);
+    };
+  })();
+</script>
+
+</body>
+</html>

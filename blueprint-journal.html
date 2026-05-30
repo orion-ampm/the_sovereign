@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Blueprint Journal — The Sovereign Woman</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body { background: var(--black); color: var(--text); font-family: 'Montserrat', sans-serif; min-height: 100vh; padding-bottom: 80px; }
+  body::after { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 999; opacity: 0.4; }
+  .gold-bar { height: 2px; background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent); }
+  header { padding: 24px 40px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .header-brand { font-family: 'Playfair Display', serif; font-size: 11px; font-style: italic; color: var(--gold); }
+  .header-tag { font-size: 9px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim); }
+  .hero { text-align: center; padding: 52px 24px 40px; max-width: 680px; margin: 0 auto; }
+  .hero-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 5vw, 48px); font-weight: 900; line-height: 1.05; color: var(--text); margin-bottom: 14px; }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-sub { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--text-muted); line-height: 1.7; }
+  .nav-bar { max-width: 760px; margin: 0 auto 28px; padding: 0 24px; display: flex; gap: 6px; }
+  .phase-tab { flex: 1; padding: 10px 6px; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-align: center; border: 1px solid var(--border); color: var(--text-dim); background: var(--surface); cursor: pointer; transition: all 0.2s; }
+  .phase-tab.active { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  .phase-intro { background: var(--gold-dim); border-left: 2px solid var(--gold); padding: 20px 24px; margin-bottom: 20px; }
+  .phase-intro-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--gold); margin-bottom: 8px; }
+  .phase-intro-text { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-style: italic; color: var(--text-muted); line-height: 1.7; }
+  .week { margin-bottom: 16px; }
+  .week-header { background: var(--surface); border: 1px solid var(--border); border-bottom: none; padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; }
+  .week-label { font-size: 9px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); }
+  .week-theme { font-size: 13px; font-weight: 600; color: var(--text); font-family: 'Playfair Display', serif; }
+  .prompts { background: var(--surface); border: 1px solid var(--border); }
+  .prompt-row { padding: 18px 22px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .prompt-row:last-child { border-bottom: none; }
+  .prompt-day { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
+  .prompt-q { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--text); line-height: 1.6; margin-bottom: 10px; }
+  .prompt-hint { font-size: 11px; color: var(--text-dim); font-style: italic; line-height: 1.6; }
+  .prompt-space { width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text); font-family: 'Cormorant Garamond', serif; font-size: 15px; padding: 12px 14px; outline: none; resize: vertical; min-height: 72px; margin-top: 10px; line-height: 1.7; transition: border-color 0.2s; }
+  .prompt-space:focus { border-color: var(--gold); }
+  .prompt-space::placeholder { color: var(--text-dim); font-style: italic; }
+  footer { text-align: center; margin-top: 40px; padding: 0 24px; }
+  .footer-text { font-size: 11px; color: var(--text-dim); line-height: 1.8; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 12px; font-style: italic; color: var(--gold); margin-top: 10px; }
+  @media (max-width: 500px) { header { padding: 16px 20px; } .nav-bar { flex-direction: column; } }
+  @media print { body { background: white; color: black; } .gold-bar, .nav-bar { display: none; } }
+
+  /* === SOVEREIGN NAV INJECTION === */
+  .sov-topbar { height: 2px; background: linear-gradient(90deg, transparent, var(--gold, #c9a84c), var(--gold-light, #f0d080), var(--gold, #c9a84c), transparent); }
+  .sov-nav {
+    padding: 16px 40px;
+    border-bottom: 1px solid var(--border, rgba(201,168,76,0.15));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: var(--black, #080808);
+    backdrop-filter: blur(12px);
+  }
+  .sov-nav-left { display: flex; align-items: center; gap: 20px; }
+  .sov-back {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold, #c9a84c);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .sov-back:hover { opacity: 1; }
+  .sov-back::before { content: '←'; font-size: 14px; }
+  .sov-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--gold, #c9a84c);
+    letter-spacing: 0.1em;
+    text-decoration: none;
+  }
+  .sov-nav-right { display: flex; align-items: center; gap: 12px; }
+  .sov-room-toggle {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted, #9a9080);
+    text-decoration: none;
+    border: 1px solid var(--border, rgba(201,168,76,0.15));
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .sov-room-toggle:hover { border-color: var(--gold, #c9a84c); color: var(--gold, #c9a84c); }
+  .sov-room-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  @media (max-width: 600px) {
+    .sov-nav { padding: 12px 16px; }
+    .sov-room-toggle span.sov-room-label { display: none; }
+  }
+  /* === END SOVEREIGN NAV === */
+
+
+  /* ===== THEME SYSTEM ===== */
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #f0d080;
+    --gold-dim: rgba(201,168,76,0.12);
+    --black: #080808;
+    --surface: #121212;
+    --surface2: #1a1a1a;
+    --surface3: #222;
+    --text: #f5f0e8;
+    --text-muted: #9a9080;
+    --text-dim: #4a4438;
+    --border: rgba(201,168,76,0.15);
+    --border-strong: rgba(201,168,76,0.35);
+    --accent: #c9a84c;
+    --accent-light: #f0d080;
+    --accent-dim: rgba(201,168,76,0.12);
+    --bg-body: #080808;
+    --toggle-dot: #DB9AA4;
+    --toggle-label: "Switch to Rose Room";
+  }
+
+  [data-theme="rose"] {
+    --gold: #B55E75;
+    --gold-light: #DB9AA4;
+    --gold-dim: rgba(181,94,117,0.1);
+    --black: #fdf6f0;
+    --surface: #ffffff;
+    --surface2: #f9eff3;
+    --surface3: #f3e4e9;
+    --text: #2e1a22;
+    --text-muted: #7a4a58;
+    --text-dim: #b89aa4;
+    --border: rgba(181,94,117,0.15);
+    --border-strong: rgba(181,94,117,0.35);
+    --accent: #B55E75;
+    --accent-light: #DB9AA4;
+    --accent-dim: rgba(181,94,117,0.1);
+    --bg-body: #fdf6f0;
+    --toggle-dot: #c9a84c;
+    --positive: #2e7d5a;
+    --negative: #a0392a;
+  }
+
+  [data-theme="rose"] body {
+    background: #fdf6f0;
+    color: #2e1a22;
+  }
+
+  [data-theme="rose"] body::after { opacity: 0.15; }
+
+  [data-theme="rose"] .sov-nav {
+    background: rgba(253,246,240,0.97);
+    border-bottom: 1px solid rgba(181,94,117,0.15);
+  }
+
+  [data-theme="rose"] .sov-topbar {
+    background: linear-gradient(90deg, transparent, #DB9AA4, #EDC526, #DB9AA4, transparent);
+  }
+
+  [data-theme="rose"] input[type="number"],
+  [data-theme="rose"] input[type="text"],
+  [data-theme="rose"] textarea,
+  [data-theme="rose"] .entry-label,
+  [data-theme="rose"] .entry-amount {
+    background: #f9eff3;
+    border-color: rgba(181,94,117,0.2);
+    color: #2e1a22;
+  }
+
+  [data-theme="rose"] input[type="range"] {
+    background: #f3e4e9;
+  }
+
+  [data-theme="rose"] input[type="range"]::-webkit-slider-thumb {
+    background: #B55E75;
+  }
+
+  [data-theme="rose"] .opt-btn,
+  [data-theme="rose"] .scale-btn {
+    background: #f9eff3;
+    border-color: rgba(181,94,117,0.2);
+    color: #7a4a58;
+  }
+
+  [data-theme="rose"] .opt-btn.selected,
+  [data-theme="rose"] .scale-btn.selected {
+    background: rgba(181,94,117,0.1);
+    border-color: #B55E75;
+    color: #B55E75;
+  }
+
+  [data-theme="rose"] .opt-btn:hover,
+  [data-theme="rose"] .scale-btn:hover {
+    border-color: #B55E75;
+    color: #B55E75;
+  }
+
+  [data-theme="rose"] .check-item:hover { background: #f9eff3; }
+  [data-theme="rose"] .check-item.done .check-box { background: #B55E75; border-color: #B55E75; }
+  [data-theme="rose"] .add-btn:hover { border-color: #B55E75; color: #B55E75; }
+  [data-theme="rose"] .remove-btn:hover { border-color: #c0503a; color: #c0503a; }
+
+  [data-theme="rose"] .phase-tab.active {
+    border-color: #B55E75;
+    color: #B55E75;
+    background: rgba(181,94,117,0.08);
+  }
+
+  [data-theme="rose"] .week-header,
+  [data-theme="rose"] .phase-header,
+  [data-theme="rose"] .section-header {
+    background: #ffffff;
+    border-color: rgba(181,94,117,0.15);
+  }
+
+  [data-theme="rose"] .script-box {
+    background: #f9eff3;
+    border-left-color: #B55E75;
+  }
+
+  [data-theme="rose"] .objection {
+    background: #f3e4e9;
+    border-color: rgba(181,94,117,0.15);
+  }
+
+  [data-theme="rose"] .result-highlight,
+  [data-theme="rose"] .total-block,
+  [data-theme="rose"] .proj-cell {
+    background: #f9eff3;
+  }
+
+  [data-theme="rose"] .stat-block,
+  [data-theme="rose"] .summary-cell,
+  [data-theme="rose"] .result-block,
+  [data-theme="rose"] .cheat-cell,
+  [data-theme="rose"] .fx-table,
+  [data-theme="rose"] .fx-header,
+  [data-theme="rose"] .fx-row:hover {
+    background: #f9eff3;
+  }
+
+  /* Toggle button */
+  .theme-switch-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    background: none;
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .theme-switch-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .theme-switch-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: background 0.3s;
+  }
+
+  .theme-switch-label { transition: all 0.2s; }
+  /* ===== END THEME SYSTEM ===== */
+
+</style>
+</head>
+<body>
+<div class="sov-topbar"></div>
+<nav class="sov-nav">
+  <div class="sov-nav-left">
+    <a href="/the_sovereign/index.html" class="sov-back" id="navHomeLink">Home</a>
+    <a href="/the_sovereign/index.html" class="sov-brand" id="navBrandLink">The Sovereign Woman</a>
+  </div>
+  <div class="sov-nav-right">
+    <button class="theme-switch-btn" onclick="toggleTheme()" id="themeSwitchBtn" aria-label="Switch room theme">
+      <div class="theme-switch-dot" id="themeDot"></div>
+      <span class="theme-switch-label" id="themeLabel">Rose Room</span>
+    </button>
+  </div>
+</nav>
+
+<header style="display:none">
+  <div class="header-brand">The Sovereign Woman</div>
+  <div class="header-tag">Orion PM Consulting</div>
+</header>
+<div class="hero">
+  <div class="hero-eyebrow">Download 07 of 08</div>
+  <h1 class="hero-title">The Blueprint<br><em>Journal</em></h1>
+  <p class="hero-sub">90 days. 90 prompts. One woman, becoming sovereign — one honest answer at a time. Write here, or print and use your own journal. The words are what matter.</p>
+</div>
+<div class="nav-bar">
+  <button class="phase-tab active" onclick="showPhase(0)">Days 1–30<br><small>Clarity</small></button>
+  <button class="phase-tab" onclick="showPhase(1)">Days 31–60<br><small>Protection</small></button>
+  <button class="phase-tab" onclick="showPhase(2)">Days 61–90<br><small>Building</small></button>
+</div>
+<div class="wrap">
+
+  <div id="phase0">
+    <div class="phase-intro">
+      <div class="phase-intro-title">Phase 1 — Clarity (Days 1–30)</div>
+      <div class="phase-intro-text">Before you can build, you must see clearly. These prompts are about truth — financial, emotional, and personal. They may be uncomfortable. That discomfort is the beginning of everything.</div>
+    </div>
+
+    <div class="week">
+      <div class="week-header"><span class="week-label">Week 1 — Days 1–7</span><span class="week-theme">Facing the numbers</span></div>
+      <div class="prompts">
+        <div class="prompt-row"><div class="prompt-day">Day 1</div><div class="prompt-q">What is your relationship with money — honestly, in your own words?</div><div class="prompt-hint">Not what it should be. What it actually is right now.</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 2</div><div class="prompt-q">What financial truth have you been avoiding?</div><div class="prompt-hint">The number you don't look at. The account you don't check. Name it.</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 3</div><div class="prompt-q">What did your parents teach you about money — explicitly or by example?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 4</div><div class="prompt-q">Where has financial dependence cost you something important?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 5</div><div class="prompt-q">What is the invisible tax you have paid in your life? Put a number on it.</div><div class="prompt-hint">Use the Invisible Tax Calculator if you haven't already.</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 6</div><div class="prompt-q">If money had nothing to do with love or security — how would you spend it differently?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 7</div><div class="prompt-q">Week 1 reflection: What was the hardest truth this week? What will you do with it?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+      </div>
+    </div>
+
+    <div class="week">
+      <div class="week-header"><span class="week-label">Week 2 — Days 8–14</span><span class="week-theme">Understanding your position</span></div>
+      <div class="prompts">
+        <div class="prompt-row"><div class="prompt-day">Day 8</div><div class="prompt-q">What do you actually own — in your name, unambiguously yours?</div><textarea class="prompt-space" placeholder="List everything. Be specific."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 9</div><div class="prompt-q">What are you owed — financially, professionally, personally — that you have not claimed?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 10</div><div class="prompt-q">What does financial independence mean to you — not in theory, but in daily lived experience?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 11</div><div class="prompt-q">What financial decision are you most proud of? What did it teach you?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 12</div><div class="prompt-q">What financial decision do you most regret? What would you tell a younger woman about it?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 13</div><div class="prompt-q">Who has benefited financially from your unpaid or underpaid labor? Name them.</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 14</div><div class="prompt-q">Week 2 reflection: What shift has happened in how you see your financial position?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+      </div>
+    </div>
+
+    <div class="week">
+      <div class="week-header"><span class="week-label">Weeks 3–4 — Days 15–30</span><span class="week-theme">Rewriting the story</span></div>
+      <div class="prompts">
+        <div class="prompt-row"><div class="prompt-day">Day 15</div><div class="prompt-q">What story about women and money were you told that you no longer believe?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 17</div><div class="prompt-q">What would you do in the next 12 months if money was not a limiting factor?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 20</div><div class="prompt-q">Describe the woman you are becoming financially — in the present tense, as if she already exists.</div><textarea class="prompt-space" placeholder="She is..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 23</div><div class="prompt-q">What is the one financial action you have been delaying that you will take this week?</div><textarea class="prompt-space" placeholder="Be specific. Name the action, the date, and what it will take."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 28</div><div class="prompt-q">What does sovereignty mean to you — beyond money? What does it feel like in your body?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 30</div><div class="prompt-q">Phase 1 complete. What is the most important thing you now know that you didn't 30 days ago?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="phase1" style="display:none">
+    <div class="phase-intro">
+      <div class="phase-intro-title">Phase 2 — Protection (Days 31–60)</div>
+      <div class="phase-intro-text">Clarity without protection is incomplete. These prompts move you from seeing your position to actively securing it — legally, financially, and personally.</div>
+    </div>
+    <div class="week">
+      <div class="week-header"><span class="week-label">Days 31–45</span><span class="week-theme">Securing what you have</span></div>
+      <div class="prompts">
+        <div class="prompt-row"><div class="prompt-day">Day 31</div><div class="prompt-q">What are you most afraid of losing? What would it take to protect it?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 34</div><div class="prompt-q">What documents do you need to get in order this month? Name the three most urgent.</div><div class="prompt-hint">Use the Asset Protection Checklist as your reference.</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 37</div><div class="prompt-q">If your income stopped tomorrow, what would your first 7 moves be?</div><textarea class="prompt-space" placeholder="Write them in order."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 40</div><div class="prompt-q">What hard asset do you want to own by the end of this year, and what is your plan?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 44</div><div class="prompt-q">Who would you call in a financial emergency right now? If the answer is no one — what would it take to change that?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 45</div><div class="prompt-q">Mid-phase reflection: What protection action have you taken in the last two weeks?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+      </div>
+    </div>
+    <div class="week">
+      <div class="week-header"><span class="week-label">Days 46–60</span><span class="week-theme">Building the fortress</span></div>
+      <div class="prompts">
+        <div class="prompt-row"><div class="prompt-day">Day 47</div><div class="prompt-q">What financial structure could protect your assets from any future relationship ending?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 50</div><div class="prompt-q">What does your emergency fund look like? What would make you feel genuinely safe?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 54</div><div class="prompt-q">Write a letter to your future self — from a place of complete financial sovereignty. What does she want you to know?</div><textarea class="prompt-space" style="min-height:120px;" placeholder="Dear future me..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 58</div><div class="prompt-q">What is the single most important thing you have put in place in the last 30 days to protect yourself?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 60</div><div class="prompt-q">Phase 2 complete. You are more protected than you were 60 days ago. What does that feel like?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="phase2" style="display:none">
+    <div class="phase-intro">
+      <div class="phase-intro-title">Phase 3 — Building (Days 61–90)</div>
+      <div class="phase-intro-text">The final phase. You have clarity. You have protection. Now you build — with intention, with strategy, and with the knowledge that what you are creating is entirely yours.</div>
+    </div>
+    <div class="week">
+      <div class="week-header"><span class="week-label">Days 61–75</span><span class="week-theme">Designing your wealth</span></div>
+      <div class="prompts">
+        <div class="prompt-row"><div class="prompt-day">Day 61</div><div class="prompt-q">What does your ideal financial life look like in 5 years — in complete detail?</div><textarea class="prompt-space" style="min-height:120px;" placeholder="Income. Assets. Freedom. Daily life. Write it all."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 64</div><div class="prompt-q">What income stream could you realistically build in the next 12 months that doesn't trade purely your time?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 67</div><div class="prompt-q">What role does gold play in your long-term wealth strategy? Be specific.</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 70</div><div class="prompt-q">What financial habits would you need to build — and break — to reach your 5-year vision?</div><textarea class="prompt-space" placeholder="Be honest. Name them."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 73</div><div class="prompt-q">Who are the women in your life who embody financial sovereignty? What can you learn from them?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 75</div><div class="prompt-q">Mid-phase reflection: What is the biggest financial shift you have made in 75 days?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+      </div>
+    </div>
+    <div class="week">
+      <div class="week-header"><span class="week-label">Days 76–90</span><span class="week-theme">Becoming the blueprint</span></div>
+      <div class="prompts">
+        <div class="prompt-row"><div class="prompt-day">Day 78</div><div class="prompt-q">What would you tell the woman you were 90 days ago?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 81</div><div class="prompt-q">What financial legacy do you want to leave — for your children, your community, or the women who come after you?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 85</div><div class="prompt-q">You began this journal at a financial confidence level. Where are you now? What moved?</div><textarea class="prompt-space" placeholder="Write freely..."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 88</div><div class="prompt-q">What is the one financial commitment you are making for the next 90 days?</div><textarea class="prompt-space" placeholder="Name it. Date it. Sign it."></textarea></div>
+        <div class="prompt-row"><div class="prompt-day">Day 90</div><div class="prompt-q">Journal complete. You chose to begin. You chose to continue. Write to the woman who is about to start Day 1 — what does she need to know?</div><textarea class="prompt-space" style="min-height:140px;" placeholder="She needs to know..."></textarea></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<footer>
+  <p class="footer-text">Your journal is private. Nothing is stored or transmitted. All responses exist only in this browser session.<br>Print the page or save it as PDF to keep your answers permanently.</p>
+  <div class="footer-brand">The Sovereign Woman — Orion PM Consulting</div>
+</footer>
+<script>
+  function showPhase(n) {
+    ['phase0','phase1','phase2'].forEach((id, i) => {
+      document.getElementById(id).style.display = i === n ? 'block' : 'none';
+    });
+    document.querySelectorAll('.phase-tab').forEach((t, i) => {
+      t.className = 'phase-tab' + (i === n ? ' active' : '');
+    });
+  }
+</script>
+
+<script id="themeScript">
+  (function() {
+    var saved = localStorage.getItem('sov-theme') || 'dark';
+    applyTheme(saved, false);
+
+    function applyTheme(theme, save) {
+      document.documentElement.setAttribute('data-theme', theme === 'rose' ? 'rose' : '');
+      var dot = document.getElementById('themeDot');
+      var label = document.getElementById('themeLabel');
+      var homeLink = document.getElementById('navHomeLink');
+      var brandLink = document.getElementById('navBrandLink');
+      if (dot && label) {
+        if (theme === 'rose') {
+          dot.style.background = '#c9a84c';
+          label.textContent = 'Obsidian Room';
+          if (homeLink) homeLink.href = '/the_sovereign/index.html';
+          if (brandLink) brandLink.href = '/the_sovereign/index.html';
+        } else {
+          dot.style.background = '#DB9AA4';
+          label.textContent = 'Rose Room';
+          if (homeLink) homeLink.href = '/the_sovereign/index.html';
+          if (brandLink) brandLink.href = '/the_sovereign/index.html';
+        }
+      }
+      if (save) localStorage.setItem('sov-theme', theme);
+    }
+
+    window.toggleTheme = function() {
+      var current = localStorage.getItem('sov-theme') || 'dark';
+      var next = current === 'rose' ? 'dark' : 'rose';
+      applyTheme(next, true);
+    };
+  })();
+</script>
+
+</body>
+</html>

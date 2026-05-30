@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scripts for Banks, Brokers & Lawyers — The Sovereign Woman</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body { background: var(--black); color: var(--text); font-family: 'Montserrat', sans-serif; min-height: 100vh; padding-bottom: 80px; }
+  body::after { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 999; opacity: 0.4; }
+  .gold-bar { height: 2px; background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent); }
+  header { padding: 24px 40px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .header-brand { font-family: 'Playfair Display', serif; font-size: 11px; font-style: italic; color: var(--gold); }
+  .header-tag { font-size: 9px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim); }
+  .hero { text-align: center; padding: 52px 24px 40px; max-width: 680px; margin: 0 auto; }
+  .hero-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(26px, 5vw, 44px); font-weight: 900; line-height: 1.05; color: var(--text); margin-bottom: 14px; }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-sub { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--text-muted); line-height: 1.7; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  .section { margin-bottom: 24px; }
+  .section-header { background: var(--surface); border: 1px solid var(--border); border-bottom: none; padding: 20px 26px; }
+  .section-tag { font-size: 9px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--text); }
+  .section-desc { font-size: 12px; color: var(--text-muted); margin-top: 4px; font-style: italic; }
+  .script-card { background: var(--surface); border: 1px solid var(--border); border-top: none; padding: 24px 26px; margin-bottom: 2px; }
+  .script-card:last-child { margin-bottom: 0; }
+  .script-situation { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; }
+  .script-box { background: var(--surface2); border-left: 2px solid var(--gold); padding: 18px 20px; margin: 10px 0; font-family: 'Cormorant Garamond', serif; font-size: 17px; color: var(--text); line-height: 1.8; }
+  .script-box em { color: var(--text-muted); font-style: italic; }
+  .script-why { font-size: 11px; color: var(--text-dim); margin-top: 10px; line-height: 1.6; font-style: italic; }
+  .objection { background: var(--surface3); border: 1px solid rgba(255,255,255,0.06); padding: 16px 20px; margin-top: 14px; }
+  .obj-label { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
+  .obj-q { font-size: 13px; color: var(--text-muted); font-style: italic; margin-bottom: 10px; }
+  .obj-a { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--text); line-height: 1.75; border-left: 1px solid var(--border-strong); padding-left: 14px; }
+  .insight-box { background: var(--gold-dim); border-left: 2px solid var(--gold); padding: 18px 22px; margin: 20px 0; }
+  .insight-text { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-style: italic; color: var(--text-muted); line-height: 1.7; }
+  .insight-text strong { color: var(--gold); font-style: normal; }
+  footer { text-align: center; margin-top: 40px; padding: 0 24px; }
+  .footer-text { font-size: 11px; color: var(--text-dim); line-height: 1.8; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 12px; font-style: italic; color: var(--gold); margin-top: 10px; }
+  @media (max-width: 500px) { header { padding: 16px 20px; } }
+
+  /* === SOVEREIGN NAV INJECTION === */
+  .sov-topbar { height: 2px; background: linear-gradient(90deg, transparent, var(--gold, #c9a84c), var(--gold-light, #f0d080), var(--gold, #c9a84c), transparent); }
+  .sov-nav {
+    padding: 16px 40px;
+    border-bottom: 1px solid var(--border, rgba(201,168,76,0.15));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: var(--black, #080808);
+    backdrop-filter: blur(12px);
+  }
+  .sov-nav-left { display: flex; align-items: center; gap: 20px; }
+  .sov-back {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold, #c9a84c);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .sov-back:hover { opacity: 1; }
+  .sov-back::before { content: '←'; font-size: 14px; }
+  .sov-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--gold, #c9a84c);
+    letter-spacing: 0.1em;
+    text-decoration: none;
+  }
+  .sov-nav-right { display: flex; align-items: center; gap: 12px; }
+  .sov-room-toggle {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted, #9a9080);
+    text-decoration: none;
+    border: 1px solid var(--border, rgba(201,168,76,0.15));
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .sov-room-toggle:hover { border-color: var(--gold, #c9a84c); color: var(--gold, #c9a84c); }
+  .sov-room-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  @media (max-width: 600px) {
+    .sov-nav { padding: 12px 16px; }
+    .sov-room-toggle span.sov-room-label { display: none; }
+  }
+  /* === END SOVEREIGN NAV === */
+
+
+  /* ===== THEME SYSTEM ===== */
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #f0d080;
+    --gold-dim: rgba(201,168,76,0.12);
+    --black: #080808;
+    --surface: #121212;
+    --surface2: #1a1a1a;
+    --surface3: #222;
+    --text: #f5f0e8;
+    --text-muted: #9a9080;
+    --text-dim: #4a4438;
+    --border: rgba(201,168,76,0.15);
+    --border-strong: rgba(201,168,76,0.35);
+    --accent: #c9a84c;
+    --accent-light: #f0d080;
+    --accent-dim: rgba(201,168,76,0.12);
+    --bg-body: #080808;
+    --toggle-dot: #DB9AA4;
+    --toggle-label: "Switch to Rose Room";
+  }
+
+  [data-theme="rose"] {
+    --gold: #B55E75;
+    --gold-light: #DB9AA4;
+    --gold-dim: rgba(181,94,117,0.1);
+    --black: #fdf6f0;
+    --surface: #ffffff;
+    --surface2: #f9eff3;
+    --surface3: #f3e4e9;
+    --text: #2e1a22;
+    --text-muted: #7a4a58;
+    --text-dim: #b89aa4;
+    --border: rgba(181,94,117,0.15);
+    --border-strong: rgba(181,94,117,0.35);
+    --accent: #B55E75;
+    --accent-light: #DB9AA4;
+    --accent-dim: rgba(181,94,117,0.1);
+    --bg-body: #fdf6f0;
+    --toggle-dot: #c9a84c;
+    --positive: #2e7d5a;
+    --negative: #a0392a;
+  }
+
+  [data-theme="rose"] body {
+    background: #fdf6f0;
+    color: #2e1a22;
+  }
+
+  [data-theme="rose"] body::after { opacity: 0.15; }
+
+  [data-theme="rose"] .sov-nav {
+    background: rgba(253,246,240,0.97);
+    border-bottom: 1px solid rgba(181,94,117,0.15);
+  }
+
+  [data-theme="rose"] .sov-topbar {
+    background: linear-gradient(90deg, transparent, #DB9AA4, #EDC526, #DB9AA4, transparent);
+  }
+
+  [data-theme="rose"] input[type="number"],
+  [data-theme="rose"] input[type="text"],
+  [data-theme="rose"] textarea,
+  [data-theme="rose"] .entry-label,
+  [data-theme="rose"] .entry-amount {
+    background: #f9eff3;
+    border-color: rgba(181,94,117,0.2);
+    color: #2e1a22;
+  }
+
+  [data-theme="rose"] input[type="range"] {
+    background: #f3e4e9;
+  }
+
+  [data-theme="rose"] input[type="range"]::-webkit-slider-thumb {
+    background: #B55E75;
+  }
+
+  [data-theme="rose"] .opt-btn,
+  [data-theme="rose"] .scale-btn {
+    background: #f9eff3;
+    border-color: rgba(181,94,117,0.2);
+    color: #7a4a58;
+  }
+
+  [data-theme="rose"] .opt-btn.selected,
+  [data-theme="rose"] .scale-btn.selected {
+    background: rgba(181,94,117,0.1);
+    border-color: #B55E75;
+    color: #B55E75;
+  }
+
+  [data-theme="rose"] .opt-btn:hover,
+  [data-theme="rose"] .scale-btn:hover {
+    border-color: #B55E75;
+    color: #B55E75;
+  }
+
+  [data-theme="rose"] .check-item:hover { background: #f9eff3; }
+  [data-theme="rose"] .check-item.done .check-box { background: #B55E75; border-color: #B55E75; }
+  [data-theme="rose"] .add-btn:hover { border-color: #B55E75; color: #B55E75; }
+  [data-theme="rose"] .remove-btn:hover { border-color: #c0503a; color: #c0503a; }
+
+  [data-theme="rose"] .phase-tab.active {
+    border-color: #B55E75;
+    color: #B55E75;
+    background: rgba(181,94,117,0.08);
+  }
+
+  [data-theme="rose"] .week-header,
+  [data-theme="rose"] .phase-header,
+  [data-theme="rose"] .section-header {
+    background: #ffffff;
+    border-color: rgba(181,94,117,0.15);
+  }
+
+  [data-theme="rose"] .script-box {
+    background: #f9eff3;
+    border-left-color: #B55E75;
+  }
+
+  [data-theme="rose"] .objection {
+    background: #f3e4e9;
+    border-color: rgba(181,94,117,0.15);
+  }
+
+  [data-theme="rose"] .result-highlight,
+  [data-theme="rose"] .total-block,
+  [data-theme="rose"] .proj-cell {
+    background: #f9eff3;
+  }
+
+  [data-theme="rose"] .stat-block,
+  [data-theme="rose"] .summary-cell,
+  [data-theme="rose"] .result-block,
+  [data-theme="rose"] .cheat-cell,
+  [data-theme="rose"] .fx-table,
+  [data-theme="rose"] .fx-header,
+  [data-theme="rose"] .fx-row:hover {
+    background: #f9eff3;
+  }
+
+  /* Toggle button */
+  .theme-switch-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    background: none;
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .theme-switch-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .theme-switch-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: background 0.3s;
+  }
+
+  .theme-switch-label { transition: all 0.2s; }
+  /* ===== END THEME SYSTEM ===== */
+
+</style>
+</head>
+<body>
+<div class="sov-topbar"></div>
+<nav class="sov-nav">
+  <div class="sov-nav-left">
+    <a href="/the_sovereign/index.html" class="sov-back" id="navHomeLink">Home</a>
+    <a href="/the_sovereign/index.html" class="sov-brand" id="navBrandLink">The Sovereign Woman</a>
+  </div>
+  <div class="sov-nav-right">
+    <button class="theme-switch-btn" onclick="toggleTheme()" id="themeSwitchBtn" aria-label="Switch room theme">
+      <div class="theme-switch-dot" id="themeDot"></div>
+      <span class="theme-switch-label" id="themeLabel">Rose Room</span>
+    </button>
+  </div>
+</nav>
+
+<header style="display:none">
+  <div class="header-brand">The Sovereign Woman</div>
+  <div class="header-tag">Orion PM Consulting</div>
+</header>
+<div class="hero">
+  <div class="hero-eyebrow">Download 06 of 08</div>
+  <h1 class="hero-title">Scripts for Banks,<br><em>Brokers & Lawyers</em></h1>
+  <p class="hero-sub">Words matter — especially when you're asking for what you're entitled to. These scripts help you walk into any financial or legal conversation with clarity, confidence, and the right language.</p>
+</div>
+<div class="wrap">
+
+  <div class="insight-box">
+    <div class="insight-text">Women are often talked over, condescended to, or dismissed in financial and legal settings. <strong>The right words change the dynamic immediately. Know them before you walk in.</strong></div>
+  </div>
+
+  <!-- BANKS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-tag">Section 01</div>
+      <div class="section-title">Bank conversations</div>
+      <div class="section-desc">Loans, accounts, rates, and standing your ground</div>
+    </div>
+
+    <div class="script-card">
+      <div class="script-situation">Negotiating a better interest rate</div>
+      <div class="script-box">"I've been a customer for <em>[X years]</em> and I'm reviewing all of my financial arrangements. I've received a rate of <em>[X%]</em> from <em>[competitor]</em>. I'd like to discuss whether you can match or improve on that before I make a decision."</div>
+      <div class="script-why">You are not asking. You are informing them of a decision you are in the process of making. This shifts the power dynamic entirely.</div>
+    </div>
+
+    <div class="script-card">
+      <div class="script-situation">Requesting your own account after a relationship ends</div>
+      <div class="script-box">"I need to open a sole account in my name immediately. I'd also like to understand the process for removing my name from joint accounts, and what documentation I need to provide."</div>
+      <div class="script-why">Calm, direct, no explanation needed. You do not owe your bank a reason.</div>
+    </div>
+
+    <div class="script-card">
+      <div class="script-situation">Asking about a loan as a single woman / sole trader</div>
+      <div class="script-box">"I'd like to discuss a <em>[type]</em> loan of <em>[amount]</em>. I have <em>[X years]</em> of financial history, a credit score of approximately <em>[X]</em>, and supporting documentation including <em>[tax returns / business accounts / pay slips]</em>. What is the process?"</div>
+      <div class="script-why">Lead with your evidence. Women who lead with qualifications rather than apology get better outcomes.</div>
+      <div class="objection">
+        <div class="obj-label">If they ask about a partner or co-signer</div>
+        <div class="obj-q">"Do you have a spouse or partner who could co-sign?"</div>
+        <div class="obj-a">"My application is on a sole basis. I have the financial profile to support this independently. I'd like to proceed on that basis."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BROKERS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-tag">Section 02</div>
+      <div class="section-title">Gold broker conversations</div>
+      <div class="section-desc">Buying, negotiating, and not being taken advantage of</div>
+    </div>
+
+    <div class="script-card">
+      <div class="script-situation">Your first call with a gold dealer</div>
+      <div class="script-box">"I'm looking to purchase <em>[1oz coins / X grams of bar]</em> of physical gold. Can you confirm your current spot price, the premium you charge on this product, and your buyback rate? I'm comparing a few dealers before making a decision."</div>
+      <div class="script-why">Asking for buyback rate immediately signals you know what you're doing. Dealers give better treatment to buyers who know the terminology.</div>
+    </div>
+
+    <div class="script-card">
+      <div class="script-situation">Pushing back on a high premium</div>
+      <div class="script-box">"The premium you've quoted is <em>[X%]</em> above spot. I've seen premiums of <em>[X%]</em> for comparable products from other dealers. Is there any flexibility on your pricing for this quantity?"</div>
+      <div class="script-why">Always negotiate. Even a 0.3% improvement on a £5,000 purchase is £15. On £50,000 it's £150. It's always worth asking.</div>
+    </div>
+
+    <div class="script-card">
+      <div class="script-situation">Verifying authenticity before purchase</div>
+      <div class="script-box">"Before I confirm this purchase, can you provide the certificate of authenticity, the assay documentation, and confirm the product's LBMA accreditation or mint certification?"</div>
+      <div class="script-why">Any legitimate dealer will provide this without hesitation. Hesitation is your answer.</div>
+    </div>
+  </div>
+
+  <!-- LAWYERS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-tag">Section 03</div>
+      <div class="section-title">Legal conversations</div>
+      <div class="section-desc">Protecting your assets, understanding your rights, not being dismissed</div>
+    </div>
+
+    <div class="script-card">
+      <div class="script-situation">First meeting with a family law solicitor</div>
+      <div class="script-box">"I want to understand my legal position clearly. Specifically: what assets am I entitled to, what is the process for protecting assets I brought into the relationship, and what documentation do you need from me to build the strongest possible case?"</div>
+      <div class="script-why">Lead with what you want to know. Lawyers bill by the hour — come prepared and specific.</div>
+    </div>
+
+    <div class="script-card">
+      <div class="script-situation">Asking about a prenuptial or postnuptial agreement</div>
+      <div class="script-box">"I'd like to explore a <em>[pre/post]nuptial agreement</em> to protect specific assets. I want to understand what is and isn't enforceable in <em>[jurisdiction]</em>, what the process looks like, and what it typically costs."</div>
+      <div class="script-why">This is not an unusual request. Any solicitor who makes you feel uncomfortable for asking is not the right solicitor.</div>
+    </div>
+
+    <div class="script-card">
+      <div class="script-situation">When you feel your solicitor isn't listening</div>
+      <div class="script-box">"I want to make sure we're aligned. My priority is <em>[specific outcome]</em>. Can you confirm that your current strategy is directed toward that — and if not, explain what would be more effective?"</div>
+      <div class="script-why">You are the client. You set the objective. They advise the strategy. Never let this dynamic reverse.</div>
+      <div class="objection">
+        <div class="obj-label">If they suggest you accept less than you believe you're entitled to</div>
+        <div class="obj-q">"This is the best you're likely to get — I'd advise you to accept."</div>
+        <div class="obj-a">"I'd like to understand the basis of that assessment before I decide. What evidence supports that conclusion, and what would a more aggressive position look like?"</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight-box" style="margin-top: 24px;">
+    <div class="insight-text">The woman who knows the language is the woman who gets the outcome. <strong>You don't need to know everything. You need to know enough to ask the right questions and refuse to be dismissed.</strong></div>
+  </div>
+
+</div>
+<footer>
+  <p class="footer-text">These scripts are for guidance only and do not constitute legal or financial advice.<br>Consult qualified professionals for your specific situation.</p>
+  <div class="footer-brand">The Sovereign Woman — Orion PM Consulting</div>
+</footer>
+
+<script id="themeScript">
+  (function() {
+    var saved = localStorage.getItem('sov-theme') || 'dark';
+    applyTheme(saved, false);
+
+    function applyTheme(theme, save) {
+      document.documentElement.setAttribute('data-theme', theme === 'rose' ? 'rose' : '');
+      var dot = document.getElementById('themeDot');
+      var label = document.getElementById('themeLabel');
+      var homeLink = document.getElementById('navHomeLink');
+      var brandLink = document.getElementById('navBrandLink');
+      if (dot && label) {
+        if (theme === 'rose') {
+          dot.style.background = '#c9a84c';
+          label.textContent = 'Obsidian Room';
+          if (homeLink) homeLink.href = '/the_sovereign/index.html';
+          if (brandLink) brandLink.href = '/the_sovereign/index.html';
+        } else {
+          dot.style.background = '#DB9AA4';
+          label.textContent = 'Rose Room';
+          if (homeLink) homeLink.href = '/the_sovereign/index.html';
+          if (brandLink) brandLink.href = '/the_sovereign/index.html';
+        }
+      }
+      if (save) localStorage.setItem('sov-theme', theme);
+    }
+
+    window.toggleTheme = function() {
+      var current = localStorage.getItem('sov-theme') || 'dark';
+      var next = current === 'rose' ? 'dark' : 'rose';
+      applyTheme(next, true);
+    };
+  })();
+</script>
+
+</body>
+</html>
