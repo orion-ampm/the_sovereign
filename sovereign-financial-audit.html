@@ -340,8 +340,8 @@
 <div class="sov-topbar"></div>
 <nav class="sov-nav">
   <div class="sov-nav-left">
-    <a href="/the_sovereign/index.html" class="sov-back" id="navHomeLink">Home</a>
-    <a href="/the_sovereign/index.html" class="sov-brand" id="navBrandLink">The Sovereign Woman</a>
+    <a href="/the_sovereign/obsidian-room.html" class="sov-back" id="navHomeLink">Home</a>
+    <a href="/the_sovereign/obsidian-room.html" class="sov-brand" id="navBrandLink">The Sovereign Woman</a>
   </div>
   <div class="sov-nav-right">
     <button class="theme-switch-btn" onclick="toggleTheme()" id="themeSwitchBtn" aria-label="Switch room theme">
@@ -402,12 +402,12 @@
     <div class="question">
       <div class="q-text">How would you describe your relationship with money?</div>
       <div class="q-hint">Be honest. This is for you.</div>
-      <textarea placeholder="e.g. Anxious. Avoidant. Curious but overwhelmed. Getting clearer..." oninput="updateScore()"></textarea>
+      <textarea id="t_relationship" placeholder="e.g. Anxious. Avoidant. Curious but overwhelmed. Getting clearer..." oninput="updateScore()"></textarea>
     </div>
 
     <div class="question">
       <div class="q-text">What is your single biggest financial fear?</div>
-      <textarea placeholder="e.g. Running out. Depending on someone else. Losing what I've built..." oninput="updateScore()"></textarea>
+      <textarea id="t_fear" placeholder="e.g. Running out. Depending on someone else. Losing what I've built..." oninput="updateScore()"></textarea>
     </div>
 
     <div class="question">
@@ -481,7 +481,7 @@
 
     <div class="question">
       <div class="q-text">What would need to be true for you to feel financially protected? Describe it.</div>
-      <textarea placeholder="e.g. Six months of savings. Assets in my name. Income that doesn't depend on one job or one person..." oninput="updateScore()"></textarea>
+      <textarea id="t_protection" placeholder="e.g. Six months of savings. Assets in my name. Income that doesn't depend on one job or one person..." oninput="updateScore()"></textarea>
     </div>
   </div>
 
@@ -535,12 +535,12 @@
 
     <div class="question">
       <div class="q-text">What is the one financial decision you've been putting off that would change everything?</div>
-      <textarea placeholder="Be specific. Name it. Write it here." oninput="updateScore()"></textarea>
+      <textarea id="t_decision" placeholder="Be specific. Name it. Write it here." oninput="updateScore()"></textarea>
     </div>
 
     <div class="question">
       <div class="q-text">In 5 years, what does financial sovereignty look like for you — in your own words?</div>
-      <textarea style="min-height:120px;" placeholder="Describe it like it already happened. Where are you? What do you own? Who do you answer to?" oninput="updateScore()"></textarea>
+      <textarea id="t_vision" style="min-height:120px;" placeholder="Describe it like it already happened. Where are you? What do you own? Who do you answer to?" oninput="updateScore()"></textarea>
     </div>
   </div>
 
@@ -548,6 +548,11 @@
   <div class="verdict">
     <div class="verdict-title">Your audit verdict</div>
     <div class="verdict-text" id="verdictText">Complete the sections above to receive your personal financial sovereignty assessment.</div>
+  </div>
+
+  <div class="verdict" id="insightsBox" style="display:none;">
+    <div class="verdict-title">What Freya sees in your answers</div>
+    <div class="verdict-text" id="insightsText" style="font-style:normal;"></div>
   </div>
 
   <button class="print-btn" onclick="window.print()">Save / Print your audit →</button>
@@ -583,6 +588,117 @@
     return Math.round((total / (answered.length * max)) * 100);
   }
 
+  // Per-question insight library — keyed by question id and the value (0-3) the woman selected.
+  // Each insight names the specific signal and the specific next action — not generic encouragement.
+  const insightLibrary = {
+    q1: {
+      0: "You have no idea what you're worth right now. That's not a character flaw — for many women, looking at the number has been actively discouraged or made to feel unsafe. The first act of sovereignty is simply looking. Start with the Net Worth Tracker — even a rough first pass changes everything.",
+      1: "You have a sense of your position but haven't calculated it. The gap between sensing and knowing is usually smaller than it feels — one sitting with the Net Worth Tracker closes it completely.",
+      2: "You roughly know your net worth — which puts you ahead of most women. The next step isn't more awareness, it's precision: get the exact number so you can track real movement over time.",
+      3: "You know your net worth to the dollar. This is rare and it matters — clarity at this level means every decision you make from here is grounded in fact, not anxiety."
+    },
+    q2: {
+      0: "No budget, no tracking. Money is moving through your life without you directing it. This is usually the very first thing to fix — not because budgeting is glamorous, but because it's the fastest route to feeling in control again.",
+      1: "You built a budget and stopped using it — which tells me the system didn't fit your life, not that you failed at it. The fix isn't more discipline. It's a simpler structure.",
+      2: "You track sometimes — inconsistency here usually means life gets in the way, not that the habit isn't there. A lighter, faster system might serve you better than a perfect one.",
+      3: "You track consistently. This single habit is one of the strongest predictors of long-term financial sovereignty — you've already built the foundation most people never get to."
+    },
+    q4: {
+      0: "Nothing is in your name alone. This is the most financially exposed position a woman can be in — everything you have depends on someone else's cooperation to access. This is urgent, not someday. Start with the Asset Protection Checklist this week.",
+      1: "Very little is solely yours. Even a small amount of assets in your name only changes your leverage entirely in any future negotiation or crisis.",
+      2: "You have some assets in your name — a real foundation. The next layer is making sure they're documented and legally unambiguous.",
+      3: "You hold significant assets solely in your name. This is exactly the kind of structural protection most women never build — you are not exposed the way most are."
+    },
+    q5: {
+      0: "No will, no protection documents. Statistically, this is most women — it's not negligence, it's that no one ever told you these documents are an act of self-love, not preparation for disaster. This is one of the highest-leverage hours you can spend this month.",
+      1: "Partial protection exists, but gaps remain. Identify exactly which document is missing — a will, power of attorney, beneficiary designations — and close that single gap first.",
+      2: "On your list, not done — the intention is there. The Scripts for Banks, Brokers & Lawyers tool gives you the exact words to finally make the appointment.",
+      3: "Fully protected. You've done what most women avoid for years. This is not a small thing — name it as the achievement it is."
+    },
+    q6: {
+      0: "Less than one month of runway. You are one disruption away from real crisis. This doesn't mean you've failed — for many women this is the direct cost of caregiving, underpayment, or controlled finances. It means runway-building is the single most urgent priority right now.",
+      1: "Less than three months. You have some buffer but not enough to feel safe. Building toward 3-6 months of runway should come before any other financial goal.",
+      2: "Three to twelve months of runway — real, meaningful security. From here the work shifts from survival to strategic growth.",
+      3: "Twelve or more months of runway. You have built genuine resilience. Few people — women or men — reach this level of preparedness."
+    },
+    q7: {
+      0: "No hard assets at all. Everything you hold is paper, digital, or dependent on a system staying intact. Gold is the most accessible entry point — something physical that exists outside any account, any court, any crisis.",
+      1: "You want hard assets but haven't started. The gap between wanting and owning is usually one decision — even a single gram of gold counts as a beginning.",
+      2: "You own property — a real hard asset, though concentrated in one form. Diversifying into a second hard asset class like gold reduces your dependency on any single market.",
+      3: "You hold hard assets deliberately and by design. This is sophisticated, intentional wealth architecture — you understand something most investors never grasp."
+    },
+    q8: {
+      0: "You don't currently invest in any form. Every year without compound growth is a year that's mathematically very hard to get back. Starting small beats waiting for the perfect moment — every time.",
+      1: "You've been meaning to start. The gap between intention and action is the single most expensive gap in personal finance — it usually just needs one specific first step, not more motivation.",
+      2: "You invest irregularly. Irregular is still real — but consistency, even at a smaller amount, compounds far more reliably than occasional larger contributions.",
+      3: "You invest regularly and intentionally. This is the behavior that separates people who build wealth from people who hope to. You're already doing it."
+    },
+    q9: {
+      0: "Your income depends entirely on one source. This is the most fragile income structure that exists — if that one source disappears, everything stops. Even one small additional stream changes your entire risk profile.",
+      1: "You're working on a second income source — that effort matters more than its current size. Keep building it even slowly.",
+      2: "You have one additional income source beyond your main role. You've already proven you can build outside a single paycheck — the next stream tends to come faster than the first.",
+      3: "Multiple income sources. You are not dependent on any single employer, client, or relationship for your survival. This is real structural freedom."
+    }
+  };
+
+  // Scale question insights (q3 confidence, q10 momentum) — banded by score range
+  function scaleInsight(value, lowText, midText, highText) {
+    if (value <= 3) return lowText;
+    if (value <= 7) return midText;
+    return highText;
+  }
+
+  function buildInsights() {
+    const parts = [];
+
+    // Find the single lowest-scoring multiple-choice answer — that becomes the lead insight
+    const mcKeys = ['q1','q2','q4','q5','q6','q7','q8','q9'];
+    const answeredMc = mcKeys.filter(k => scores[k] !== undefined);
+    if (answeredMc.length > 0) {
+      let lowestKey = answeredMc[0];
+      answeredMc.forEach(k => { if (scores[k] < scores[lowestKey]) lowestKey = k; });
+      const lowestVal = scores[lowestKey];
+      if (insightLibrary[lowestKey] && insightLibrary[lowestKey][lowestVal] !== undefined) {
+        parts.push(insightLibrary[lowestKey][lowestVal]);
+      }
+    }
+
+    // Confidence scale (q3) vs actual scores — flags a mismatch between how she feels and what's true
+    if (scores['q3'] !== undefined) {
+      const clarity = pct(['q1','q2','q3'], 3);
+      const confidenceScaled = scores['q3'] * 10; // 1-10 → 10-100
+      if (confidenceScaled - clarity > 25) {
+        parts.push(`You rated your financial confidence at ${scores['q3']}/10 — higher than your actual clarity score suggests. That gap is worth sitting with. Confidence without full visibility can feel like sovereignty while leaving you exposed.`);
+      } else if (clarity - confidenceScaled > 25) {
+        parts.push(`Your actual financial position is stronger than your confidence rating suggests. You may be underestimating the ground you've already built — that's worth naming, because doubt where it isn't earned can quietly hold you back from your next move.`);
+      }
+    }
+
+    // Free-text reflections — only included if she actually wrote something
+    const fear = document.getElementById('t_fear') ? document.getElementById('t_fear').value.trim() : '';
+    if (fear.length > 3) {
+      parts.push(`You named your biggest fear as: <strong>"${escapeHtml(fear)}"</strong> — Freya doesn't dismiss this. Naming the fear precisely is usually the first step to building the exact structure that neutralises it.`);
+    }
+
+    const decision = document.getElementById('t_decision') ? document.getElementById('t_decision').value.trim() : '';
+    if (decision.length > 3) {
+      parts.push(`The decision you've been putting off — <strong>"${escapeHtml(decision)}"</strong> — is usually the one that matters most precisely because you've been avoiding it. Most financial breakthroughs aren't found in new information. They're found in the one decision already known and not yet made.`);
+    }
+
+    const vision = document.getElementById('t_vision') ? document.getElementById('t_vision').value.trim() : '';
+    if (vision.length > 3) {
+      parts.push(`Your 5-year vision — <strong>"${escapeHtml(vision)}"</strong> — is not a fantasy. It's a specification. Everything in this audit exists to close the distance between where you are today and that exact sentence.`);
+    }
+
+    return parts;
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
   function updateScore() {
     const clarity = pct(['q1','q2','q3'], 3);
     const protect = pct(['q4','q5','q6','q7'], 3);
@@ -605,6 +721,16 @@
       verdict = `Your sovereign readiness score is <strong>${overall}%</strong>. You are already building. The question now is whether what you are building is <strong>truly yours</strong> — protected, diversified, and designed to outlast any crisis. The Sovereign Woman will take you the rest of the way.`;
     }
     document.getElementById('verdictText').innerHTML = verdict;
+
+    const insights = buildInsights();
+    const insightsBox = document.getElementById('insightsBox');
+    const insightsText = document.getElementById('insightsText');
+    if (insights.length > 0) {
+      insightsBox.style.display = 'block';
+      insightsText.innerHTML = insights.map(p => `<p style="margin-bottom:16px;">${p}</p>`).join('');
+    } else {
+      insightsBox.style.display = 'none';
+    }
   }
 
   updateScore();
@@ -625,13 +751,13 @@
         if (theme === 'rose') {
           dot.style.background = '#c9a84c';
           label.textContent = 'Obsidian Room';
-          if (homeLink) homeLink.href = '/the_sovereign/index.html';
-          if (brandLink) brandLink.href = '/the_sovereign/index.html';
+          if (homeLink) homeLink.href = '/the_sovereign/obsidian-room.html';
+          if (brandLink) brandLink.href = '/the_sovereign/obsidian-room.html';
         } else {
           dot.style.background = '#DB9AA4';
           label.textContent = 'Rose Room';
-          if (homeLink) homeLink.href = '/the_sovereign/index.html';
-          if (brandLink) brandLink.href = '/the_sovereign/index.html';
+          if (homeLink) homeLink.href = '/the_sovereign/obsidian-room.html';
+          if (brandLink) brandLink.href = '/the_sovereign/obsidian-room.html';
         }
       }
       if (save) localStorage.setItem('sov-theme', theme);
