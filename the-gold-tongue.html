@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Gold Tongue — The Sovereign Woman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root[data-theme="dark"] {
+    --gold: #c9a84c;
+    --gold-light: #f0d080;
+    --gold-dim: rgba(201,168,76,0.12);
+    --black: #080808;
+    --surface: #121212;
+    --surface2: #1a1a1a;
+    --text: #f5f0e8;
+    --text-muted: #9a9080;
+    --text-dim: #4a4438;
+    --border: rgba(201,168,76,0.15);
+    --border-strong: rgba(201,168,76,0.35);
+  }
+
+  :root[data-theme="rose"] {
+    --gold: #B55E75;
+    --gold-light: #DB9AA4;
+    --gold-dim: rgba(181,94,117,0.10);
+    --black: #fdf6f0;
+    --surface: #ffffff;
+    --surface2: #f9eff3;
+    --text: #2e1a22;
+    --text-muted: #7a4a58;
+    --text-dim: #b89aa4;
+    --border: rgba(181,94,117,0.15);
+    --border-strong: rgba(181,94,117,0.35);
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--text); font-family: 'Montserrat', sans-serif; min-height: 100vh; padding-bottom: 100px; transition: background 0.3s, color 0.3s; }
+  ::selection { background: var(--gold-dim); }
+
+  .gold-bar { height: 2px; background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent); }
+
+  nav.sov-nav {
+    padding: 16px 40px; border-bottom: 1px solid var(--border); display: flex; align-items: center;
+    justify-content: space-between; position: sticky; top: 0; z-index: 200; background: var(--black); backdrop-filter: blur(12px);
+  }
+  .sov-nav-left { display: flex; align-items: center; gap: 20px; }
+  .sov-back { font-size: 10px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); text-decoration: none; display: flex; align-items: center; gap: 6px; opacity: 0.7; transition: opacity 0.2s; }
+  .sov-back:hover { opacity: 1; }
+  .sov-back::before { content: '←'; font-size: 14px; }
+  .sov-brand { font-family: 'Playfair Display', serif; font-size: 12px; font-style: italic; color: var(--gold); letter-spacing: 0.1em; text-decoration: none; }
+  .sov-room-toggle { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; border: 1px solid var(--border); padding: 6px 14px; display: flex; align-items: center; gap: 7px; transition: border-color 0.2s, color 0.2s; cursor: pointer; background: none; }
+  .sov-room-toggle:hover { border-color: var(--gold); color: var(--gold); }
+  .sov-room-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--gold); }
+
+  .hero { padding: 64px 40px 36px; max-width: 720px; margin: 0 auto; text-align: center; }
+  .hero-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(34px, 6vw, 58px); font-weight: 900; line-height: 1.0; color: var(--text); margin-bottom: 16px; }
+  .hero-title em { font-style: italic; color: var(--gold); display: block; }
+  .hero-sub { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-style: italic; color: var(--text-muted); line-height: 1.7; max-width: 540px; margin: 0 auto; }
+
+  .search-wrap { max-width: 560px; margin: 32px auto 0; position: relative; }
+  .search-input {
+    width: 100%; background: var(--surface); border: 1px solid var(--border); padding: 14px 20px 14px 44px;
+    color: var(--text); font-family: 'Montserrat', sans-serif; font-size: 13px; outline: none; transition: border-color 0.2s;
+  }
+  .search-input:focus { border-color: var(--gold); }
+  .search-input::placeholder { color: var(--text-dim); }
+  .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-dim); font-size: 14px; pointer-events: none; }
+  .search-count { text-align: center; font-size: 11px; color: var(--text-dim); margin-top: 10px; letter-spacing: 0.05em; }
+
+  .terms-wrap { max-width: 760px; margin: 40px auto 0; padding: 0 40px; }
+  .term-card { padding: 24px 0; border-bottom: 1px solid var(--border); }
+  .term-card:last-child { border-bottom: none; }
+  .term-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+  .term-name { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: var(--text); }
+  .term-tag { font-size: 8px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); border: 1px solid var(--border-strong); padding: 3px 9px; }
+  .term-wink { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-style: italic; color: var(--gold-light); line-height: 1.6; margin-bottom: 8px; }
+  .term-def { font-size: 13px; color: var(--text-muted); line-height: 1.75; }
+
+  .empty-state { text-align: center; padding: 60px 20px; display: none; }
+  .empty-state.show { display: block; }
+  .empty-state-text { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--text-dim); }
+
+  footer { padding: 40px; text-align: center; font-size: 10px; color: var(--text-dim); letter-spacing: 0.05em; }
+
+  @media (max-width: 600px) {
+    nav.sov-nav { padding: 14px 18px; }
+    .hero { padding: 48px 20px 28px; }
+    .terms-wrap { padding: 0 20px; }
+    .search-wrap { padding: 0 20px; }
+  }
+</style>
+</head>
+<body data-theme="dark">
+
+<div class="gold-bar"></div>
+<nav class="sov-nav">
+  <div class="sov-nav-left">
+    <a href="/the_sovereign/obsidian-room.html" class="sov-back" id="navHomeLink">Home</a>
+    <a href="/the_sovereign/obsidian-room.html" class="sov-brand" id="navBrandLink">The Sovereign Woman</a>
+  </div>
+  <button class="sov-room-toggle" onclick="toggleTheme()">
+    <div class="sov-room-dot"></div>
+    <span id="toggleLabel">Switch to Rose Room</span>
+  </button>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">By Freya</div>
+  <h1 class="hero-title">The Gold<br><em>Tongue.</em></h1>
+  <p class="hero-sub">Every word the dealer assumes you already know. Now you do — and you'll never let them see you flinch again.</p>
+
+  <div class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input type="text" class="search-input" id="searchInput" placeholder="Search a term..." oninput="filterTerms()">
+  </div>
+  <div class="search-count" id="searchCount"></div>
+</div>
+
+<div class="terms-wrap" id="termsWrap"></div>
+
+<div class="empty-state" id="emptyState">
+  <div class="empty-state-text">Nothing found. Even Freya doesn't know that one yet — try another word.</div>
+</div>
+
+<footer>The Sovereign Woman — She is not broken. She is the blueprint.</footer>
+
+<script>
+  const terms = [
+    { name: "Spot price", wink: "The price right now. Not yesterday's price. Not what your uncle paid in 2009.", def: "The current market price for one ounce of gold, set continuously by global trading. Every other price you'll hear — premium, dealer price, melt value — is calculated starting from this number." },
+    { name: "Premium", wink: "The dealer's polite way of saying 'plus our cut.'", def: "The amount added on top of spot price to cover minting, distribution, and dealer margin. A fair premium on common coins is usually 3–8% over spot. If someone quotes you 25% over spot for a standard coin, that's not a deal — that's a tell." },
+    { name: "Troy ounce", wink: "Not the ounce on your kitchen scale. Gold plays by its own rules.", def: "The standard unit of weight for precious metals — about 31.1 grams, slightly heavier than a regular (avoirdupois) ounce. Every gold price you see quoted is per troy ounce unless stated otherwise." },
+    { name: "Assay", wink: "Gold's background check.", def: "The official testing process that verifies a piece of gold's purity and weight. An assay certificate is your proof — keep it with anything you buy, especially bars." },
+    { name: "Hallmark", wink: "Gold's signature, stamped in.", def: "A small official mark stamped into gold jewelry or bars indicating purity (like 999.9 or 24K) and sometimes the maker or refiner. Always check for one before buying — its absence is a red flag, not a quirky detail." },
+    { name: "Karat (or carat)", wink: "Not the orange vegetable. Don't get this one wrong out loud.", def: "A measure of gold purity out of 24 parts. 24K is pure gold. 18K is 75% gold. 14K is about 58%. Jewelry is rarely 24K because pure gold is soft — it gets mixed with other metals for durability." },
+    { name: "Fineness", wink: "Karat's more precise, more European cousin.", def: "Gold purity expressed as parts per thousand instead of out of 24. 999.9 fineness means 99.99% pure gold — the standard for investment-grade bars and coins." },
+    { name: "LBMA", wink: "The club that decides what 'good' gold actually means.", def: "The London Bullion Market Association — the body that sets global standards for gold and silver trading, including the 'Good Delivery' list of refiners whose bars are trusted worldwide. A bar from an LBMA-accredited refiner is the safest kind to buy." },
+    { name: "Bullion", wink: "Gold in its most honest form — no decoration, no story, just weight.", def: "Gold (or silver) in bulk form — bars or coins — valued purely for its metal content rather than rarity or design. This is the category you want for investment, as opposed to collectible or numismatic pieces." },
+    { name: "Numismatic", wink: "When the gold itself is almost beside the point.", def: "Coins valued for their rarity, history, or condition — sometimes far above their actual gold content. Beautiful to collect, risky to rely on as a financial asset, since that extra value depends entirely on collector demand." },
+    { name: "Allocated storage", wink: "Your gold, in a box with your name on it. Not 'somewhere in the building.'", def: "A storage arrangement where specific, identifiable bars or coins are set aside as yours alone — not pooled with anyone else's. More expensive than unallocated storage, but it means what you bought is what you'll get back." },
+    { name: "Unallocated storage", wink: "Your gold, theoretically. Somewhere. Probably.", def: "A storage arrangement where you own a claim to a certain weight of gold, but not specific identifiable bars — the gold is pooled with other clients'. Cheaper, but it carries counterparty risk: you're trusting the institution, not holding the asset." },
+    { name: "Melt value", wink: "What's left when you strip away the story.", def: "The value of an item based purely on its gold content if melted down, ignoring design, brand, or collectibility. Useful as a baseline — if a piece is selling for far above melt value, you're paying for something other than the gold." },
+    { name: "Buyback rate", wink: "The question that tells you who you're really dealing with.", def: "The price a dealer will pay you to sell your gold back to them, usually below spot price. A reputable dealer's buyback rate stays close to spot. A wide gap between their sell price and buyback price is where the real cost of a 'deal' often hides." },
+    { name: "Krugerrand", wink: "The coin most likely to come up if you mention 'gold coin' to literally anyone.", def: "A South African gold coin, first minted in 1967 — one of the most widely recognized and traded bullion coins in the world, valued for its high liquidity." },
+    { name: "American Gold Eagle", wink: "America's answer to the Krugerrand — same idea, different passport.", def: "The official gold bullion coin of the United States, backed by the U.S. government and guaranteed for weight and purity. A common choice for U.S.-based buyers." },
+    { name: "Liquidity", wink: "How fast you could turn this into rent money if you had to.", def: "How quickly and easily an asset can be sold for cash without losing value. Common gold coins are highly liquid — easy to sell almost anywhere. Rare numismatic pieces or oddly-sized bars can be much harder to offload quickly." },
+    { name: "Hedge", wink: "The financial world's version of an umbrella you hope you never need.", def: "An asset held specifically to protect against losses elsewhere — gold is the classic hedge against inflation, currency devaluation, and market crashes, because it tends to hold or gain value when other assets fall." },
+    { name: "Inflation hedge", wink: "Why your grandmother was onto something.", def: "An asset that tends to maintain or increase its value as the cost of living rises, protecting your purchasing power. Gold has held this role for literal millennia, which is more than can be said for most currencies." },
+    { name: "Counterparty risk", wink: "The risk that the other person in the deal... isn't actually good for it.", def: "The risk that the other party in a transaction — a bank, dealer, or storage company — fails to deliver on their obligation. Physical gold you hold yourself has zero counterparty risk. Gold in a third party's vault, an ETF, or a paper contract does not." },
+    { name: "Gold ETF", wink: "Gold, but you never actually get to hold it.", def: "An Exchange-Traded Fund that tracks the price of gold without you owning physical metal — you own shares representing gold, traded like a stock. Convenient and liquid, but it carries counterparty and custodial risk that physical ownership does not." },
+    { name: "Paper gold", wink: "A promise shaped like gold.", def: "Any gold investment that isn't physical — ETFs, futures contracts, certificates. You're exposed to gold's price movement, but you don't hold the actual metal, and in a real crisis that distinction can matter enormously." },
+    { name: "Vaulting", wink: "Where your gold sleeps at night.", def: "Secure, professional storage for physical precious metals, usually offered by specialized companies, banks, or refiners — often available as allocated or unallocated, insured against theft and loss." },
+    { name: "VAT exemption (investment gold)", wink: "The tax break that makes gold coins more attractive than gold jewelry.", def: "In many countries and regions, investment-grade gold (above a certain purity, in coin or bar form) is exempt from value-added tax, while gold jewelry typically is not. This is a major reason serious buyers favor coins and bars over decorative pieces." },
+    { name: "Capital gains", wink: "The good kind of math — when your gold is worth more than you paid.", def: "The profit made when you sell an asset for more than you paid for it. Depending on your country, gold held for personal investment may be taxed differently than gold held through a business — always worth checking your local rules before selling." },
+    { name: "Cost basis", wink: "What you actually paid, on paper, for tax day.", def: "The original purchase price of an asset, used to calculate gain or loss when you eventually sell. Always keep your purchase receipts — without a documented cost basis, you may be taxed as if your entire sale was pure profit." },
+    { name: "Tangible asset", wink: "The opposite of a number on a screen that someone else controls.", def: "A physical asset you can hold, see, and touch — as opposed to a financial instrument that exists only as an entry in someone else's system. Gold, property, and art are tangible. Stocks, bonds, and most savings are not." },
+    { name: "Diversification", wink: "Not keeping all your eggs anywhere near one basket.", def: "Spreading wealth across different types of assets so that no single market crash, currency collapse, or institutional failure can wipe out everything you have. Gold is a classic diversification tool precisely because it often moves differently than stocks and bonds." },
+    { name: "Safe haven asset", wink: "What people run toward when everything else is on fire.", def: "An asset that investors flock to during economic uncertainty or crisis because it tends to hold value when other assets fall. Gold has held this role through wars, currency collapses, and financial crashes for thousands of years." },
+    { name: "Bullion bank", wink: "Not your neighborhood branch. A different animal entirely.", def: "A bank that deals specifically in gold and silver bullion — trading, storing, and sometimes lending it. These are typically major institutions operating at a scale far beyond personal retail buying." },
+    { name: "Refiner", wink: "The one who turns raw gold into something with a name you trust.", def: "A company that processes raw or scrap gold into pure, standardized bars or coins, usually stamping their own hallmark as a guarantee of purity. Buying from an LBMA-accredited refiner is one of the simplest ways to avoid being scammed." },
+    { name: "Good Delivery list", wink: "Gold's version of a five-star rating, but it actually means something.", def: "The LBMA's official list of approved refiners whose gold bars meet strict standards for purity and are accepted in major global markets without further testing. Buying bars from a Good Delivery refiner is one of the safest moves a new buyer can make." },
+    { name: "Coin dealer premium", wink: "The exact moment a 'deal' might not be one.", def: "The premium specifically charged by a coin dealer, which can vary significantly between dealers for the exact same coin. Always compare premiums across at least 2–3 reputable dealers before buying — the spread is often bigger than people expect." },
+    { name: "Junk silver", wink: "Despite the name, not actually junk — just not investment-grade.", def: "Old circulated silver coins valued for their metal content rather than condition or rarity. The silver equivalent of bullion coins — a budget-friendly entry point into precious metals." },
+    { name: "Numismatic premium", wink: "When you're not just buying metal — you're buying a story.", def: "The extra amount paid for a coin's rarity, history, or condition, above and beyond its metal value. Lovely for collectors. Risky as your primary wealth strategy, because that premium can evaporate if collector interest shifts." },
+    { name: "TPV (Transaction en Petites Valeurs)", wink: "French regulatory language, but the concept matters everywhere.", def: "A French regulatory threshold for transactions in precious metals and currency below a certain value, which determines the level of identity verification and documentation required. The exact rules vary by country, but most have some equivalent threshold system." },
+    { name: "TMP (Transaction en Métaux Précieux)", wink: "More French regulatory language — but this is the one about the metal itself.", def: "A regulatory category specifically covering precious metals transactions in French compliance frameworks (LCB-FT), used to determine reporting and documentation requirements depending on transaction size." },
+    { name: "LCB-FT", wink: "The acronym every gold professional in France has memorized whether they wanted to or not.", def: "Lutte Contre le Blanchiment de Capitaux et le Financement du Terrorisme — France's anti-money-laundering and counter-terrorism-financing regulatory framework, which governs identity verification and reporting in precious metals and currency exchange." },
+    { name: "Gold IRA", wink: "Retirement savings, but make it physical.", def: "A self-directed individual retirement account (U.S.) that allows physical gold and other precious metals as part of your retirement portfolio, subject to specific IRS rules on purity, storage, and custodianship." },
+    { name: "Spot month contract", wink: "Trading-floor language — useful to recognize, rarely useful to use yourself.", def: "In futures trading, the contract month closest to the current date. Relevant mostly to active traders and institutions, not to someone buying physical gold for personal wealth protection." },
+    { name: "Contango / backwardation", wink: "Words that sound made up. They are not.", def: "Terms describing the relationship between spot price and futures prices — contango means futures are priced higher than spot, backwardation means the opposite. Mostly relevant to traders; physical buyers rarely need to think about this." },
+    { name: "Melt-and-assay fee", wink: "The fine print on selling back jewelry, specifically.", def: "A fee some refiners or dealers charge to melt down and verify the purity of gold jewelry or scrap before paying out its value. Worth asking about upfront — it can meaningfully change what you actually walk away with." },
+    { name: "Good faith deposit", wink: "Skin in the game, before the real money moves.", def: "A partial payment made to secure a larger transaction, common in larger precious metals or real estate deals, showing serious intent before final terms are settled." },
+    { name: "Repatriation (of gold)", wink: "When a country wants its gold to come home.", def: "The act of physically returning gold reserves from foreign storage back to a home country — something several national central banks have done in recent years, often cited as a signal of shifting trust in international financial systems." },
+    { name: "Central bank gold reserves", wink: "The biggest, quietest gold buyers on the planet.", def: "Gold held by national central banks as part of their official foreign exchange reserves — used to back currency stability and as a long-term store of national wealth. Central bank buying trends are one of the more reliable long-term signals for gold demand." },
+    { name: "Gold-to-silver ratio", wink: "The number serious metals people quietly check more than they'd admit.", def: "The number of ounces of silver it takes to equal the value of one ounce of gold. Historically used by some investors to time entry points between the two metals, though it's more art than science." },
+    { name: "Scrap gold", wink: "Jewelry that's lived its life and is ready to become something else.", def: "Broken, outdated, or unwanted gold jewelry sold for its metal content rather than its design — usually valued near melt value minus a processing fee." },
+    { name: "Proof coin", wink: "The coin that's never touched a pocket.", def: "A coin struck using a special high-quality process for collectors, with a mirror-like finish, typically sold at a premium above standard bullion coins of the same weight." },
+    { name: "Sovereign coin", wink: "Not a coincidence this one made the list.", def: "Historically, a British gold coin originally meant for circulation, now traded as a bullion and collectible coin — also, more broadly, a fitting word for any coin minted under a nation's own authority and backing." },
+    { name: "999 vs 9999 fineness", wink: "Two nines versus four nines — and yes, it matters.", def: "999 fineness means 99.9% pure gold; 9999 (or 'four nines') means 99.99% pure — the higher standard typically used for investment-grade bars from top refiners. Both are considered investment grade, but 9999 is the gold standard, literally." },
+    { name: "Smelting", wink: "Where raw gold ore starts becoming the thing you'll eventually hold.", def: "The process of extracting metal from ore through heat and chemical processing — the industrial first step long before gold ever reaches coin or bar form." },
+    { name: "Free trade zone (gold)", wink: "Where gold moves quietly across borders.", def: "Designated areas where precious metals can be stored, traded, or transferred with reduced customs duties and taxes — used by some international investors and dealers as part of larger transactions." }
+  ];
+
+  const termsWrap = document.getElementById('termsWrap');
+  const emptyState = document.getElementById('emptyState');
+  const searchCount = document.getElementById('searchCount');
+
+  function renderTerms(list) {
+    termsWrap.innerHTML = list.map(t => `
+      <div class="term-card">
+        <div class="term-head">
+          <div class="term-name">${t.name}</div>
+        </div>
+        <div class="term-wink">${t.wink}</div>
+        <div class="term-def">${t.def}</div>
+      </div>
+    `).join('');
+  }
+
+  function filterTerms() {
+    const q = document.getElementById('searchInput').value.trim().toLowerCase();
+    if (!q) {
+      renderTerms(terms);
+      emptyState.classList.remove('show');
+      searchCount.textContent = terms.length + ' terms in The Gold Tongue';
+      return;
+    }
+    const filtered = terms.filter(t =>
+      t.name.toLowerCase().includes(q) ||
+      t.def.toLowerCase().includes(q) ||
+      t.wink.toLowerCase().includes(q)
+    );
+    renderTerms(filtered);
+    if (filtered.length === 0) {
+      emptyState.classList.add('show');
+      searchCount.textContent = '';
+    } else {
+      emptyState.classList.remove('show');
+      searchCount.textContent = filtered.length + ' of ' + terms.length + ' terms';
+    }
+  }
+
+  renderTerms(terms);
+  searchCount.textContent = terms.length + ' terms in The Gold Tongue';
+
+  (function() {
+    const saved = localStorage.getItem('sov-theme-pref');
+    if (saved === 'rose') {
+      document.documentElement.setAttribute('data-theme', 'rose');
+      document.getElementById('toggleLabel').textContent = 'Switch to Obsidian Room';
+    }
+  })();
+
+  window.toggleTheme = function() {
+    const root = document.documentElement;
+    const current = root.getAttribute('data-theme');
+    const next = current === 'dark' ? 'rose' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('sov-theme-pref', next);
+    document.getElementById('toggleLabel').textContent = next === 'dark' ? 'Switch to Rose Room' : 'Switch to Obsidian Room';
+  };
+</script>
+
+</body>
+</html>
