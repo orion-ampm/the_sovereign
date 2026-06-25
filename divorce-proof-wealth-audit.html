@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Divorce-Proof Wealth Audit — The Sovereign Woman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root[data-theme="dark"] {
+    --gold: #c9a84c;
+    --gold-light: #f0d080;
+    --gold-dim: rgba(201,168,76,0.12);
+    --black: #080808;
+    --surface: #121212;
+    --surface2: #1a1a1a;
+    --text: #f5f0e8;
+    --text-muted: #9a9080;
+    --text-dim: #4a4438;
+    --border: rgba(201,168,76,0.15);
+    --border-strong: rgba(201,168,76,0.35);
+    --exposed: #c9534a;
+    --exposed-dim: rgba(201,83,74,0.14);
+    --partial: #c9a84c;
+    --partial-dim: rgba(201,168,76,0.14);
+    --protected: #6fae8f;
+    --protected-dim: rgba(111,174,143,0.14);
+    --toggle-label: "Switch to Rose Room";
+  }
+
+  :root[data-theme="rose"] {
+    --gold: #B55E75;
+    --gold-light: #DB9AA4;
+    --gold-dim: rgba(181,94,117,0.10);
+    --black: #fdf6f0;
+    --surface: #ffffff;
+    --surface2: #f9eff3;
+    --text: #2e1a22;
+    --text-muted: #7a4a58;
+    --text-dim: #b89aa4;
+    --border: rgba(181,94,117,0.15);
+    --border-strong: rgba(181,94,117,0.35);
+    --exposed: #b5544a;
+    --exposed-dim: rgba(181,84,74,0.10);
+    --partial: #B55E75;
+    --partial-dim: rgba(181,94,117,0.10);
+    --protected: #5a9379;
+    --protected-dim: rgba(90,147,121,0.10);
+    --toggle-label: "Switch to Obsidian Room";
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    padding-bottom: 100px;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  ::selection { background: var(--gold-dim); }
+
+  /* TOPBAR */
+  .gold-bar { height: 2px; background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent); }
+
+  nav.sov-nav {
+    padding: 16px 40px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: var(--black);
+    backdrop-filter: blur(12px);
+  }
+  .sov-nav-left { display: flex; align-items: center; gap: 20px; }
+  .sov-back {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--gold); text-decoration: none; display: flex; align-items: center; gap: 6px;
+    opacity: 0.7; transition: opacity 0.2s;
+  }
+  .sov-back:hover { opacity: 1; }
+  .sov-back::before { content: '←'; font-size: 14px; }
+  .sov-brand { font-family: 'Playfair Display', serif; font-size: 12px; font-style: italic; color: var(--gold); letter-spacing: 0.1em; text-decoration: none; }
+  .sov-room-toggle {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--text-muted); text-decoration: none; border: 1px solid var(--border); padding: 6px 14px;
+    display: flex; align-items: center; gap: 7px; transition: border-color 0.2s, color 0.2s; cursor: pointer; background: none;
+  }
+  .sov-room-toggle:hover { border-color: var(--gold); color: var(--gold); }
+  .sov-room-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--gold); }
+
+  /* HERO */
+  .hero { padding: 64px 40px 40px; max-width: 760px; margin: 0 auto; text-align: center; }
+  .hero-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(30px, 5.5vw, 52px); font-weight: 900; line-height: 1.05; color: var(--text); margin-bottom: 16px; }
+  .hero-title em { font-style: italic; color: var(--gold); display: block; }
+  .hero-sub { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-style: italic; color: var(--text-muted); line-height: 1.7; max-width: 560px; margin: 0 auto; }
+  .hero-note {
+    margin-top: 28px; font-size: 12px; color: var(--text-dim); line-height: 1.7; max-width: 480px; margin-left: auto; margin-right: auto;
+    border-top: 1px solid var(--border); padding-top: 20px;
+  }
+  .hero-note strong { color: var(--text-muted); font-weight: 600; }
+
+  /* LIVE MAP — sticky on desktop */
+  .audit-wrap { display: grid; grid-template-columns: 1fr 320px; gap: 32px; max-width: 1180px; margin: 0 auto; padding: 0 40px; align-items: start; }
+  .audit-main { min-width: 0; }
+  .map-rail { position: sticky; top: 80px; }
+
+  .map-card {
+    background: var(--surface); border: 1px solid var(--border); padding: 28px 24px;
+  }
+  .map-title { font-size: 9px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+  .map-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .map-row:last-child { border-bottom: none; }
+  .map-cat { font-size: 12px; color: var(--text); font-weight: 500; }
+  .map-status {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 2px; white-space: nowrap;
+  }
+  .map-status.pending { background: var(--surface2); color: var(--text-dim); }
+  .map-status.exposed { background: var(--exposed-dim); color: var(--exposed); }
+  .map-status.partial { background: var(--partial-dim); color: var(--partial); }
+  .map-status.protected { background: var(--protected-dim); color: var(--protected); }
+
+  .map-overall { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-strong); text-align: center; }
+  .map-overall-label { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
+  .map-overall-num { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 900; color: var(--gold); line-height: 1; }
+  .map-overall-sub { font-size: 10px; color: var(--text-dim); margin-top: 6px; line-height: 1.5; }
+
+  /* SECTIONS */
+  .section { padding: 48px 0 16px; border-top: 1px solid var(--border); }
+  .section:first-child { border-top: none; padding-top: 0; }
+  .section-num { font-size: 9px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--text); }
+  .section-desc { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-style: italic; color: var(--text-muted); margin-top: 8px; line-height: 1.6; max-width: 560px; }
+
+  .question { margin-top: 28px; }
+  .q-text { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 12px; line-height: 1.6; }
+  .q-hint { font-size: 11px; color: var(--text-dim); margin-bottom: 10px; font-style: italic; margin-top: -6px; }
+
+  .options-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .opt-btn {
+    background: var(--surface); border: 1px solid var(--border); color: var(--text-muted);
+    font-family: 'Montserrat', sans-serif; font-size: 12px; padding: 11px 16px; cursor: pointer;
+    transition: all 0.2s; text-align: left;
+  }
+  .opt-btn:hover { border-color: var(--border-strong); color: var(--text); }
+  .opt-btn.selected { background: var(--gold-dim); border-color: var(--gold); color: var(--text); }
+
+  textarea {
+    width: 100%; background: var(--surface); border: 1px solid var(--border); padding: 16px 18px;
+    color: var(--text); font-family: 'Cormorant Garamond', serif; font-size: 16px; min-height: 80px;
+    resize: vertical; outline: none; transition: border-color 0.2s;
+  }
+  textarea:focus { border-color: var(--gold); }
+  textarea::placeholder { color: var(--text-dim); font-style: italic; }
+
+  /* INSIGHT CALLOUT — appears inline after relevant answers */
+  .inline-insight {
+    margin-top: 14px; padding: 14px 18px; background: var(--gold-dim); border-left: 2px solid var(--gold);
+    font-size: 12px; color: var(--text-muted); line-height: 1.7; display: none;
+  }
+  .inline-insight.show { display: block; }
+  .inline-insight strong { color: var(--text); font-weight: 600; }
+
+  /* VERDICT / CERTIFICATE */
+  .certificate {
+    margin-top: 56px; padding: 40px 36px; background: var(--surface); border: 1px solid var(--border-strong);
+    position: relative;
+  }
+  .certificate::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+  }
+  .cert-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .cert-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 900; color: var(--text); margin-bottom: 20px; }
+  .cert-body { font-size: 13px; color: var(--text-muted); line-height: 1.8; }
+  .cert-body p { margin-bottom: 16px; }
+  .cert-body strong { color: var(--text); font-weight: 600; }
+
+  .priority-list { margin-top: 8px; }
+  .priority-item {
+    display: flex; gap: 14px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--border);
+  }
+  .priority-item:last-child { border-bottom: none; }
+  .priority-rank {
+    width: 26px; height: 26px; border-radius: 50%; background: var(--gold); color: var(--black);
+    display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+  }
+  .priority-text { font-size: 13px; color: var(--text); line-height: 1.6; }
+  .priority-text strong { font-weight: 600; }
+
+  .quoted-block {
+    margin-top: 20px; padding: 18px 20px; border-left: 2px solid var(--border-strong); background: var(--surface2);
+  }
+  .quoted-label { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
+  .quoted-text { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-style: italic; color: var(--text); line-height: 1.7; }
+
+  .cert-actions { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+  .cert-btn {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 14px 24px;
+    cursor: pointer; border: none; transition: all 0.2s; font-family: 'Montserrat', sans-serif;
+  }
+  .cert-btn.primary { background: var(--gold); color: var(--black); }
+  .cert-btn.primary:hover { background: var(--gold-light); }
+  .cert-btn.secondary { background: transparent; color: var(--gold); border: 1px solid var(--border-strong); }
+  .cert-btn.secondary:hover { border-color: var(--gold); }
+
+  .disclaimer {
+    margin-top: 24px; font-size: 10px; color: var(--text-dim); line-height: 1.7; font-style: italic;
+    border-top: 1px solid var(--border); padding-top: 16px;
+  }
+
+  footer { padding: 40px; text-align: center; font-size: 10px; color: var(--text-dim); letter-spacing: 0.05em; }
+
+  /* PRINT */
+  @media print {
+    nav, .map-rail, .cert-actions, footer { display: none !important; }
+    body { background: white; color: black; padding-bottom: 0; }
+    .certificate { border: 1px solid #ccc; }
+  }
+
+  /* MOBILE */
+  @media (max-width: 880px) {
+    .audit-wrap { grid-template-columns: 1fr; padding: 0 20px; }
+    .map-rail { position: static; order: -1; margin-bottom: 32px; }
+    .hero { padding: 48px 20px 32px; }
+    nav.sov-nav { padding: 14px 18px; }
+  }
+</style>
+</head>
+<body data-theme="dark">
+
+<div class="gold-bar"></div>
+<nav class="sov-nav">
+  <div class="sov-nav-left">
+    <a href="/the_sovereign/obsidian-room.html" class="sov-back" id="navHomeLink">Home</a>
+    <a href="/the_sovereign/obsidian-room.html" class="sov-brand" id="navBrandLink">The Sovereign Woman</a>
+  </div>
+  <button class="sov-room-toggle" onclick="toggleTheme()">
+    <div class="sov-room-dot"></div>
+    <span id="toggleLabel">Switch to Rose Room</span>
+  </button>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">The Divorce-Proof Wealth Audit</div>
+  <h1 class="hero-title">What is yours.<br><em>What is not.</em></h1>
+  <p class="hero-sub">A guided map of what you actually own, what you'd lose tomorrow, and exactly what to do about it — before you need to.</p>
+  <p class="hero-note"><strong>This is not legal advice.</strong> Freya is not a lawyer. This audit gives you the questions a lawyer would ask, so you walk into that conversation already knowing your own answers.</p>
+</div>
+
+<div class="audit-wrap">
+
+  <div class="audit-main">
+
+    <!-- SECTION 1 -->
+    <div class="section">
+      <div class="section-num">Section 01</div>
+      <div class="section-title">What you hold</div>
+      <div class="section-desc">Not what's shared. Not what's promised. What is, right now, provably yours.</div>
+
+      <div class="question">
+        <div class="q-text">Is your home — or the home you live in — in your name?</div>
+        <div class="options-row" id="q1">
+          <button class="opt-btn" onclick="select('q1',this,3,'q1')">Yes, solely in my name</button>
+          <button class="opt-btn" onclick="select('q1',this,2,'q1')">Jointly, with clear agreement</button>
+          <button class="opt-btn" onclick="select('q1',this,1,'q1')">Jointly, no clear agreement</button>
+          <button class="opt-btn" onclick="select('q1',this,0,'q1')">Not in my name at all</button>
+        </div>
+        <div class="inline-insight" id="insight-q1"></div>
+      </div>
+
+      <div class="question">
+        <div class="q-text">Do you have savings, investments, or accounts that are yours alone — not joint, not shared?</div>
+        <div class="options-row" id="q2">
+          <button class="opt-btn" onclick="select('q2',this,3,'q2')">Yes, meaningful amounts</button>
+          <button class="opt-btn" onclick="select('q2',this,2,'q2')">Some, but modest</button>
+          <button class="opt-btn" onclick="select('q2',this,1,'q2')">A little, almost nothing</button>
+          <button class="opt-btn" onclick="select('q2',this,0,'q2')">Nothing — everything is joint or shared</button>
+        </div>
+        <div class="inline-insight" id="insight-q2"></div>
+      </div>
+
+      <div class="question">
+        <div class="q-text">Do you own any physical, hard assets — gold, jewelry of real value, property — independent of any market or institution?</div>
+        <div class="options-row" id="q3">
+          <button class="opt-btn" onclick="select('q3',this,3,'q3')">Yes, deliberately acquired</button>
+          <button class="opt-btn" onclick="select('q3',this,2,'q3')">Some, mostly inherited or gifted</button>
+          <button class="opt-btn" onclick="select('q3',this,1,'q3')">Very little</button>
+          <button class="opt-btn" onclick="select('q3',this,0,'q3')">None</button>
+        </div>
+        <div class="inline-insight" id="insight-q3"></div>
+      </div>
+
+      <div class="question">
+        <div class="q-text">If you had to prove what you brought into this relationship financially — could you, with documents?</div>
+        <div class="options-row" id="q4">
+          <button class="opt-btn" onclick="select('q4',this,3,'q4')">Yes, fully documented</button>
+          <button class="opt-btn" onclick="select('q4',this,2,'q4')">Mostly, with some gaps</button>
+          <button class="opt-btn" onclick="select('q4',this,1,'q4')">Barely — a few records</button>
+          <button class="opt-btn" onclick="select('q4',this,0,'q4')">No, I have nothing documented</button>
+        </div>
+        <div class="inline-insight" id="insight-q4"></div>
+      </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="section">
+      <div class="section-num">Section 02</div>
+      <div class="section-title">What you'd need</div>
+      <div class="section-desc">If everything changed tomorrow — not someday, tomorrow — what would actually sustain you.</div>
+
+      <div class="question">
+        <div class="q-text">If your relationship ended this month, how long could you financially sustain yourself and any children, without depending on the other person?</div>
+        <div class="options-row" id="q5">
+          <button class="opt-btn" onclick="select('q5',this,3,'q5')">12+ months</button>
+          <button class="opt-btn" onclick="select('q5',this,2,'q5')">3–12 months</button>
+          <button class="opt-btn" onclick="select('q5',this,1,'q5')">Less than 3 months</button>
+          <button class="opt-btn" onclick="select('q5',this,0,'q5')">I genuinely don't know</button>
+        </div>
+        <div class="inline-insight" id="insight-q5"></div>
+      </div>
+
+      <div class="question">
+        <div class="q-text">Is your income — or your name — on file with your country's tax authority, independent of your partner's filing?</div>
+        <div class="options-row" id="q6">
+          <button class="opt-btn" onclick="select('q6',this,3,'q6')">Yes, fully independent</button>
+          <button class="opt-btn" onclick="select('q6',this,2,'q6')">Partially — joint filing, but I have income</button>
+          <button class="opt-btn" onclick="select('q6',this,1,'q6')">Mostly filed under their name</button>
+          <button class="opt-btn" onclick="select('q6',this,0,'q6')">I have no independent income or filing at all</button>
+        </div>
+        <div class="inline-insight" id="insight-q6"></div>
+      </div>
+
+      <div class="question">
+        <div class="q-text">Do you know — concretely — what your legal entitlements would be in your country or region if this relationship ended?</div>
+        <div class="options-row" id="q7">
+          <button class="opt-btn" onclick="select('q7',this,3,'q7')">Yes, I've researched or consulted a lawyer</button>
+          <button class="opt-btn" onclick="select('q7',this,2,'q7')">Roughly, not in detail</button>
+          <button class="opt-btn" onclick="select('q7',this,1,'q7')">I've thought about it, never looked into it</button>
+          <button class="opt-btn" onclick="select('q7',this,0,'q7')">No idea at all</button>
+        </div>
+        <div class="inline-insight" id="insight-q7"></div>
+      </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="section">
+      <div class="section-num">Section 03</div>
+      <div class="section-title">Who else depends on this</div>
+      <div class="section-desc">If there are children, this section matters more than any other.</div>
+
+      <div class="question">
+        <div class="q-text">Do you have children with this partner, or stepchildren in your care?</div>
+        <div class="options-row" id="q8">
+          <button class="opt-btn" onclick="select('q8',this,0,'q8-noscoreA')">Yes</button>
+          <button class="opt-btn" onclick="select('q8',this,3,'q8-noscoreB')">No</button>
+        </div>
+        <div class="inline-insight" id="insight-q8"></div>
+      </div>
+
+      <div class="question" id="q9-wrap" style="display:none;">
+        <div class="q-text">Is custody, schooling, and day-to-day care arrangement something you've discussed and would feel confident standing on if things changed?</div>
+        <div class="options-row" id="q9">
+          <button class="opt-btn" onclick="select('q9',this,3,'q9')">Yes, clearly understood by both</button>
+          <button class="opt-btn" onclick="select('q9',this,2,'q9')">Loosely discussed, not formal</button>
+          <button class="opt-btn" onclick="select('q9',this,1,'q9')">Never discussed</button>
+          <button class="opt-btn" onclick="select('q9',this,0,'q9')">I have real fear about this</button>
+        </div>
+        <div class="inline-insight" id="insight-q9"></div>
+      </div>
+    </div>
+
+    <!-- SECTION 4 — REFLECTION -->
+    <div class="section">
+      <div class="section-num">Section 04</div>
+      <div class="section-title">In your own words</div>
+      <div class="section-desc">Freya reads this. Word for word. This is where the audit becomes yours and no one else's.</div>
+
+      <div class="question">
+        <div class="q-text">What is the one thing you are most afraid you'd lose?</div>
+        <textarea id="t_fear" placeholder="Be specific. Name it." oninput="updateAudit()"></textarea>
+      </div>
+
+      <div class="question">
+        <div class="q-text">What is one action — even a small one — you could take this week to protect yourself, regardless of how things go?</div>
+        <textarea id="t_action" placeholder="One concrete thing. Not a feeling — an action." oninput="updateAudit()"></textarea>
+      </div>
+    </div>
+
+    <!-- CERTIFICATE -->
+    <div class="certificate" id="certificate">
+      <div class="cert-eyebrow">Your protection certificate</div>
+      <div class="cert-title" id="certTitle">Complete the sections above to generate your audit.</div>
+      <div class="cert-body" id="certBody"></div>
+      <div class="priority-list" id="priorityList"></div>
+      <div class="quoted-block" id="quotedBlock" style="display:none;">
+        <div class="quoted-label">What you wrote — held exactly as you wrote it</div>
+        <div class="quoted-text" id="quotedText"></div>
+      </div>
+      <div class="cert-actions">
+        <button class="cert-btn primary" onclick="window.print()">Save / Print this audit →</button>
+        <a href="/the_sovereign/asset-protection-checklist.html" class="cert-btn secondary" style="text-decoration:none; display:inline-block;">Open Asset Protection Checklist</a>
+      </div>
+      <div class="disclaimer">This audit is an educational tool built from public knowledge and pattern recognition — not legal advice, and not a substitute for a lawyer licensed in your jurisdiction. Family law varies enormously by country and region. Use this to walk into that conversation prepared, not instead of having it.</div>
+    </div>
+
+  </div>
+
+  <!-- LIVE MAP RAIL -->
+  <div class="map-rail">
+    <div class="map-card">
+      <div class="map-title">Your exposure map</div>
+      <div class="map-row"><span class="map-cat">Housing</span><span class="map-status pending" id="map-housing">—</span></div>
+      <div class="map-row"><span class="map-cat">Savings & accounts</span><span class="map-status pending" id="map-savings">—</span></div>
+      <div class="map-row"><span class="map-cat">Hard assets</span><span class="map-status pending" id="map-assets">—</span></div>
+      <div class="map-row"><span class="map-cat">Documentation</span><span class="map-status pending" id="map-docs">—</span></div>
+      <div class="map-row"><span class="map-cat">Financial runway</span><span class="map-status pending" id="map-runway">—</span></div>
+      <div class="map-row"><span class="map-cat">Income independence</span><span class="map-status pending" id="map-income">—</span></div>
+      <div class="map-row"><span class="map-cat">Legal knowledge</span><span class="map-status pending" id="map-legal">—</span></div>
+      <div class="map-row" id="map-children-row" style="display:none;"><span class="map-cat">Custody clarity</span><span class="map-status pending" id="map-children">—</span></div>
+
+      <div class="map-overall">
+        <div class="map-overall-label">Overall protection</div>
+        <div class="map-overall-num" id="mapOverall">—</div>
+        <div class="map-overall-sub" id="mapOverallSub">Answer the questions to see your map fill in.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>The Sovereign Woman — She is not broken. She is the blueprint.</footer>
+
+<script>
+  const scores = {};
+
+  function select(groupId, btn, value, insightKey) {
+    document.querySelectorAll(`#${groupId} .opt-btn`).forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    scores[groupId] = value;
+
+    // Reveal children follow-up question
+    if (groupId === 'q8') {
+      const wrap = document.getElementById('q9-wrap');
+      const childrenRow = document.getElementById('map-children-row');
+      if (value === 0) {
+        wrap.style.display = 'block';
+        childrenRow.style.display = 'flex';
+      } else {
+        wrap.style.display = 'none';
+        childrenRow.style.display = 'none';
+        delete scores['q9'];
+      }
+    }
+
+    showInsight(groupId, value);
+    updateAudit();
+  }
+
+  // Per-answer insight library — same depth as the Sovereignty Score answer analysis
+  const insights = {
+    q1: {
+      0: "If the home isn't in your name at all, you have no independent claim to the roof over your head — regardless of how long you've lived there or what you've contributed. This is one of the highest-priority gaps to close.",
+      1: "A joint home with no clear agreement on contribution or division is a common source of dispute. Even an informal written record of what each person put in matters more than people think.",
+      2: "Joint ownership with a clear agreement is a real form of protection — you understand the terms, which is more than most couples ever document.",
+      3: "A home solely in your name is one of the strongest protections available. It cannot be claimed by anyone else's name not being on it."
+    },
+    q2: {
+      0: "Nothing held independently means every financial decision currently requires another person's cooperation. This is the most common and most fixable gap — even a small personal account changes your position entirely.",
+      1: "A small independent amount is a start, but it likely wouldn't sustain you through any real transition. Building this should be a near-term priority.",
+      2: "Modest independent savings give you some room to move. The next step is simply growing this deliberately, not waiting for a crisis to force it.",
+      3: "Meaningful independent savings mean you are not financially trapped by this relationship, whatever happens. This is real, structural freedom."
+    },
+    q3: {
+      0: "No hard assets means everything you hold exists inside accounts, markets, or systems that can be frozen, disputed, or devalued. A single physical asset — gold, for instance — changes this completely.",
+      1: "Very little in hard assets leaves you almost entirely dependent on paper wealth. Worth addressing soon, even starting small.",
+      2: "Inherited or gifted assets are real assets — but consider whether you've also deliberately built any yourself, which carries different legal weight in some jurisdictions.",
+      3: "Deliberately acquired hard assets are some of the cleanest, most defensible property in any separation — physical, traceable to your own action, and not contingent on the relationship."
+    },
+    q4: {
+      0: "No documentation means proving what's yours becomes a matter of memory and argument, not fact. Start gathering bank statements, gift letters, and inheritance records now — not when you need them.",
+      1: "A few records is better than none, but gaps in documentation are exactly where disputes happen. Take an afternoon this month to gather what exists.",
+      2: "Mostly documented with some gaps is a strong position — close the remaining gaps and you're in excellent shape.",
+      3: "Full documentation of what you brought in is exactly what protects you in any dispute. This is meticulous, and it matters enormously."
+    },
+    q5: {
+      0: "Not knowing your runway is itself a form of exposure — it means you can't make a clear-headed decision about anything because you don't know your own floor. The Net Worth Tracker and Invisible Tax Calculator both help establish this number.",
+      1: "Less than three months of independent runway is a genuinely vulnerable position. Building toward six months should be an active, near-term goal.",
+      2: "Three to twelve months gives you real room to make decisions on your own timeline rather than out of financial panic.",
+      3: "Twelve or more months of independent runway means you could leave any situation entirely on your own terms. This is rare, and it is real power."
+    },
+    q6: {
+      0: "No independent income or filing record means you would have no financial history of your own to point to — which affects credit, loans, and even some legal proceedings. This is foundational to address.",
+      1: "Filing mostly under their name, even with some income of your own, can leave a thin paper trail for you individually. Worth correcting going forward.",
+      2: "Partial independence is a real foundation — the next step is making sure your name carries equal weight on record, not just your income.",
+      3: "Full independent filing and income history means you have a financial identity of your own, fully separate from this relationship. This protects you in ways that aren't always visible until they're needed."
+    },
+    q7: {
+      0: "Not knowing your legal entitlements at all means you would be negotiating from a position of complete uncertainty in the most stressful moment of your life. A single consultation with a family lawyer — even one hour — changes this permanently.",
+      1: "Having thought about it but never researched it is extremely common — and easily fixed with one focused afternoon of reading your region's specific laws.",
+      2: "A rough understanding is a start, but family law specifics vary enormously by jurisdiction. The details matter more than the general idea.",
+      3: "Having researched or consulted a lawyer already means you are not operating on assumption. This is the single most empowering thing you can do before any crisis, and you've already done it."
+    },
+    q9: {
+      0: "Real fear about custody is not something to carry alone or in silence. This deserves a real conversation with a family lawyer who specializes in custody in your specific region — sooner rather than later.",
+      1: "Never having discussed custody arrangements leaves enormous ambiguity exactly where children need stability most. This is worth raising directly, even if the conversation is uncomfortable.",
+      2: "A loose, informal understanding is better than nothing, but custody disputes are rarely won on informal understanding. Consider writing down what's been discussed, even just for your own record.",
+      3: "A clear, mutually understood arrangement is the strongest protection for any child's stability. You've already done the hardest part — having the conversation."
+    }
+  };
+
+  function showInsight(groupId, value) {
+    const el = document.getElementById('insight-' + groupId);
+    if (!el) return;
+    if (insights[groupId] && insights[groupId][value] !== undefined) {
+      el.innerHTML = insights[groupId][value];
+      el.classList.add('show');
+    } else {
+      el.classList.remove('show');
+    }
+  }
+
+  function statusFromScore(val, max) {
+    const p = val / max;
+    if (p >= 0.75) return { label: 'Protected', cls: 'protected' };
+    if (p >= 0.4) return { label: 'Partial', cls: 'partial' };
+    return { label: 'Exposed', cls: 'exposed' };
+  }
+
+  function setMapStatus(id, key, max) {
+    const el = document.getElementById(id);
+    if (scores[key] === undefined) { el.textContent = '—'; el.className = 'map-status pending'; return; }
+    const s = statusFromScore(scores[key], max);
+    el.textContent = s.label;
+    el.className = 'map-status ' + s.cls;
+  }
+
+  function updateAudit() {
+    setMapStatus('map-housing', 'q1', 3);
+    setMapStatus('map-savings', 'q2', 3);
+    setMapStatus('map-assets', 'q3', 3);
+    setMapStatus('map-docs', 'q4', 3);
+    setMapStatus('map-runway', 'q5', 3);
+    setMapStatus('map-income', 'q6', 3);
+    setMapStatus('map-legal', 'q7', 3);
+    if (document.getElementById('map-children-row').style.display !== 'none') {
+      setMapStatus('map-children', 'q9', 3);
+    }
+
+    const scoreKeys = ['q1','q2','q3','q4','q5','q6','q7'];
+    if (document.getElementById('map-children-row').style.display !== 'none') scoreKeys.push('q9');
+    const answered = scoreKeys.filter(k => scores[k] !== undefined);
+
+    const mapOverall = document.getElementById('mapOverall');
+    const mapOverallSub = document.getElementById('mapOverallSub');
+
+    if (answered.length === 0) {
+      mapOverall.textContent = '—';
+      mapOverallSub.textContent = 'Answer the questions to see your map fill in.';
+      return;
+    }
+
+    const total = answered.reduce((s,k) => s + scores[k], 0);
+    const overall = Math.round((total / (answered.length * 3)) * 100);
+    mapOverall.textContent = overall + '%';
+
+    if (answered.length < scoreKeys.length) {
+      mapOverallSub.textContent = `Based on ${answered.length} of ${scoreKeys.length} questions so far.`;
+    } else {
+      mapOverallSub.textContent = 'Complete audit.';
+      renderCertificate(overall, answered, scoreKeys);
+    }
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function renderCertificate(overall, answered, scoreKeys) {
+    const certTitle = document.getElementById('certTitle');
+    const certBody = document.getElementById('certBody');
+    const priorityList = document.getElementById('priorityList');
+
+    let band;
+    if (overall < 35) band = 'exposed';
+    else if (overall < 70) band = 'partial';
+    else band = 'protected';
+
+    const titleMap = {
+      exposed: `Your protection score is <span style="color:var(--exposed)">${overall}%</span>. You are significantly exposed.`,
+      partial: `Your protection score is <span style="color:var(--partial)">${overall}%</span>. You have a foundation, with real gaps.`,
+      protected: `Your protection score is <span style="color:var(--protected)">${overall}%</span>. You are largely protected.`
+    };
+    certTitle.innerHTML = titleMap[band];
+
+    const bodyMap = {
+      exposed: `<p>Right now, most of what you depend on financially could not be proven, claimed, or sustained independently if this relationship ended tomorrow. This is not a judgment of you — it is usually the direct result of years of shared finances, trust, or simply never having a reason to look closely until now.</p><p><strong>This audit has given you what you didn't have before: a precise map of exactly where you stand.</strong> The priorities below are not everything — they are the three things that would change your position the most, the fastest.</p>`,
+      partial: `<p>You have real protection in some areas and real exposure in others — which is the position most women are actually in, whether they've measured it or not. The good news: partial protection is the easiest position to improve from, because the instinct and some of the structure are already there.</p><p><strong>Close the specific gaps below, in order, and your position changes meaningfully within months, not years.</strong></p>`,
+      protected: `<p>You are in a position most people — women or men — never reach: independently documented, independently resourced, and largely able to stand on your own regardless of what happens in this relationship. This did not happen by accident. It happened because you made deliberate decisions.</p><p><strong>The priorities below are refinements, not emergencies — the final layer of an already strong structure.</strong></p>`
+    };
+    certBody.innerHTML = bodyMap[band];
+
+    // Build priority list — the 3 lowest-scoring answered questions, ranked
+    const ranked = scoreKeys
+      .filter(k => scores[k] !== undefined)
+      .sort((a,b) => scores[a] - scores[b])
+      .slice(0, 3);
+
+    const actionMap = {
+      q1: "Document your housing position — gather the deed, lease, or mortgage paperwork and understand exactly what it says about ownership.",
+      q2: "Open or grow an account entirely in your own name — even a modest amount changes your independent standing immediately.",
+      q3: "Consider a first deliberate hard-asset purchase — even one gram of gold counts as a real, independently-held asset.",
+      q4: "Spend one afternoon gathering financial documentation — bank statements, gift letters, anything proving what's yours.",
+      q5: "Calculate your real financial runway using the Net Worth Tracker, and set a concrete savings target toward 6 months.",
+      q6: "Establish or strengthen an independent income and filing record under your own name.",
+      q7: "Book one consultation with a family lawyer in your region — even a single hour changes what you know.",
+      q9: "Have a direct, specific conversation about custody and care arrangements — and write down what's agreed."
+    };
+
+    priorityList.innerHTML = ranked.map((k, i) => `
+      <div class="priority-item">
+        <div class="priority-rank">${i+1}</div>
+        <div class="priority-text">${actionMap[k] || ''}</div>
+      </div>
+    `).join('');
+
+    // Reflect free text
+    const fear = document.getElementById('t_fear').value.trim();
+    const action = document.getElementById('t_action').value.trim();
+    const quotedBlock = document.getElementById('quotedBlock');
+    const quotedText = document.getElementById('quotedText');
+
+    if (fear.length > 2 || action.length > 2) {
+      let html = '';
+      if (fear.length > 2) html += `<p>"${escapeHtml(fear)}"</p>`;
+      if (action.length > 2) html += `<p style="margin-top:12px;">Your committed next step: "${escapeHtml(action)}"</p>`;
+      quotedText.innerHTML = html;
+      quotedBlock.style.display = 'block';
+    } else {
+      quotedBlock.style.display = 'none';
+    }
+  }
+
+  // THEME TOGGLE
+  (function() {
+    const saved = localStorage.getItem('sov-theme-pref');
+    if (saved === 'rose') {
+      document.documentElement.setAttribute('data-theme', 'rose');
+      document.getElementById('toggleLabel').textContent = 'Switch to Obsidian Room';
+    }
+  })();
+
+  window.toggleTheme = function() {
+    const root = document.documentElement;
+    const current = root.getAttribute('data-theme');
+    const next = current === 'dark' ? 'rose' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('sov-theme-pref', next);
+    document.getElementById('toggleLabel').textContent = next === 'dark' ? 'Switch to Rose Room' : 'Switch to Obsidian Room';
+  };
+
+  updateAudit();
+</script>
+
+</body>
+</html>
