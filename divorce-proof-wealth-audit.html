@@ -218,6 +218,24 @@
     border-top: 1px solid var(--border); padding-top: 16px;
   }
 
+  .send-block { margin-top: 24px; }
+  .send-divider { height: 1px; background: var(--border); margin-bottom: 24px; }
+  .send-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .send-desc { font-size: 12px; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; max-width: 540px; }
+  .send-email {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 13px 16px;
+    color: var(--text); font-family: 'Montserrat', sans-serif; font-size: 13px; outline: none; margin-bottom: 14px; transition: border-color 0.2s;
+  }
+  .send-email:focus { border-color: var(--gold); }
+  .send-email::placeholder { color: var(--text-dim); }
+  .send-consent {
+    display: flex; align-items: flex-start; gap: 10px; font-size: 11px; color: var(--text-muted); line-height: 1.6; cursor: pointer;
+  }
+  .send-consent input[type="checkbox"] { margin-top: 2px; flex-shrink: 0; width: 15px; height: 15px; accent-color: var(--gold); cursor: pointer; }
+  .send-feedback { margin-top: 12px; font-size: 12px; text-align: center; min-height: 16px; }
+  .send-feedback.success { color: var(--up); }
+  .send-feedback.error { color: var(--down); }
+
   footer { padding: 40px; text-align: center; font-size: 10px; color: var(--text-dim); letter-spacing: 0.05em; }
 
   /* PRINT */
@@ -410,6 +428,20 @@
         <button class="cert-btn primary" onclick="window.print()">Save / Print this audit →</button>
         <a href="/the_sovereign/asset-protection-checklist.html" class="cert-btn secondary" style="text-decoration:none; display:inline-block;">Open Asset Protection Checklist</a>
       </div>
+
+      <div class="send-block" id="sendBlock" style="display:none;">
+        <div class="send-divider"></div>
+        <div class="send-title">Want Freya to actually read this?</div>
+        <div class="send-desc">This is completely optional. If you'd like personal feedback rather than just this automated certificate, share your results and an email — Freya reads every submission herself and may follow up directly. Nothing is sent unless you click the button below.</div>
+        <input type="email" class="send-email" id="sendEmail" placeholder="Your email address">
+        <label class="send-consent">
+          <input type="checkbox" id="sendConsent">
+          <span>I understand my audit answers and email will be sent to The Sovereign Woman for the purpose of a personal follow-up, and I can request deletion at any time.</span>
+        </label>
+        <button class="cert-btn primary" id="sendBtn" onclick="sendToFreya()" disabled style="width:100%; margin-top:14px;">Send my results to Freya →</button>
+        <div class="send-feedback" id="sendFeedback"></div>
+      </div>
+
       <div class="disclaimer">This audit is an educational tool built from public knowledge and pattern recognition — not legal advice, and not a substitute for a lawyer licensed in your jurisdiction. Family law varies enormously by country and region. Use this to walk into that conversation prepared, not instead of having it.</div>
     </div>
 
@@ -649,6 +681,80 @@
       quotedBlock.style.display = 'block';
     } else {
       quotedBlock.style.display = 'none';
+    }
+
+    document.getElementById('sendBlock').style.display = 'block';
+    latestAuditResult = {
+      overallScore: overall,
+      band: band,
+      fear: fear,
+      action: action,
+      timestamp: new Date().toISOString()
+    };
+  }
+
+  // ===== SEND TO FREYA — Formester integration =====
+  let latestAuditResult = null;
+  const FORM_ENDPOINT = "https://formspree.io/f/mjgqyarq";
+
+  document.getElementById('sendConsent').addEventListener('change', function() {
+    document.getElementById('sendBtn').disabled = !this.checked;
+  });
+
+  async function sendToFreya() {
+    const emailInput = document.getElementById('sendEmail');
+    const feedback = document.getElementById('sendFeedback');
+    const btn = document.getElementById('sendBtn');
+    const email = emailInput.value.trim();
+
+    if (!email || !email.includes('@')) {
+      feedback.textContent = 'Please enter a valid email address.';
+      feedback.className = 'send-feedback error';
+      return;
+    }
+    if (!latestAuditResult) {
+      feedback.textContent = 'Please complete the audit above first.';
+      feedback.className = 'send-feedback error';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    feedback.textContent = '';
+
+    const payload = {
+      _subject: `New Divorce-Proof Audit — ${latestAuditResult.band.toUpperCase()} (${latestAuditResult.overallScore}%)`,
+      email: email,
+      overallScore: latestAuditResult.overallScore + '%',
+      protectionBand: latestAuditResult.band,
+      biggestFear: latestAuditResult.fear || '(not answered)',
+      committedAction: latestAuditResult.action || '(not answered)',
+      housing: document.getElementById('map-housing').textContent,
+      savings: document.getElementById('map-savings').textContent,
+      assets: document.getElementById('map-assets').textContent,
+      documentation: document.getElementById('map-docs').textContent,
+      runway: document.getElementById('map-runway').textContent,
+      income: document.getElementById('map-income').textContent,
+      legal: document.getElementById('map-legal').textContent,
+      submittedAt: latestAuditResult.timestamp,
+      source: 'Divorce-Proof Wealth Audit'
+    };
+
+    try {
+      const res = await fetch(FORM_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error('submission failed');
+      feedback.textContent = "Sent. Freya has your results — she may reach out personally.";
+      feedback.className = 'send-feedback success';
+      btn.textContent = 'Sent ✓';
+    } catch (e) {
+      feedback.textContent = "Something went wrong sending this. Please try again in a moment.";
+      feedback.className = 'send-feedback error';
+      btn.disabled = false;
+      btn.textContent = 'Send my results to Freya →';
     }
   }
 
