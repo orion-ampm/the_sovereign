@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Goldvest — The Sovereign Woman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root[data-theme="dark"] {
+    --gold: #c9a84c; --gold-light: #f0d080; --gold-dim: rgba(201,168,76,0.12);
+    --black: #080808; --surface: #121212; --surface2: #1a1a1a;
+    --text: #f5f0e8; --text-muted: #9a9080; --text-dim: #4a4438;
+    --border: rgba(201,168,76,0.15); --border-strong: rgba(201,168,76,0.35);
+    --up: #6fae8f; --up-dim: rgba(111,174,143,0.14);
+    --down: #c9534a; --down-dim: rgba(201,83,74,0.14);
+  }
+
+  :root[data-theme="rose"] {
+    --gold: #B55E75; --gold-light: #DB9AA4; --gold-dim: rgba(181,94,117,0.10);
+    --black: #fdf6f0; --surface: #ffffff; --surface2: #f9eff3;
+    --text: #2e1a22; --text-muted: #7a4a58; --text-dim: #b89aa4;
+    --border: rgba(181,94,117,0.15); --border-strong: rgba(181,94,117,0.35);
+    --up: #5a9379; --up-dim: rgba(90,147,121,0.10);
+    --down: #b5544a; --down-dim: rgba(181,84,74,0.10);
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--text); font-family: 'Montserrat', sans-serif; min-height: 100vh; padding-bottom: 100px; transition: background 0.3s, color 0.3s; }
+  ::selection { background: var(--gold-dim); }
+
+  .gold-bar { height: 2px; background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent); }
+
+  nav.sov-nav {
+    padding: 16px 40px; border-bottom: 1px solid var(--border); display: flex; align-items: center;
+    justify-content: space-between; position: sticky; top: 0; z-index: 200; background: var(--black); backdrop-filter: blur(12px);
+  }
+  .sov-nav-left { display: flex; align-items: center; gap: 20px; }
+  .sov-back { font-size: 10px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); text-decoration: none; display: flex; align-items: center; gap: 6px; opacity: 0.7; transition: opacity 0.2s; }
+  .sov-back:hover { opacity: 1; }
+  .sov-back::before { content: '←'; font-size: 14px; }
+  .sov-brand { font-family: 'Playfair Display', serif; font-size: 12px; font-style: italic; color: var(--gold); letter-spacing: 0.1em; text-decoration: none; }
+  .sov-room-toggle { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; border: 1px solid var(--border); padding: 6px 14px; display: flex; align-items: center; gap: 7px; transition: border-color 0.2s, color 0.2s; cursor: pointer; background: none; }
+  .sov-room-toggle:hover { border-color: var(--gold); color: var(--gold); }
+  .sov-room-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--gold); }
+
+  .hero { padding: 56px 40px 32px; max-width: 760px; margin: 0 auto; text-align: center; }
+  .hero-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 6vw, 54px); font-weight: 900; line-height: 1.0; color: var(--text); margin-bottom: 14px; }
+  .hero-title em { font-style: italic; color: var(--gold); display: block; }
+  .hero-sub { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--text-muted); line-height: 1.65; max-width: 540px; margin: 0 auto; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 40px; }
+
+  /* TICKER BAR */
+  .ticker {
+    display: flex; align-items: center; justify-content: center; gap: 28px; flex-wrap: wrap;
+    background: var(--surface); border: 1px solid var(--border); padding: 18px 28px; margin: 32px 0;
+  }
+  .ticker-block { text-align: center; }
+  .ticker-label { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 6px; }
+  .ticker-value { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--text); }
+  .ticker-value.gold { color: var(--gold); }
+  .ticker-change { font-size: 11px; font-weight: 600; margin-top: 4px; }
+  .ticker-change.up { color: var(--up); }
+  .ticker-change.down { color: var(--down); }
+  .ticker-sep { width: 1px; height: 36px; background: var(--border); }
+  .live-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--up); margin-right: 6px; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .ticker-source { font-size: 9px; color: var(--text-dim); margin-top: 2px; }
+
+  /* DASHBOARD GRID */
+  .dash-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .dash-card { background: var(--surface); border: 1px solid var(--border); padding: 20px 22px; }
+  .dash-label { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 10px; }
+  .dash-value { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--text); }
+  .dash-sub { font-size: 11px; color: var(--text-muted); margin-top: 6px; }
+  .dash-sub.up { color: var(--up); } .dash-sub.down { color: var(--down); }
+
+  /* MAIN GRID — trade panel + holdings */
+  .main-grid { display: grid; grid-template-columns: 360px 1fr; gap: 20px; align-items: start; }
+
+  .trade-panel { background: var(--surface); border: 1px solid var(--border-strong); padding: 26px; position: sticky; top: 80px; }
+  .panel-title { font-size: 9px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+
+  .trade-tabs { display: flex; gap: 6px; margin-bottom: 20px; }
+  .trade-tab { flex: 1; text-align: center; padding: 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text-muted); transition: all 0.2s; }
+  .trade-tab.active.buy { background: var(--up-dim); border-color: var(--up); color: var(--up); }
+  .trade-tab.active.sell { background: var(--down-dim); border-color: var(--down); color: var(--down); }
+
+  .form-label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; margin-top: 16px; }
+  .product-select { display: flex; flex-direction: column; gap: 6px; }
+  .product-opt { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border: 1px solid var(--border); background: var(--surface2); cursor: pointer; transition: all 0.15s; font-size: 12px; }
+  .product-opt:hover { border-color: var(--border-strong); }
+  .product-opt.selected { border-color: var(--gold); background: var(--gold-dim); }
+  .product-name { color: var(--text); font-weight: 500; }
+  .product-meta { color: var(--text-dim); font-size: 10px; }
+
+  .qty-row { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+  .qty-input { flex: 1; background: var(--surface2); border: 1px solid var(--border); padding: 12px 14px; color: var(--text); font-family: 'Montserrat', sans-serif; font-size: 14px; outline: none; }
+  .qty-input:focus { border-color: var(--gold); }
+  .qty-unit { font-size: 11px; color: var(--text-dim); white-space: nowrap; }
+
+  .trade-summary { margin-top: 18px; padding: 14px 16px; background: var(--surface2); border: 1px solid var(--border); font-size: 11px; color: var(--text-muted); line-height: 1.8; }
+  .trade-summary-row { display: flex; justify-content: space-between; padding: 2px 0; }
+  .trade-summary-row strong { color: var(--text); }
+
+  .trade-btn { width: 100%; margin-top: 16px; padding: 15px; border: none; font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; font-family: 'Montserrat', sans-serif; }
+  .trade-btn.buy { background: var(--up); color: var(--black); }
+  .trade-btn.buy:hover { opacity: 0.85; }
+  .trade-btn.sell { background: var(--down); color: var(--black); }
+  .trade-btn.sell:hover { opacity: 0.85; }
+  .trade-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .trade-feedback { margin-top: 12px; font-size: 11px; text-align: center; min-height: 16px; }
+  .trade-feedback.success { color: var(--up); }
+  .trade-feedback.error { color: var(--down); }
+
+  /* HOLDINGS + LOG */
+  .holdings-card { background: var(--surface); border: 1px solid var(--border); padding: 24px; margin-bottom: 16px; }
+  .holdings-empty { text-align: center; padding: 30px 10px; }
+  .holdings-empty-text { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-style: italic; color: var(--text-dim); }
+
+  .holding-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--border); gap: 16px; }
+  .holding-row:last-child { border-bottom: none; }
+  .holding-name { font-size: 13px; color: var(--text); font-weight: 500; }
+  .holding-qty { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+  .holding-pl { text-align: right; }
+  .holding-pl-val { font-size: 14px; font-weight: 600; }
+  .holding-pl-val.up { color: var(--up); } .holding-pl-val.down { color: var(--down); }
+  .holding-pl-pct { font-size: 10px; margin-top: 2px; }
+  .holding-pl-pct.up { color: var(--up); } .holding-pl-pct.down { color: var(--down); }
+
+  .log-card { background: var(--surface); border: 1px solid var(--border); padding: 24px; }
+  .log-row { display: grid; grid-template-columns: 70px 1fr 90px 90px; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 11px; }
+  .log-row:last-child { border-bottom: none; }
+  .log-row.header { color: var(--text-dim); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-size: 9px; }
+  .log-side { font-weight: 700; }
+  .log-side.buy { color: var(--up); } .log-side.sell { color: var(--down); }
+  .log-item { color: var(--text); }
+  .log-amt { color: var(--text-muted); text-align: right; }
+
+  .reset-row { text-align: center; margin-top: 24px; }
+  .reset-btn { font-size: 10px; color: var(--text-dim); background: none; border: none; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+  .reset-btn:hover { color: var(--text-muted); }
+
+  .edu-note { margin-top: 40px; padding: 20px 24px; background: var(--gold-dim); border-left: 2px solid var(--gold); font-size: 12px; color: var(--text-muted); line-height: 1.75; }
+  .edu-note strong { color: var(--text); font-weight: 600; }
+
+  footer { padding: 40px; text-align: center; font-size: 10px; color: var(--text-dim); letter-spacing: 0.05em; }
+
+  @media (max-width: 880px) {
+    .main-grid { grid-template-columns: 1fr; }
+    .trade-panel { position: static; }
+    .dash-grid { grid-template-columns: 1fr; }
+    .wrap { padding: 0 20px; }
+    .hero { padding: 48px 20px 24px; }
+    nav.sov-nav { padding: 14px 18px; }
+    .ticker { gap: 16px; padding: 16px; }
+    .log-row { grid-template-columns: 56px 1fr 70px; font-size: 10px; }
+    .log-row span:nth-child(4) { display: none; }
+  }
+</style>
+</head>
+<body data-theme="dark">
+
+<div class="gold-bar"></div>
+<nav class="sov-nav">
+  <div class="sov-nav-left">
+    <a href="/the_sovereign/obsidian-room.html" class="sov-back" id="navHomeLink">Home</a>
+    <a href="/the_sovereign/obsidian-room.html" class="sov-brand" id="navBrandLink">The Sovereign Woman</a>
+  </div>
+  <button class="sov-room-toggle" onclick="toggleTheme()">
+    <div class="sov-room-dot"></div>
+    <span id="toggleLabel">Switch to Rose Room</span>
+  </button>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">Goldvest</div>
+  <h1 class="hero-title">Practice with<br><em>real gold prices.</em></h1>
+  <p class="hero-sub">Virtual money. Real spot price. Buy and sell physical gold products with zero risk — until you're ready to do it for real.</p>
+</div>
+
+<div class="wrap">
+
+  <!-- LIVE TICKER -->
+  <div class="ticker">
+    <div class="ticker-block">
+      <div class="ticker-label"><span class="live-dot"></span>Spot price (XAU/USD)</div>
+      <div class="ticker-value gold" id="spotPrice">—</div>
+      <div class="ticker-change" id="spotChange"></div>
+      <div class="ticker-source" id="priceSource">Loading live price...</div>
+    </div>
+    <div class="ticker-sep"></div>
+    <div class="ticker-block">
+      <div class="ticker-label">Per gram</div>
+      <div class="ticker-value" id="gramPrice">—</div>
+    </div>
+    <div class="ticker-sep"></div>
+    <div class="ticker-block">
+      <div class="ticker-label">Per troy oz</div>
+      <div class="ticker-value" id="ozPrice">—</div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="dash-grid">
+    <div class="dash-card">
+      <div class="dash-label">Cash balance</div>
+      <div class="dash-value" id="cashBalance">$10,000</div>
+      <div class="dash-sub">Available to invest</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-label">Gold holdings value</div>
+      <div class="dash-value" id="holdingsValue">$0</div>
+      <div class="dash-sub" id="holdingsSub">No positions yet</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-label">Total portfolio</div>
+      <div class="dash-value" id="totalPortfolio">$10,000</div>
+      <div class="dash-sub" id="totalSub">Started at $10,000</div>
+    </div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="main-grid">
+
+    <!-- TRADE PANEL -->
+    <div class="trade-panel">
+      <div class="panel-title">Place a trade</div>
+
+      <div class="trade-tabs">
+        <div class="trade-tab active buy" id="tabBuy" onclick="setSide('buy')">Buy</div>
+        <div class="trade-tab sell" id="tabSell" onclick="setSide('sell')">Sell</div>
+      </div>
+
+      <div class="form-label">Product</div>
+      <div class="product-select" id="productSelect"></div>
+
+      <div class="form-label">Quantity</div>
+      <div class="qty-row">
+        <input type="number" class="qty-input" id="qtyInput" min="1" value="1" oninput="updateTradeSummary()">
+        <span class="qty-unit" id="qtyUnit">units</span>
+      </div>
+
+      <div class="trade-summary" id="tradeSummary"></div>
+
+      <button class="trade-btn buy" id="tradeBtn" onclick="executeTrade()">Buy</button>
+      <div class="trade-feedback" id="tradeFeedback"></div>
+    </div>
+
+    <!-- HOLDINGS + LOG -->
+    <div>
+      <div class="holdings-card">
+        <div class="panel-title">Your holdings</div>
+        <div id="holdingsList"></div>
+      </div>
+
+      <div class="log-card">
+        <div class="panel-title">Trade history</div>
+        <div class="log-row header">
+          <span>Side</span><span>Product</span><span>Qty</span><span>Total</span>
+        </div>
+        <div id="logList"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="reset-row">
+    <button class="reset-btn" onclick="resetPortfolio()">Reset my portfolio to $10,000 ↺</button>
+  </div>
+
+  <div class="edu-note">
+    <strong>Why premiums matter.</strong> Notice the gap between your buy price and sell price on every product — that's the dealer premium, and it's real money. A coin with a 5% premium needs to gain 5% in spot price just to break even. This is exactly why understanding premiums before you buy with real money matters — and exactly why Goldvest exists.
+  </div>
+
+</div>
+
+<footer>The Sovereign Woman — She is not broken. She is the blueprint.</footer>
+
+<script>
+  // ===== PRODUCT CATALOG =====
+  // Premiums are illustrative, modeled on realistic real-world dealer spreads.
+  const GRAMS_PER_OZ = 31.1035;
+
+  const products = [
+    { id: 'gram', name: '1g Gold Bar', unit: 'bar(s)', weightGrams: 1, buyPremium: 0.12, sellPremium: 0.08 },
+    { id: 'coin_1_10', name: '1/10 oz Gold Coin', unit: 'coin(s)', weightGrams: GRAMS_PER_OZ * 0.1, buyPremium: 0.09, sellPremium: 0.05 },
+    { id: 'coin_1_4', name: '1/4 oz Gold Coin', unit: 'coin(s)', weightGrams: GRAMS_PER_OZ * 0.25, buyPremium: 0.065, sellPremium: 0.035 },
+    { id: 'coin_1oz', name: '1 oz Gold Coin (Krugerrand-style)', unit: 'coin(s)', weightGrams: GRAMS_PER_OZ, buyPremium: 0.045, sellPremium: 0.02 },
+    { id: 'bar_10g', name: '10g Gold Bar', unit: 'bar(s)', weightGrams: 10, buyPremium: 0.035, sellPremium: 0.015 },
+    { id: 'bar_1oz', name: '1 oz Gold Bar', unit: 'bar(s)', weightGrams: GRAMS_PER_OZ, buyPremium: 0.03, sellPremium: 0.012 },
+    { id: 'bar_100g', name: '100g Gold Bar', unit: 'bar(s)', weightGrams: 100, buyPremium: 0.018, sellPremium: 0.007 },
+    { id: 'bar_1kg', name: '1kg Gold Bar', unit: 'bar(s)', weightGrams: 1000, buyPremium: 0.012, sellPremium: 0.004 }
+  ];
+
+  let selectedProductId = products[3].id; // default: 1oz coin
+  let currentSide = 'buy';
+  let spotPricePerOz = null;
+  let previousSpotPrice = null;
+
+  // ===== STATE — persisted in localStorage =====
+  const STORAGE_KEY = 'goldvest-portfolio-v1';
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch(e) {}
+    return { cash: 10000, holdings: {}, log: [] };
+  }
+
+  function saveState() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  let state = loadState();
+
+  // ===== LIVE PRICE FETCH =====
+  async function fetchSpotPrice() {
+    const sourceEl = document.getElementById('priceSource');
+    try {
+      const res = await fetch('https://api.gold-api.com/price/XAU');
+      if (!res.ok) throw new Error('bad response');
+      const data = await res.json();
+      const price = data.price || data.rate || data.value;
+      if (typeof price === 'number' && price > 0) {
+        previousSpotPrice = spotPricePerOz;
+        spotPricePerOz = price;
+        sourceEl.textContent = 'Live · gold-api.com';
+        return;
+      }
+      throw new Error('no usable price field');
+    } catch (e) {
+      // Fallback — realistic recent approximate spot price, clearly labeled as such
+      if (spotPricePerOz === null) {
+        spotPricePerOz = 3950 + (Math.random() * 60 - 30);
+        sourceEl.textContent = 'Estimated — live feed unavailable right now';
+      } else {
+        sourceEl.textContent = 'Live feed unavailable — showing last known price';
+      }
+    }
+  }
+
+  function renderTicker() {
+    if (spotPricePerOz === null) return;
+    document.getElementById('spotPrice').textContent = '$' + spotPricePerOz.toFixed(2);
+    document.getElementById('ozPrice').textContent = '$' + spotPricePerOz.toFixed(2);
+    document.getElementById('gramPrice').textContent = '$' + (spotPricePerOz / GRAMS_PER_OZ).toFixed(2);
+
+    const changeEl = document.getElementById('spotChange');
+    if (previousSpotPrice !== null && previousSpotPrice !== spotPricePerOz) {
+      const diff = spotPricePerOz - previousSpotPrice;
+      const pct = (diff / previousSpotPrice) * 100;
+      const sign = diff >= 0 ? '+' : '';
+      changeEl.textContent = sign + diff.toFixed(2) + ' (' + sign + pct.toFixed(2) + '%)';
+      changeEl.className = 'ticker-change ' + (diff >= 0 ? 'up' : 'down');
+    } else {
+      changeEl.textContent = '';
+    }
+  }
+
+  // ===== PRODUCT SELECTOR =====
+  function renderProductSelect() {
+    const wrap = document.getElementById('productSelect');
+    wrap.innerHTML = products.map(p => `
+      <div class="product-opt ${p.id === selectedProductId ? 'selected' : ''}" onclick="selectProduct('${p.id}')">
+        <span class="product-name">${p.name}</span>
+        <span class="product-meta">${p.weightGrams.toFixed(2)}g</span>
+      </div>
+    `).join('');
+  }
+
+  function selectProduct(id) {
+    selectedProductId = id;
+    renderProductSelect();
+    updateTradeSummary();
+  }
+
+  function getProduct() {
+    return products.find(p => p.id === selectedProductId);
+  }
+
+  function productPrice(product, side) {
+    if (spotPricePerOz === null) return 0;
+    const basePricePerGram = spotPricePerOz / GRAMS_PER_OZ;
+    const premium = side === 'buy' ? product.buyPremium : product.sellPremium;
+    const multiplier = side === 'buy' ? (1 + premium) : (1 - premium);
+    return basePricePerGram * product.weightGrams * multiplier;
+  }
+
+  // ===== SIDE TOGGLE =====
+  function setSide(side) {
+    currentSide = side;
+    document.getElementById('tabBuy').classList.toggle('active', side === 'buy');
+    document.getElementById('tabSell').classList.toggle('active', side === 'sell');
+    const btn = document.getElementById('tradeBtn');
+    btn.className = 'trade-btn ' + side;
+    btn.textContent = side === 'buy' ? 'Buy' : 'Sell';
+    updateTradeSummary();
+  }
+
+  // ===== TRADE SUMMARY =====
+  function updateTradeSummary() {
+    const product = getProduct();
+    const qty = Math.max(1, parseInt(document.getElementById('qtyInput').value) || 1);
+    const unitPrice = productPrice(product, currentSide);
+    const total = unitPrice * qty;
+    const summaryEl = document.getElementById('tradeSummary');
+    const btn = document.getElementById('tradeBtn');
+    const feedback = document.getElementById('tradeFeedback');
+    feedback.textContent = '';
+
+    document.getElementById('qtyUnit').textContent = product.unit;
+
+    const owned = state.holdings[product.id] ? state.holdings[product.id].qty : 0;
+
+    summaryEl.innerHTML = `
+      <div class="trade-summary-row"><span>Price per unit</span><strong>$${unitPrice.toFixed(2)}</strong></div>
+      <div class="trade-summary-row"><span>Premium (${currentSide})</span><strong>${((currentSide === 'buy' ? product.buyPremium : product.sellPremium) * 100).toFixed(1)}%</strong></div>
+      <div class="trade-summary-row"><span>Quantity</span><strong>${qty}</strong></div>
+      <div class="trade-summary-row" style="border-top:1px solid var(--border); margin-top:6px; padding-top:8px;"><span>${currentSide === 'buy' ? 'Total cost' : 'Total proceeds'}</span><strong>$${total.toFixed(2)}</strong></div>
+      ${currentSide === 'sell' ? `<div class="trade-summary-row"><span>You currently own</span><strong>${owned}</strong></div>` : ''}
+    `;
+
+    if (currentSide === 'buy') {
+      btn.disabled = total > state.cash;
+      if (btn.disabled) feedback.innerHTML = '<span style="color:var(--down)">Not enough cash for this trade</span>';
+    } else {
+      btn.disabled = qty > owned;
+      if (btn.disabled) feedback.innerHTML = `<span style="color:var(--down)">You only own ${owned} of this product</span>`;
+    }
+  }
+
+  // ===== EXECUTE TRADE =====
+  function executeTrade() {
+    const product = getProduct();
+    const qty = Math.max(1, parseInt(document.getElementById('qtyInput').value) || 1);
+    const unitPrice = productPrice(product, currentSide);
+    const total = unitPrice * qty;
+    const feedback = document.getElementById('tradeFeedback');
+
+    if (currentSide === 'buy') {
+      if (total > state.cash) return;
+      state.cash -= total;
+      if (!state.holdings[product.id]) {
+        state.holdings[product.id] = { qty: 0, totalCost: 0 };
+      }
+      state.holdings[product.id].qty += qty;
+      state.holdings[product.id].totalCost += total;
+      feedback.innerHTML = `<span class="success">Bought ${qty} × ${product.name} for $${total.toFixed(2)}</span>`;
+    } else {
+      const owned = state.holdings[product.id] ? state.holdings[product.id].qty : 0;
+      if (qty > owned) return;
+      state.cash += total;
+      const avgCost = state.holdings[product.id].totalCost / state.holdings[product.id].qty;
+      state.holdings[product.id].qty -= qty;
+      state.holdings[product.id].totalCost -= avgCost * qty;
+      if (state.holdings[product.id].qty <= 0) delete state.holdings[product.id];
+      feedback.innerHTML = `<span class="success">Sold ${qty} × ${product.name} for $${total.toFixed(2)}</span>`;
+    }
+
+    state.log.unshift({
+      side: currentSide, productId: product.id, productName: product.name,
+      qty: qty, total: total, date: new Date().toISOString()
+    });
+    state.log = state.log.slice(0, 50);
+
+    saveState();
+    renderAll();
+  }
+
+  // ===== RENDER HOLDINGS =====
+  function renderHoldings() {
+    const wrap = document.getElementById('holdingsList');
+    const ids = Object.keys(state.holdings).filter(id => state.holdings[id].qty > 0);
+
+    if (ids.length === 0) {
+      wrap.innerHTML = `<div class="holdings-empty"><div class="holdings-empty-text">No positions yet. Your first trade starts here.</div></div>`;
+      return;
+    }
+
+    wrap.innerHTML = ids.map(id => {
+      const h = state.holdings[id];
+      const product = products.find(p => p.id === id);
+      const currentSellPrice = productPrice(product, 'sell');
+      const currentValue = currentSellPrice * h.qty;
+      const pl = currentValue - h.totalCost;
+      const plPct = h.totalCost > 0 ? (pl / h.totalCost) * 100 : 0;
+      const cls = pl >= 0 ? 'up' : 'down';
+      const sign = pl >= 0 ? '+' : '';
+
+      return `
+        <div class="holding-row">
+          <div>
+            <div class="holding-name">${product.name}</div>
+            <div class="holding-qty">${h.qty} × — avg cost $${(h.totalCost / h.qty).toFixed(2)}</div>
+          </div>
+          <div class="holding-pl">
+            <div class="holding-pl-val ${cls}">$${currentValue.toFixed(2)}</div>
+            <div class="holding-pl-pct ${cls}">${sign}$${pl.toFixed(2)} (${sign}${plPct.toFixed(1)}%)</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // ===== RENDER LOG =====
+  function renderLog() {
+    const wrap = document.getElementById('logList');
+    if (state.log.length === 0) {
+      wrap.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-dim); font-size:11px;">No trades yet</div>`;
+      return;
+    }
+    wrap.innerHTML = state.log.map(l => {
+      const d = new Date(l.date);
+      const dateStr = (d.getMonth()+1) + '/' + d.getDate();
+      return `
+        <div class="log-row">
+          <span class="log-side ${l.side}">${l.side.toUpperCase()}</span>
+          <span class="log-item">${l.productName}</span>
+          <span>${l.qty} unit${l.qty > 1 ? 's' : ''}</span>
+          <span class="log-amt">$${l.total.toFixed(2)}</span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // ===== RENDER DASHBOARD =====
+  function renderDashboard() {
+    document.getElementById('cashBalance').textContent = '$' + state.cash.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+    let holdingsValue = 0;
+    let totalCostBasis = 0;
+    Object.keys(state.holdings).forEach(id => {
+      const h = state.holdings[id];
+      if (h.qty <= 0) return;
+      const product = products.find(p => p.id === id);
+      holdingsValue += productPrice(product, 'sell') * h.qty;
+      totalCostBasis += h.totalCost;
+    });
+
+    document.getElementById('holdingsValue').textContent = '$' + holdingsValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    const holdingsPL = holdingsValue - totalCostBasis;
+    const holdingsSub = document.getElementById('holdingsSub');
+    if (totalCostBasis > 0) {
+      const sign = holdingsPL >= 0 ? '+' : '';
+      holdingsSub.textContent = sign + '$' + holdingsPL.toFixed(2) + ' unrealized';
+      holdingsSub.className = 'dash-sub ' + (holdingsPL >= 0 ? 'up' : 'down');
+    } else {
+      holdingsSub.textContent = 'No positions yet';
+      holdingsSub.className = 'dash-sub';
+    }
+
+    const total = state.cash + holdingsValue;
+    document.getElementById('totalPortfolio').textContent = '$' + total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    const totalPL = total - 10000;
+    const totalSub = document.getElementById('totalSub');
+    const sign = totalPL >= 0 ? '+' : '';
+    totalSub.textContent = sign + '$' + totalPL.toFixed(2) + ' since start ($10,000)';
+    totalSub.className = 'dash-sub ' + (totalPL >= 0 ? 'up' : (totalPL < 0 ? 'down' : ''));
+  }
+
+  function renderAll() {
+    renderTicker();
+    renderDashboard();
+    renderHoldings();
+    renderLog();
+    updateTradeSummary();
+  }
+
+  function resetPortfolio() {
+    if (!confirm('Reset your Goldvest portfolio back to $10,000 cash with no holdings? This cannot be undone.')) return;
+    state = { cash: 10000, holdings: {}, log: [] };
+    saveState();
+    renderAll();
+  }
+
+  // ===== INIT =====
+  renderProductSelect();
+  fetchSpotPrice().then(renderAll);
+  setInterval(() => { fetchSpotPrice().then(renderAll); }, 30000);
+
+  // ===== THEME TOGGLE =====
+  (function() {
+    const saved = localStorage.getItem('sov-theme-pref');
+    if (saved === 'rose') {
+      document.documentElement.setAttribute('data-theme', 'rose');
+      document.getElementById('toggleLabel').textContent = 'Switch to Obsidian Room';
+    }
+  })();
+
+  window.toggleTheme = function() {
+    const root = document.documentElement;
+    const current = root.getAttribute('data-theme');
+    const next = current === 'dark' ? 'rose' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('sov-theme-pref', next);
+    document.getElementById('toggleLabel').textContent = next === 'dark' ? 'Switch to Rose Room' : 'Switch to Obsidian Room';
+  };
+</script>
+
+</body>
+</html>
