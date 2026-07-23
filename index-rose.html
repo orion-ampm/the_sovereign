@@ -674,8 +674,14 @@
 
 <div class="rose-bar"></div>
 
-<nav>
-  <div class="nav-logo">Orion PM Consulting</div>
+<nav style="display:flex; align-items:center; justify-content:space-between; padding:14px 32px; border-bottom:1px solid var(--border); position:sticky; top:0; z-index:200; background:var(--bg); backdrop-filter:blur(12px);">
+  <div style="display:flex; align-items:center; gap:16px;">
+    <div class="nav-logo">Orion PM Consulting</div>
+    <div style="display:flex; border:1px solid var(--border-strong); overflow:hidden;">
+      <button id="btnEN" onclick="setLang('en')" style="font-size:9px; font-weight:700; letter-spacing:0.15em; padding:5px 12px; cursor:pointer; border:none; font-family:'Montserrat',sans-serif; background:transparent; color:var(--text-muted); transition:all 0.2s;">EN</button>
+      <button id="btnFR" onclick="setLang('fr')" style="font-size:9px; font-weight:700; letter-spacing:0.15em; padding:5px 12px; cursor:pointer; border:none; font-family:'Montserrat',sans-serif; background:transparent; color:var(--text-muted); transition:all 0.2s;">FR</button>
+    </div>
+  </div>
   <a href="#waitlist" class="nav-cta">Join the waitlist</a>
 </nav>
 
@@ -707,8 +713,13 @@
     <span style="font-size:11px; color:var(--text-muted); border:1px solid var(--border); padding:7px 14px; letter-spacing:0.02em;">The Sovereign Circle community</span>
   </div>
   
-  <div style="margin-top:20px; padding-top:20px; border-top:1px solid var(--border); text-align:center;">
-    <a href="/the_sovereign/the-lifeline.html" style="font-size:11px; color:#c9534a; text-decoration:none; letter-spacing:0.04em; border-bottom:1px solid rgba(201,83,74,0.25); padding-bottom:1px;" data-i18n="crisis.link">Are you in immediate crisis? This page is for you →</a>
+  <div style="margin-top:28px; padding:20px; border:1.5px solid rgba(201,83,74,0.35); background:rgba(201,83,74,0.04); text-align:center;">
+    <p style="font-size:11px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:#c9534a; margin-bottom:12px;" data-i18n="crisis.heading">Are you in immediate crisis?</p>
+    <p style="font-size:12px; color:var(--text-muted); margin-bottom:16px; font-style:italic;" data-i18n="crisis.sub">This is not the moment for a curriculum. We built something for right now.</p>
+    <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+      <a href="/the_sovereign/the-lifeline.html" style="display:inline-block; background:#c9534a; color:#fff; font-size:10px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; padding:12px 22px; text-decoration:none; transition:background 0.2s;" data-i18n="crisis.cta">Emergency resources →</a>
+      <a href="https://wa.me/33626532438?text=Bonjour%2C%20j%27ai%20besoin%20d%27aide%20urgente.%20Je%20viens%20de%20The%20Sovereign%20Woman." target="_blank" rel="noopener" style="display:inline-block; background:#25D366; color:#fff; font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; padding:12px 22px; text-decoration:none; transition:background 0.2s;" data-i18n="crisis.wa">Message us directly on WhatsApp</a>
+    </div>
   </div>
   <div style="margin-top:36px; padding-top:32px; border-top:1px solid var(--border);">
     <p style="font-size:10px; font-weight:700; letter-spacing:0.25em; text-transform:uppercase; color:var(--text-muted); margin-bottom:14px;">Not sure where to start?</p>
@@ -913,5 +924,41 @@
       </svg>
     </a>
   </div>
+
+<script>
+var SOV_I18N_ROSE = {
+  en: {
+    "crisis.heading": "Are you in immediate crisis?",
+    "crisis.sub": "This is not the moment for a curriculum. We built something for right now.",
+    "crisis.cta": "Emergency resources \u2192",
+    "crisis.wa": "Message us directly on WhatsApp"
+  },
+  fr: {
+    "crisis.heading": "Tu es en crise imm\u00e9diate\u00a0?",
+    "crisis.sub": "Ce n\'est pas le moment pour un curriculum. Nous avons construit quelque chose pour maintenant.",
+    "crisis.cta": "Ressources d\'urgence \u2192",
+    "crisis.wa": "\u00c9cris-nous directement sur WhatsApp"
+  }
+};
+var LANG_KEY = 'sov-lang';
+function applyLangPage(lang) {
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    if (SOV_I18N_ROSE[lang] && SOV_I18N_ROSE[lang][key]) el.innerHTML = SOV_I18N_ROSE[lang][key];
+  });
+  var btnEN = document.getElementById('btnEN');
+  var btnFR = document.getElementById('btnFR');
+  if (btnEN) { btnEN.style.background = lang==='en' ? '#B55E75' : 'transparent'; btnEN.style.color = lang==='en' ? '#fff' : ''; }
+  if (btnFR) { btnFR.style.background = lang==='fr' ? '#B55E75' : 'transparent'; btnFR.style.color = lang==='fr' ? '#fff' : ''; }
+  document.documentElement.setAttribute('lang', lang);
+}
+function setLang(lang) {
+  localStorage.setItem(LANG_KEY, lang);
+  applyLangPage(lang);
+  var waBtn = document.getElementById('wa-btn');
+  if (waBtn) waBtn.href = lang === 'fr' ? 'https://wa.me/33626532438?text=Bonjour%2C%20j%27ai%20besoin%20d%27aide%20urgente.' : 'https://wa.me/33626532438?text=Hello%20Freya%2C%20I%20found%20The%20Sovereign%20Woman%20and%20I%27d%20love%20to%20know%20more.';
+}
+(function() { applyLangPage(localStorage.getItem(LANG_KEY) || 'en'); })();
+</script>
 </body>
 </html>

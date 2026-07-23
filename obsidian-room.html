@@ -751,6 +751,15 @@
     <span style="font-size:11px; color:var(--text-muted); border:1px solid var(--border); padding:7px 14px; letter-spacing:0.02em;">Goldvest practice simulator</span>
     <span style="font-size:11px; color:var(--text-muted); border:1px solid var(--border); padding:7px 14px; letter-spacing:0.02em;">The Sovereign Circle community</span>
   </div>
+  <div style="margin-top:28px; padding:20px; border:1.5px solid rgba(201,83,74,0.35); background:rgba(201,83,74,0.06); text-align:center;">
+    <p style="font-size:11px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:#c9534a; margin-bottom:12px;" data-i18n="crisis.heading">Are you in immediate crisis?</p>
+    <p style="font-size:12px; color:var(--text-muted); margin-bottom:16px; font-style:italic;" data-i18n="crisis.sub">This is not the moment for a curriculum. We built something for right now.</p>
+    <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+      <a href="/the_sovereign/the-lifeline.html" style="display:inline-block; background:#c9534a; color:#fff; font-size:10px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; padding:12px 22px; text-decoration:none;" data-i18n="crisis.cta">Emergency resources →</a>
+      <a id="crisis-wa-btn" href="https://wa.me/33626532438?text=Bonjour%2C%20j%27ai%20besoin%20d%27aide%20urgente.%20Je%20viens%20de%20The%20Sovereign%20Woman." target="_blank" rel="noopener" style="display:inline-block; background:#25D366; color:#fff; font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; padding:12px 22px; text-decoration:none;" data-i18n="crisis.wa">Message us on WhatsApp</a>
+    </div>
+  </div>
+
   <div style="margin-top:36px; padding-top:32px; border-top:1px solid var(--border);">
     <p style="font-size:10px; font-weight:700; letter-spacing:0.25em; text-transform:uppercase; color:var(--text-dim); margin-bottom:14px;">Not sure where to start?</p>
     <a href="/the_sovereign/sovereignty-score.html" style="display:inline-block; background:var(--gold); color:var(--black); font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; padding:15px 32px; text-decoration:none; transition:background 0.2s;">Let Freya show you your path →</a>
@@ -1105,6 +1114,8 @@ function setLang(lang) {
   localStorage.setItem(LANG_KEY, lang);
   applyLangPage(lang);
 
+  var crisisWa = document.getElementById('crisis-wa-btn');
+  if (crisisWa) crisisWa.href = lang === 'fr' ? 'https://wa.me/33626532438?text=Bonjour%2C%20j%27ai%20besoin%20d%27aide%20urgente.%20Je%20viens%20de%20The%20Sovereign%20Woman.' : 'https://wa.me/33626532438?text=Hello%20Freya%2C%20I%20found%20The%20Sovereign%20Woman%20and%20I%27d%20love%20to%20know%20more.';
   var waBtn = document.getElementById('wa-btn');
   if (waBtn) {
     waBtn.href = lang === 'fr' ? 'https://wa.me/33626532438?text=Bonjour%20Freya%2C%20j%27ai%20d%C3%A9couvert%20The%20Sovereign%20Woman%20et%20j%27aimerais%20en%20savoir%20plus.' : 'https://wa.me/33626532438?text=Hello%20Freya%2C%20I%20found%20The%20Sovereign%20Woman%20and%20I%27d%20love%20to%20know%20more.';
