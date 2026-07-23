@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Ligne de Vie — The Sovereign Woman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --crisis: #8b1a1a;
+    --crisis-surface: #1a0808;
+    --crisis-surface2: #240f0f;
+    --copper: #c9844c;
+    --copper-light: #e0a870;
+    --copper-dim: rgba(201,132,76,0.12);
+    --copper-border: rgba(201,132,76,0.2);
+    --copper-border-strong: rgba(201,132,76,0.4);
+    --text: #f5f0e8;
+    --text-muted: #a08878;
+    --text-dim: #5a3a32;
+    --up: #6fae8f;
+    --up-dim: rgba(111,174,143,0.15);
+    --urgent: #c9534a;
+    --urgent-dim: rgba(201,83,74,0.15);
+    --warn: #c9a84c;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: #0f0808; color: var(--text); font-family: 'Montserrat', sans-serif; min-height: 100vh; padding-bottom: 80px; }
+
+  .crisis-bar { height: 4px; background: linear-gradient(90deg, var(--urgent), var(--copper), var(--warn), var(--copper), var(--urgent)); }
+
+  nav { padding: 14px 32px; border-bottom: 1px solid var(--copper-border); display: flex; align-items: center; justify-content: space-between; background: #0f0808; }
+  .nav-back { font-size: 10px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--copper); text-decoration: none; opacity: 0.7; }
+  .nav-back:hover { opacity: 1; }
+  .nav-brand { font-family: 'Playfair Display', serif; font-size: 12px; font-style: italic; color: var(--copper); letter-spacing: 0.1em; text-decoration: none; }
+  .nav-emergency { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--urgent); border: 1px solid rgba(201,83,74,0.4); padding: 5px 12px; }
+
+  .hero { padding: 48px 32px 28px; max-width: 660px; margin: 0 auto; text-align: center; }
+  .hero-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: var(--copper); margin-bottom: 14px; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 5vw, 44px); font-weight: 900; line-height: 1.1; color: var(--text); margin-bottom: 12px; }
+  .hero-title em { font-style: italic; color: var(--copper-light); display: block; }
+  .hero-sub { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--text-muted); line-height: 1.7; max-width: 500px; margin: 0 auto 20px; }
+  .hero-note { font-size: 11px; color: var(--text-dim); line-height: 1.6; }
+
+  .sos-bar { max-width: 660px; margin: 0 auto 32px; padding: 0 32px; }
+  .sos-card { background: var(--urgent-dim); border: 1px solid rgba(201,83,74,0.4); padding: 18px 22px; display: flex; align-items: center; gap: 16px; }
+  .sos-icon { font-size: 28px; flex-shrink: 0; }
+  .sos-text { flex: 1; }
+  .sos-label { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--urgent); margin-bottom: 4px; }
+  .sos-num { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--text); line-height: 1; }
+  .sos-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+  .sos-call { background: var(--urgent); color: var(--text); border: none; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 18px; cursor: pointer; flex-shrink: 0; text-decoration: none; display: inline-block; }
+
+  .wrap { max-width: 660px; margin: 0 auto; padding: 0 32px; }
+
+  /* TRIAGE */
+  .triage-card { background: var(--crisis-surface); border: 1px solid var(--copper-border); padding: 24px; margin-bottom: 20px; }
+  .triage-title { font-size: 10px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--copper); margin-bottom: 16px; }
+  .triage-q { font-family: 'Cormorant Garamond', serif; font-size: 19px; color: var(--text); line-height: 1.5; margin-bottom: 14px; font-style: italic; }
+  .triage-options { display: flex; flex-direction: column; gap: 8px; }
+  .triage-opt { background: var(--crisis-surface2); border: 1px solid var(--copper-border); padding: 12px 16px; cursor: pointer; font-size: 13px; color: var(--text-muted); text-align: left; font-family: 'Montserrat', sans-serif; transition: all 0.15s; }
+  .triage-opt:hover { border-color: var(--copper-border-strong); color: var(--text); }
+  .triage-opt.selected { border-color: var(--copper); background: var(--copper-dim); color: var(--text); }
+
+  /* RESOURCE SECTIONS */
+  .section-divider { display: flex; align-items: center; gap: 12px; margin: 28px 0 18px; }
+  .section-line { flex: 1; height: 1px; background: var(--copper-border); }
+  .section-tag { font-size: 9px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--copper); white-space: nowrap; }
+
+  .resource-card { background: var(--crisis-surface); border: 1px solid var(--copper-border); padding: 18px 20px; margin-bottom: 10px; }
+  .resource-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .resource-desc { font-size: 12px; color: var(--text-muted); line-height: 1.6; margin-bottom: 10px; }
+  .resource-contacts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .resource-contact { font-size: 11px; font-weight: 700; color: var(--copper); border: 1px solid var(--copper-border); padding: 5px 12px; text-decoration: none; transition: border-color 0.15s; display: inline-block; }
+  .resource-contact:hover { border-color: var(--copper-border-strong); }
+  .resource-urgent { border-left: 2px solid var(--urgent); }
+  .resource-available { font-size: 9px; color: var(--text-dim); margin-top: 8px; }
+
+  /* IMMEDIATE ACTIONS */
+  .action-steps { margin-bottom: 28px; }
+  .step-row { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--copper-border); align-items: flex-start; }
+  .step-row:last-child { border-bottom: none; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--copper-dim); border: 1px solid var(--copper-border-strong); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--copper); flex-shrink: 0; margin-top: 1px; }
+  .step-content { flex: 1; }
+  .step-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .step-body { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+  .step-urgent { color: var(--urgent); }
+
+  /* FINANCIAL EMERGENCY */
+  .fin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .fin-card { background: var(--crisis-surface); border: 1px solid var(--copper-border); padding: 14px 16px; }
+  .fin-title { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .fin-body { font-size: 11px; color: var(--text-muted); line-height: 1.55; }
+
+  /* FREYA NOTE */
+  .freya-note { background: var(--copper-dim); border-left: 2px solid var(--copper); padding: 18px 22px; margin: 28px 0; font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--text); line-height: 1.75; }
+
+  /* TRANSITION */
+  .transition-card { background: var(--crisis-surface); border: 1px solid var(--copper-border); padding: 22px; margin-top: 28px; }
+  .transition-label { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--copper); margin-bottom: 10px; }
+  .transition-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .transition-body { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; }
+  .transition-btn { display: inline-block; background: var(--copper); color: #0f0808; font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 13px 22px; text-decoration: none; transition: background 0.2s; }
+  .transition-btn:hover { background: var(--copper-light); }
+
+  .disclaimer { font-size: 10px; color: var(--text-dim); line-height: 1.7; text-align: center; margin-top: 28px; font-style: italic; padding-top: 20px; border-top: 1px solid var(--copper-border); }
+
+  footer { padding: 32px; text-align: center; font-size: 10px; color: var(--text-dim); }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 0 18px; }
+    .hero { padding: 40px 18px 24px; }
+    nav { padding: 12px 18px; }
+    .sos-bar { padding: 0 18px; }
+    .fin-grid { grid-template-columns: 1fr; }
+    .sos-card { flex-wrap: wrap; }
+  }
+
+  @media print {
+    nav, .triage-card, footer { display: none; }
+    body { background: white; color: black; }
+    .resource-card, .fin-card { border: 1px solid #ccc; }
+  }
+</style>
+</head>
+<body>
+
+<div class="crisis-bar"></div>
+<nav>
+  <a href="/the_sovereign/obsidian-room.html" class="nav-back">← The Sovereign Woman</a>
+  <a href="/the_sovereign/obsidian-room.html" class="nav-brand">The Sovereign Woman</a>
+  <div class="nav-emergency">Ligne de vie</div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">Pour les femmes sur la ligne rouge</div>
+  <h1 class="hero-title">Pas de cours.<br><em>Des réponses. Maintenant.</em></h1>
+  <p class="hero-sub">Cette page est pour la femme qui n'a pas le temps d'un curriculum. Qui a besoin de savoir quoi faire, aujourd'hui, dans les prochaines heures.</p>
+  <p class="hero-note">Aucune inscription. Aucun email demandé. Aucune donnée collectée. Cette page n'existe que pour toi.</p>
+</div>
+
+<!-- SOS NUMBERS -->
+<div class="sos-bar">
+  <div class="sos-card">
+    <div class="sos-icon">📞</div>
+    <div class="sos-text">
+      <div class="sos-label">Urgence violences conjugales — gratuit, 24h/24</div>
+      <div class="sos-num">3919</div>
+      <div class="sos-sub">Solidarité Femmes — écoute, orientation, hébergement d'urgence</div>
+    </div>
+    <a href="tel:3919" class="sos-call">Appeler →</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- TRIAGE -->
+  <div class="triage-card">
+    <div class="triage-title">Dis-moi où tu en es</div>
+    <div class="triage-q">"Quelle est ta situation la plus urgente en ce moment ?"</div>
+    <div class="triage-options">
+      <button class="triage-opt" onclick="showSection('violence')">Je suis en danger physique ou sous emprise</button>
+      <button class="triage-opt" onclick="showSection('financial')">Je n'ai plus accès à mon argent / je suis bloquée financièrement</button>
+      <button class="triage-opt" onclick="showSection('separation')">Je viens de me séparer et je ne sais pas par où commencer</button>
+      <button class="triage-opt" onclick="showSection('housing')">Je n'ai plus de logement ou je risque de le perdre</button>
+      <button class="triage-opt" onclick="showSection('children')">Mes enfants sont en jeu — garde, pension, sécurité</button>
+      <button class="triage-opt" onclick="showSection('all')">Tout à la fois. Je ne sais pas par où commencer.</button>
+    </div>
+  </div>
+
+  <!-- SECTION: VIOLENCE -->
+  <div id="section-violence" style="display:none;">
+    <div class="freya-note">"Ta sécurité physique est la première chose. Avant l'argent. Avant les documents. Avant tout le reste. Si tu es en danger maintenant, commence ici."</div>
+    <div class="section-divider"><div class="section-line"></div><div class="section-tag">Sécurité immédiate</div><div class="section-line"></div></div>
+    <div class="resource-card resource-urgent">
+      <div class="resource-name">🆘 Urgence immédiate</div>
+      <div class="resource-desc">Si tu es en danger physique immédiat — ton ou tes enfants aussi.</div>
+      <div class="resource-contacts">
+        <a href="tel:17" class="resource-contact">17 — Police</a>
+        <a href="tel:15" class="resource-contact">15 — SAMU</a>
+        <a href="tel:114" class="resource-contact">114 — SMS si tu ne peux pas parler</a>
+      </div>
+    </div>
+    <div class="resource-card">
+      <div class="resource-name">Solidarité Femmes — 3919</div>
+      <div class="resource-desc">Ligne nationale violences conjugales. Gratuite, anonyme, disponible 24h/24. Orientation vers hébergement d'urgence, accompagnement juridique, soutien psychologique.</div>
+      <div class="resource-contacts"><a href="tel:3919" class="resource-contact">3919</a></div>
+      <div class="resource-available">Disponible 24h/24, 7j/7 — gratuit depuis fixe et mobile</div>
+    </div>
+    <div class="resource-card">
+      <div class="resource-name">CIDFF 66 — Perpignan</div>
+      <div class="resource-desc">Centre d'information sur les droits des femmes et des familles. Permanence juridique gratuite, accompagnement violences, aide aux démarches. Présent sur tout le département 66.</div>
+      <div class="resource-contacts">
+        <a href="tel:0468511637" class="resource-contact">04 68 51 16 37</a>
+        <a href="mailto:contact@cidff66.fr" class="resource-contact">contact@cidff66.fr</a>
+        <a href="https://pyreneesorientales.cidff.info" target="_blank" class="resource-contact">Site web →</a>
+      </div>
+      <div class="resource-available">52 rue Maréchal-Foch, Perpignan · Lu–Ve 8h30–12h / 14h–17h</div>
+    </div>
+    <div class="resource-card">
+      <div class="resource-name">ADAVIP 66 — France Victimes</div>
+      <div class="resource-desc">Association d'aide aux victimes d'infractions pénales. Accompagnement juridique, soutien psychologique, aide aux démarches judiciaires.</div>
+      <div class="resource-contacts"><a href="tel:0468680808" class="resource-contact">Contacter →</a></div>
+      <div class="resource-available">28 avenue du Général de Gaulle, 66000 Perpignan</div>
+    </div>
+    <div class="section-divider"><div class="section-line"></div><div class="section-tag">Ce que tu peux faire dans les prochaines heures</div><div class="section-line"></div></div>
+    <div class="action-steps">
+      <div class="step-row"><div class="step-num">1</div><div class="step-content"><div class="step-title">Mets-toi en sécurité physique d'abord</div><div class="step-body">Si tu peux partir, pars. Prends tes enfants, tes papiers d'identité, et ton téléphone. Le reste peut être récupéré. Ta sécurité, non.</div></div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-content"><div class="step-title">Appelle le 3919 pour une orientation hébergement</div><div class="step-body">Ils peuvent te trouver une place en hébergement d'urgence si tu n'as nulle part où aller ce soir. Gratuit, anonyme, immédiat.</div></div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-content"><div class="step-title">Dépôt de plainte — tu n'es pas obligée d'attendre</div><div class="step-body">Tu peux déposer plainte à n'importe quel commissariat ou brigade, sans rendez-vous. Garde une copie du dépôt. Elle te sera utile pour les démarches CAF, logement, et judiciaires.</div></div></div>
+      <div class="step-row"><div class="step-num">4</div><div class="step-content"><div class="step-title">Ordonnance de protection</div><div class="step-body">Le juge aux affaires familiales peut ordonner l'exclusion du conjoint violent du domicile dans les 6 jours. Le CIDFF peut t'aider à monter ce dossier gratuitement.</div></div></div>
+    </div>
+  </div>
+
+  <!-- SECTION: FINANCIAL -->
+  <div id="section-financial" style="display:none;">
+    <div class="freya-note">"Compte bloqué, carte retirée, accès coupé — c'est une forme de violence que la loi reconnaît maintenant. Tu n'es pas sans recours."</div>
+    <div class="section-divider"><div class="section-line"></div><div class="section-tag">Urgence financière — ce que tu peux faire aujourd'hui</div><div class="section-line"></div></div>
+    <div class="action-steps">
+      <div class="step-row"><div class="step-num">1</div><div class="step-content"><div class="step-title">Ouvre un compte bancaire à ton seul nom — maintenant</div><div class="step-body">N'importe quelle banque. Banque postale, Nickel (chez un buraliste, sans conditions), ou une banque en ligne. Personne d'autre ne peut bloquer un compte qui n'est qu'à toi.</div></div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-content"><div class="step-title">Contacte la CAF immédiatement</div><div class="step-body">Si tu as des enfants, tu as droit à des prestations familiales versées directement sur ton compte. Séparation officielle ou non — la CAF peut être saisie aujourd'hui. Ton droit, pas sa décision.</div></div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-content"><div class="step-title">Droit au compte — Banque de France</div><div class="step-body">Si une banque refuse de t'ouvrir un compte, la Banque de France peut te désigner une banque dans les 24h. C'est un droit légal. Téléphone : 3414.</div></div></div>
+      <div class="step-row"><div class="step-num">4</div><div class="step-content"><div class="step-title">Gel des comptes joints — parle à un avocat ce jour</div><div class="step-body">Un avocat peut demander en référé le gel d'un compte joint pour empêcher le vidage de l'épargne commune. Le CIDFF peut t'orienter vers une aide juridictionnelle gratuite si tes ressources sont limitées.</div></div></div>
+    </div>
+    <div class="section-divider"><div class="section-line"></div><div class="section-tag">Aides financières d'urgence</div><div class="section-line"></div></div>
+    <div class="fin-grid">
+      <div class="fin-card"><div class="fin-title">CAF — Aide d'urgence</div><div class="fin-body">Aide exceptionnelle versée rapidement sur justificatif de situation de crise. Contacter ta CAF locale ou caf.fr.</div></div>
+      <div class="fin-card"><div class="fin-title">CCAS Perpignan</div><div class="fin-body">Centre communal d'action sociale — aide financière d'urgence, épicerie sociale, accompagnement. Mairie de Perpignan.</div></div>
+      <div class="fin-card"><div class="fin-title">RSA immédiat</div><div class="fin-body">Si tu n'as aucune ressource, le RSA peut être demandé sur caf.fr. Traitement accéléré en situation d'urgence déclarée.</div></div>
+      <div class="fin-card"><div class="fin-title">Microcrédit social</div><div class="fin-body">Adie ou Crédit Municipal — petits prêts sans conditions pour les femmes en situation précaire. Pas besoin d'historique bancaire.</div></div>
+    </div>
+  </div>
+
+  <!-- SECTION: SEPARATION -->
+  <div id="section-separation" style="display:none;">
+    <div class="freya-note">"La séparation est une des transitions les plus déstabilisantes financièrement. Pas parce que tu es incapable — parce que personne ne te donne la liste de ce que tu dois faire dans quel ordre."</div>
+    <div class="section-divider"><div class="section-line"></div><div class="section-tag">Par où commencer — les 7 premières actions</div><div class="section-line"></div></div>
+    <div class="action-steps">
+      <div class="step-row"><div class="step-num">1</div><div class="step-content"><div class="step-title">Ouvre un compte bancaire à ton seul nom</div><div class="step-body">Avant toute chose. Tes revenus, tes allocations et tes remboursements doivent aller quelque part que toi seule contrôles.</div></div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-content"><div class="step-title">Rassemble tes documents</div><div class="step-body">Carte d'identité, livret de famille, actes de naissance, contrat de mariage ou PACS, fiches de paie, avis d'imposition, titre de propriété ou bail. Fais des copies et garde-les ailleurs.</div></div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-content"><div class="step-title">Contacte la CAF pour les allocations</div><div class="step-body">Allocation de soutien familial, APL, RSA selon ta situation — la CAF peut recalculer tes droits dès la séparation. Ne pas attendre le divorce.</div></div></div>
+      <div class="step-row"><div class="step-num">4</div><div class="step-content"><div class="step-title">Consultation juridique gratuite</div><div class="step-body">Le CIDFF 66 propose des permanences juridiques gratuites. Une heure avec un juriste change ce que tu sais de tes droits de façon permanente.</div></div></div>
+      <div class="step-row"><div class="step-num">5</div><div class="step-content"><div class="step-title">Pension alimentaire provisoire</div><div class="step-body">Si tu as des enfants, une pension alimentaire provisoire peut être demandée en urgence au juge aux affaires familiales, même avant le divorce.</div></div></div>
+      <div class="step-row"><div class="step-num">6</div><div class="step-content"><div class="step-title">Prestation compensatoire</div><div class="step-body">Si ton niveau de vie va significativement baisser par rapport à celui du mariage, tu as peut-être droit à une prestation compensatoire. À évaluer avec un avocat.</div></div></div>
+      <div class="step-row"><div class="step-num">7</div><div class="step-content"><div class="step-title">Aide juridictionnelle</div><div class="step-body">Si tes ressources sont limitées, l'État peut prendre en charge tout ou partie des frais d'avocat. Formulaire disponible au tribunal ou sur service-public.fr.</div></div></div>
+    </div>
+    <div class="resource-card" style="margin-top:16px;">
+      <div class="resource-name">CIDFF 66 — Perpignan</div>
+      <div class="resource-desc">Point d'entrée pour tout ce qui précède. Juridique, social, psychologique. Gratuit. Anonyme. Sans jugement.</div>
+      <div class="resource-contacts">
+        <a href="tel:0468511637" class="resource-contact">04 68 51 16 37</a>
+        <a href="mailto:contact@cidff66.fr" class="resource-contact">contact@cidff66.fr</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION: HOUSING -->
+  <div id="section-housing" style="display:none;">
+    <div class="freya-note">"Avoir un toit est la fondation de tout le reste. Avant l'argent, avant les documents, avant la reconstruction — tu as besoin d'un endroit où tu peux souffler."</div>
+    <div class="section-divider"><div class="section-line"></div><div class="section-tag">Logement d'urgence</div><div class="section-line"></div></div>
+    <div class="action-steps">
+      <div class="step-row"><div class="step-num">1</div><div class="step-content"><div class="step-title"><span class="step-urgent">115 — SAMU Social</span> — hébergement d'urgence ce soir</div><div class="step-body">Gratuit, 24h/24. Si tu n'as nulle part où aller ce soir, appelle le 115. Ils peuvent trouver une place d'hébergement d'urgence pour toi et tes enfants.</div></div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-content"><div class="step-title">Droit au maintien dans le logement</div><div class="step-body">Si tu es victime de violences conjugales, la loi prévoit le départ du conjoint violent du domicile commun — pas toi. Une ordonnance de protection peut être obtenue en 6 jours.</div></div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-content"><div class="step-title">Demande HLM en urgence</div><div class="step-body">Une demande de logement social en situation d'urgence (violences, séparation) peut être déposée directement sur demande-logement-social.gouv.fr avec accélération du traitement.</div></div></div>
+      <div class="step-row"><div class="step-num">4</div><div class="step-content"><div class="step-title">APL immédiate</div><div class="step-body">Si tu trouves un logement — APL calculable dès le premier mois sur caf.fr. À demander immédiatement, rétroactivité limitée.</div></div></div>
+    </div>
+  </div>
+
+  <!-- SECTION: CHILDREN -->
+  <div id="section-children" style="display:none;">
+    <div class="freya-note">"Tes enfants sont ta priorité et ton droit le plus fort. La loi aussi le pense — et les outils existent pour les protéger rapidement."</div>
+    <div class="section-divider"><div class="section-line"></div><div class="section-tag">Enfants — protections et droits immédiats</div><div class="section-line"></div></div>
+    <div class="action-steps">
+      <div class="step-row"><div class="step-num">1</div><div class="step-content"><div class="step-title">Pension alimentaire provisoire en urgence</div><div class="step-body">Le juge aux affaires familiales peut fixer une pension provisoire par ordonnance, même sans divorce en cours. Demande à déposer au tribunal judiciaire de Perpignan.</div></div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-content"><div class="step-title">Allocation de soutien familial (ASF)</div><div class="step-body">Si l'autre parent ne paie pas la pension — la CAF peut avancer l'ASF et se retourner contre lui. Condition : ordonnance ou jugement fixant la pension.</div></div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-content"><div class="step-title">Garde provisoire — ordonnance de non-conciliation</div><div class="step-body">En cas de séparation conflictuelle, une garde provisoire peut être demandée en urgence. Le CIDFF peut t'aider à préparer ce dossier.</div></div></div>
+      <div class="step-row"><div class="step-num">4</div><div class="step-content"><div class="step-title">Enlèvement parental — alerte enlèvement</div><div class="step-body">Si l'autre parent retient les enfants sans droit — c'est illégal. Appelle le 17 immédiatement. Un dépôt de plainte déclenche une procédure rapide.</div></div></div>
+    </div>
+  </div>
+
+  <!-- SECTION: ALL -->
+  <div id="section-all" style="display:none;">
+    <div class="freya-note">"Quand tout arrive en même temps, le cerveau cherche à tout résoudre en même temps. Ce n'est pas possible. Ce qui est possible : une chose, maintenant."</div>
+    <div class="section-divider"><div class="section-line"></div><div class="section-tag">Une chose. Maintenant.</div><div class="section-line"></div></div>
+    <div class="action-steps">
+      <div class="step-row"><div class="step-num">→</div><div class="step-content"><div class="step-title">Si tu es en danger physique : appelle le 3919 ou le 17</div><div class="step-body">Tout le reste peut attendre. Ta sécurité ne peut pas.</div></div></div>
+      <div class="step-row"><div class="step-num">→</div><div class="step-content"><div class="step-title">Si tu n'es pas en danger physique : appelle le CIDFF 66</div><div class="step-body">04 68 51 16 37 — ils peuvent démêler la situation avec toi en un rendez-vous et t'orienter vers les bonnes structures dans le bon ordre.</div></div></div>
+      <div class="step-row"><div class="step-num">→</div><div class="step-content"><div class="step-title">Si tu ne peux pas appeler maintenant : note un numéro</div><div class="step-body">Un seul. Le 3919. Gratuit, anonyme, 24h/24. Quand tu pourras, appelle.</div></div></div>
+    </div>
+    <div class="resource-card resource-urgent" style="margin-top:16px;">
+      <div class="resource-name">Le point d'entrée universel : CIDFF 66</div>
+      <div class="resource-desc">Quelle que soit ta situation — violences, séparation, logement, enfants, finances — ils peuvent t'orienter vers la bonne aide dans le bon ordre. Gratuit. Anonyme. Sans jugement. C'est leur mission.</div>
+      <div class="resource-contacts">
+        <a href="tel:0468511637" class="resource-contact">04 68 51 16 37</a>
+        <a href="tel:3919" class="resource-contact">3919 — urgences</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALWAYS VISIBLE RESOURCES -->
+  <div class="section-divider"><div class="section-line"></div><div class="section-tag">Ressources permanentes</div><div class="section-line"></div></div>
+
+  <div class="resource-card">
+    <div class="resource-name">3919 — Violences Femmes Info</div>
+    <div class="resource-desc">Ligne nationale d'écoute pour les femmes victimes de violences. Professionnels formés, orientation vers l'aide adaptée, disponible partout en France.</div>
+    <div class="resource-contacts"><a href="tel:3919" class="resource-contact">3919 — Appeler</a></div>
+    <div class="resource-available">Gratuit · 24h/24 · 7j/7 · Anonyme</div>
+  </div>
+
+  <div class="resource-card">
+    <div class="resource-name">CIDFF 66 — Centre d'Information sur les Droits des Femmes</div>
+    <div class="resource-desc">Permanences gratuites sur droits des femmes, violences, droit de la famille, emploi, logement. Présent à Perpignan et dans tout le département 66.</div>
+    <div class="resource-contacts">
+      <a href="tel:0468511637" class="resource-contact">04 68 51 16 37</a>
+      <a href="mailto:contact@cidff66.fr" class="resource-contact">contact@cidff66.fr</a>
+      <a href="https://pyreneesorientales.cidff.info" target="_blank" class="resource-contact">Site →</a>
+    </div>
+    <div class="resource-available">52 rue Maréchal-Foch, Perpignan · Lu–Ve · Permanences aussi à Prades, Céret, Ille-sur-Têt, Thuir, Elne</div>
+  </div>
+
+  <div class="resource-card">
+    <div class="resource-name">CAF Pyrénées-Orientales</div>
+    <div class="resource-desc">Allocations familiales, APL, RSA, allocation de soutien familial, aide d'urgence. Accès à tes droits même en cours de séparation.</div>
+    <div class="resource-contacts">
+      <a href="tel:3230" class="resource-contact">3230</a>
+      <a href="https://www.caf.fr" target="_blank" class="resource-contact">caf.fr →</a>
+    </div>
+  </div>
+
+  <div class="resource-card">
+    <div class="resource-name">115 — SAMU Social</div>
+    <div class="resource-desc">Hébergement d'urgence pour les personnes sans domicile ou en danger. Possibilité d'hébergement avec enfants.</div>
+    <div class="resource-contacts"><a href="tel:115" class="resource-contact">115 — Appeler</a></div>
+    <div class="resource-available">Gratuit · 24h/24 · 7j/7</div>
+  </div>
+
+  <div class="resource-card">
+    <div class="resource-name">Aide juridictionnelle</div>
+    <div class="resource-desc">Si tes ressources sont limitées, l'État prend en charge tout ou partie des frais d'avocat. Accessible via le tribunal judiciaire ou en ligne.</div>
+    <div class="resource-contacts">
+      <a href="https://www.service-public.fr/particuliers/vosdroits/F18074" target="_blank" class="resource-contact">service-public.fr →</a>
+    </div>
+  </div>
+
+  <!-- TRANSITION TO SOVEREIGN WOMAN -->
+  <div class="transition-card">
+    <div class="transition-label">Quand tu seras prête à construire</div>
+    <div class="transition-title">The Sovereign Woman t'attend.</div>
+    <div class="transition-body">Cette page est pour la crise. Ce qui suit est pour la reconstruction — les outils, le curriculum, la communauté. Pas de pression. Pas de calendrier. Quand tu seras prête, tout sera là.</div>
+    <a href="/the_sovereign/obsidian-room.html" class="transition-btn">Découvrir The Sovereign Woman →</a>
+  </div>
+
+  <div class="disclaimer">
+    Cette page regroupe des informations publiques et des ressources vérifiées. Elle ne constitue pas un avis juridique et ne se substitue pas à un professionnel du droit ou à un accompagnement spécialisé. Les numéros et contacts sont vérifiés à date — certains peuvent avoir changé. En cas de doute, appelez le 3919.
+  </div>
+
+</div>
+
+<footer>The Sovereign Woman — La Ligne de Vie · Pour celles qui sont sur la ligne rouge.</footer>
+
+<script>
+  function showSection(id) {
+    const sections = ['violence','financial','separation','housing','children','all'];
+    sections.forEach(function(s) {
+      const el = document.getElementById('section-' + s);
+      if (el) el.style.display = 'none';
+    });
+    document.querySelectorAll('.triage-opt').forEach(function(b) { b.classList.remove('selected'); });
+    event.currentTarget.classList.add('selected');
+    const target = document.getElementById('section-' + id);
+    if (target) {
+      target.style.display = 'block';
+      setTimeout(function() {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+  }
+</script>
+
+
+  <!-- WHATSAPP BUTTON -->
+  <div style="position:fixed; bottom:28px; right:28px; z-index:500; display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+    <div id="wa-tooltip" style="display:none; background:#1a0808; border:1px solid rgba(201,132,76,0.4); padding:10px 14px; font-size:11px; color:#f5f0e8; max-width:200px; line-height:1.5; text-align:right;">
+      Une question urgente ? Écris-nous directement.
+    </div>
+    <a href="https://wa.me/33626532438?text=Bonjour%20Freya%2C%20j%27ai%20d%C3%A9couvert%20The%20Sovereign%20Woman%20et%20j%27aimerais%20en%20savoir%20plus." target="_blank" rel="noopener"
+      style="width:54px; height:54px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(37,211,102,0.35); transition:transform 0.2s; text-decoration:none;"
+      onmouseover="document.getElementById('wa-tooltip').style.display='block'; this.style.transform='scale(1.08)';"
+      onmouseout="document.getElementById('wa-tooltip').style.display='none'; this.style.transform='scale(1)';"
+      aria-label="Contacter sur WhatsApp">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+      </svg>
+    </a>
+  </div>
+</body>
+</html>

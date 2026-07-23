@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Sovereignty Score — The Sovereign Woman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root[data-theme="dark"] {
+    --gold: #c9a84c; --gold-light: #f0d080; --gold-dim: rgba(201,168,76,0.12);
+    --black: #080808; --surface: #121212; --surface2: #1a1a1a;
+    --text: #f5f0e8; --text-muted: #9a9080; --text-dim: #4a4438;
+    --border: rgba(201,168,76,0.15); --border-strong: rgba(201,168,76,0.35);
+    --up: #6fae8f; --up-dim: rgba(111,174,143,0.14);
+    --down: #c9534a; --down-dim: rgba(201,83,74,0.14);
+  }
+
+  :root[data-theme="rose"] {
+    --gold: #B55E75; --gold-light: #DB9AA4; --gold-dim: rgba(181,94,117,0.10);
+    --black: #fdf6f0; --surface: #ffffff; --surface2: #f9eff3;
+    --text: #2e1a22; --text-muted: #7a4a58; --text-dim: #b89aa4;
+    --border: rgba(181,94,117,0.15); --border-strong: rgba(181,94,117,0.35);
+    --up: #5a9379; --up-dim: rgba(90,147,121,0.10);
+    --down: #b5544a; --down-dim: rgba(181,84,74,0.10);
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--text); font-family: 'Montserrat', sans-serif; min-height: 100vh; padding-bottom: 100px; transition: background 0.3s, color 0.3s; }
+  ::selection { background: var(--gold-dim); }
+
+  .gold-bar { height: 2px; background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent); }
+
+  nav.sov-nav { padding: 16px 40px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 200; background: var(--black); backdrop-filter: blur(12px); }
+  .sov-nav-left { display: flex; align-items: center; gap: 20px; }
+  .sov-back { font-size: 10px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); text-decoration: none; display: flex; align-items: center; gap: 6px; opacity: 0.7; transition: opacity 0.2s; }
+  .sov-back:hover { opacity: 1; }
+  .sov-back::before { content: '←'; font-size: 14px; }
+  .sov-brand { font-family: 'Playfair Display', serif; font-size: 12px; font-style: italic; color: var(--gold); letter-spacing: 0.1em; text-decoration: none; }
+  .sov-room-toggle { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); border: 1px solid var(--border); padding: 6px 14px; display: flex; align-items: center; gap: 7px; transition: border-color 0.2s, color 0.2s; cursor: pointer; background: none; }
+  .sov-room-toggle:hover { border-color: var(--gold); color: var(--gold); }
+  .sov-room-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--gold); }
+
+  .hero { padding: 56px 40px 28px; max-width: 660px; margin: 0 auto; text-align: center; }
+  .hero-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(30px, 5.5vw, 48px); font-weight: 900; line-height: 1.1; color: var(--text); margin-bottom: 14px; }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-sub { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--text-muted); line-height: 1.7; max-width: 520px; margin: 0 auto; }
+
+  .quiz-wrap { max-width: 620px; margin: 0 auto; padding: 0 40px; }
+
+  .freya-bar { display: flex; align-items: center; gap: 10px; margin: 28px 0 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+  .freya-avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--gold-dim); border: 1px solid var(--border-strong); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 14px; font-style: italic; color: var(--gold); flex-shrink: 0; }
+  .freya-name { font-size: 13px; font-weight: 500; color: var(--text); }
+  .freya-role { font-size: 11px; color: var(--text-muted); }
+
+  .progress-wrap { margin-bottom: 28px; }
+  .progress-track { height: 3px; background: var(--surface2); border-radius: 2px; overflow: hidden; margin-bottom: 8px; }
+  .progress-fill { height: 100%; background: var(--gold); border-radius: 2px; transition: width 0.4s ease; width: 0%; }
+  .progress-label { font-size: 11px; color: var(--text-dim); }
+
+  .question-screen { display: none; }
+  .question-screen.active { display: block; }
+
+  .q-freya { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--text); line-height: 1.6; margin-bottom: 8px; }
+  .q-hint { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; font-style: italic; }
+
+  .options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+  .opt { background: var(--surface); border: 1px solid var(--border); border-radius: 0; padding: 14px 18px; cursor: pointer; font-size: 13px; color: var(--text); line-height: 1.55; text-align: left; transition: border-color 0.15s, background 0.15s; font-family: 'Montserrat', sans-serif; }
+  .opt:hover { border-color: var(--border-strong); }
+  .opt.selected { border-color: var(--gold); background: var(--gold-dim); }
+  .opt-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+  .next-btn { width: 100%; padding: 14px; border: 1px solid var(--border-strong); background: transparent; color: var(--text-muted); font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+  .next-btn:hover:not(:disabled) { background: var(--gold); color: var(--black); border-color: var(--gold); }
+  .next-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  /* RESULT */
+  .result-wrap { display: none; }
+  .result-wrap.show { display: block; }
+
+  .score-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
+  .score-cell { background: var(--surface); border: 1px solid var(--border); padding: 16px 12px; text-align: center; }
+  .score-name { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim); margin-bottom: 8px; }
+  .score-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 6px; }
+  .score-bar { height: 3px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
+  .score-bar-fill { height: 100%; background: var(--gold); border-radius: 2px; transition: width 0.6s ease; }
+
+  .path-card { background: var(--surface); border: 1px solid var(--border-strong); padding: 24px 28px; margin-bottom: 16px; position: relative; }
+  .path-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent); }
+  .path-eyebrow { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); margin-bottom: 8px; }
+  .path-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+  .path-desc { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; }
+  .path-steps { list-style: none; }
+  .path-steps li { font-size: 13px; color: var(--text); padding: 8px 0; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+  .path-steps li:last-child { border-bottom: none; }
+  .path-steps li::before { content: '→'; color: var(--gold); flex-shrink: 0; font-size: 12px; margin-top: 1px; }
+
+  .freya-close { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--text); line-height: 1.75; padding: 20px 24px; background: var(--gold-dim); border-left: 2px solid var(--gold); margin-bottom: 20px; }
+
+  .result-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .result-btn { font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 13px 22px; text-decoration: none; transition: all 0.2s; cursor: pointer; border: none; font-family: 'Montserrat', sans-serif; }
+  .result-btn.primary { background: var(--gold); color: var(--black); }
+  .result-btn.primary:hover { background: var(--gold-light); }
+  .result-btn.secondary { color: var(--gold); border: 1px solid var(--border-strong); background: transparent; }
+  .result-btn.secondary:hover { border-color: var(--gold); }
+
+  footer { padding: 40px; text-align: center; font-size: 10px; color: var(--text-dim); letter-spacing: 0.05em; margin-top: 40px; }
+
+  @media (max-width: 600px) {
+    .quiz-wrap { padding: 0 20px; }
+    .hero { padding: 48px 20px 24px; }
+    nav.sov-nav { padding: 14px 18px; }
+    .score-grid { grid-template-columns: repeat(3,1fr); gap: 6px; }
+  }
+</style>
+</head>
+<body data-theme="dark">
+
+<div class="gold-bar"></div>
+<nav class="sov-nav">
+  <div class="sov-nav-left">
+    <a href="/the_sovereign/obsidian-room.html" class="sov-back">Home</a>
+    <a href="/the_sovereign/obsidian-room.html" class="sov-brand">The Sovereign Woman</a>
+  </div>
+  <button class="sov-room-toggle" onclick="toggleTheme()">
+    <div class="sov-room-dot"></div>
+    <span id="toggleLabel">Switch to Rose Room</span>
+  </button>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">Freya's Assessment</div>
+  <h1 class="hero-title">The Sovereignty <em>Score.</em></h1>
+  <p class="hero-sub">Five questions. Three dimensions — Clarity, Protection, Growth. One personalised path to where you need to go next.</p>
+</div>
+
+<div class="quiz-wrap">
+
+  <div class="freya-bar">
+    <div class="freya-avatar">F</div>
+    <div>
+      <div class="freya-name">Freya</div>
+      <div class="freya-role">The Sovereign Woman</div>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
+    <div class="progress-label" id="progLabel">Question 1 of 5</div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="question-screen active" id="q1">
+    <p class="q-freya">"Before we begin — I need to know where you actually are. Not where you think you should be. Where you are."</p>
+    <p class="q-hint">If your income stopped tomorrow, how long could you sustain yourself and your family?</p>
+    <div class="options">
+      <button class="opt" onclick="select(1,this,0,0,0)"><strong>Less than a month</strong><div class="opt-sub">I'm living pay-to-pay. One crisis away from real difficulty.</div></button>
+      <button class="opt" onclick="select(1,this,1,0,0)"><strong>1–3 months</strong><div class="opt-sub">I have some savings but not enough to feel safe.</div></button>
+      <button class="opt" onclick="select(1,this,2,0,0)"><strong>3–12 months</strong><div class="opt-sub">I have a buffer. I've thought about this.</div></button>
+      <button class="opt" onclick="select(1,this,3,0,0)"><strong>12+ months</strong><div class="opt-sub">I'm building real financial resilience. I want to go further.</div></button>
+    </div>
+    <button class="next-btn" id="next1" disabled onclick="next(1)">Continue →</button>
+  </div>
+
+  <!-- Q2 -->
+  <div class="question-screen" id="q2">
+    <p class="q-freya">"Do you know your exact net worth right now — what you own minus what you owe?"</p>
+    <p class="q-hint">Not roughly. Exactly. Assets in your name, liabilities in your name.</p>
+    <div class="options">
+      <button class="opt" onclick="select(2,this,0,0,0)"><strong>No idea</strong><div class="opt-sub">I've avoided looking. The number feels scary.</div></button>
+      <button class="opt" onclick="select(2,this,1,0,0)"><strong>Rough idea</strong><div class="opt-sub">I have a sense of it but I've never calculated it.</div></button>
+      <button class="opt" onclick="select(2,this,2,0,0)"><strong>I know it</strong><div class="opt-sub">I track my net worth and review it regularly.</div></button>
+      <button class="opt" onclick="select(2,this,3,0,0)"><strong>I know it and I'm growing it deliberately</strong><div class="opt-sub">I have a plan and I'm executing it.</div></button>
+    </div>
+    <button class="next-btn" id="next2" disabled onclick="next(2)">Continue →</button>
+  </div>
+
+  <!-- Q3 -->
+  <div class="question-screen" id="q3">
+    <p class="q-freya">"Do you own any hard assets — gold, property, physical investments — that are in your name alone?"</p>
+    <p class="q-hint">Not jointly held. Not dependent on another person. Yours. Only yours.</p>
+    <div class="options">
+      <button class="opt" onclick="select(3,this,0,0,0)"><strong>Nothing in my name alone</strong><div class="opt-sub">Everything I have is shared, joint, or dependent on someone else.</div></button>
+      <button class="opt" onclick="select(3,this,0,1,0)"><strong>A little</strong><div class="opt-sub">I have some savings in my name but no physical assets.</div></button>
+      <button class="opt" onclick="select(3,this,0,2,0)"><strong>Some property or savings</strong><div class="opt-sub">I own property or have meaningful savings in my name.</div></button>
+      <button class="opt" onclick="select(3,this,0,3,0)"><strong>Yes — deliberately</strong><div class="opt-sub">I own gold, property, or hard assets in my name alone. By design.</div></button>
+    </div>
+    <button class="next-btn" id="next3" disabled onclick="next(3)">Continue →</button>
+  </div>
+
+  <!-- Q4 -->
+  <div class="question-screen" id="q4">
+    <p class="q-freya">"If your relationship ended tomorrow — or your employer, or your health — are your finances protected?"</p>
+    <p class="q-hint">Will, power of attorney, beneficiary designations, assets in your name. The documents that protect you before you need them.</p>
+    <div class="options">
+      <button class="opt" onclick="select(4,this,0,0,0)"><strong>I have none of this</strong><div class="opt-sub">No will, no documents, no plan. I know I need to fix this.</div></button>
+      <button class="opt" onclick="select(4,this,0,1,0)"><strong>Some but not complete</strong><div class="opt-sub">I have one or two things in place but gaps remain.</div></button>
+      <button class="opt" onclick="select(4,this,0,2,0)"><strong>Mostly in order</strong><div class="opt-sub">I have the key documents. I review them occasionally.</div></button>
+      <button class="opt" onclick="select(4,this,0,3,0)"><strong>Fully protected</strong><div class="opt-sub">Everything is in place, reviewed, and updated. I'm covered.</div></button>
+    </div>
+    <button class="next-btn" id="next4" disabled onclick="next(4)">Continue →</button>
+  </div>
+
+  <!-- Q5 -->
+  <div class="question-screen" id="q5">
+    <p class="q-freya">"What does sovereignty look like for you? Not what you think it should be. What do you actually want?"</p>
+    <p class="q-hint">There is no wrong answer. This tells me where to take you.</p>
+    <div class="options">
+      <button class="opt" onclick="select(5,this,0,0,1)"><strong>Safety first</strong><div class="opt-sub">I need to stop surviving and start feeling stable. Security before anything else.</div></button>
+      <button class="opt" onclick="select(5,this,0,0,2)"><strong>Build something real</strong><div class="opt-sub">I want assets. Gold. Property. Something physical no one can take.</div></button>
+      <button class="opt" onclick="select(5,this,0,0,2)"><strong>Income that doesn't depend on one source</strong><div class="opt-sub">I want multiple streams. I want to stop trading only my time for money.</div></button>
+      <button class="opt" onclick="select(5,this,0,0,3)"><strong>Full sovereignty</strong><div class="opt-sub">Financial independence. Own my assets. Answer to no one. Build a legacy.</div></button>
+    </div>
+    <button class="next-btn" id="next5" disabled onclick="next(5)">See my Sovereignty Score →</button>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-wrap" id="result">
+    <div class="score-grid">
+      <div class="score-cell"><div class="score-name">Clarity</div><div class="score-num" id="sClarity">—</div><div class="score-bar"><div class="score-bar-fill" id="bClarity" style="width:0%"></div></div></div>
+      <div class="score-cell"><div class="score-name">Protection</div><div class="score-num" id="sProtect">—</div><div class="score-bar"><div class="score-bar-fill" id="bProtect" style="width:0%"></div></div></div>
+      <div class="score-cell"><div class="score-name">Growth</div><div class="score-num" id="sGrowth">—</div><div class="score-bar"><div class="score-bar-fill" id="bGrowth" style="width:0%"></div></div></div>
+    </div>
+    <div class="path-card" id="pathCard"></div>
+    <div class="freya-close" id="freyaClose"></div>
+    <div class="result-actions">
+      <a href="/the_sovereign/module-1-know-your-position.html" class="result-btn primary">Start Module 1 →</a>
+      <a href="/the_sovereign/divorce-proof-wealth-audit.html" class="result-btn secondary" style="text-decoration:none;">Take the Divorce-Proof Audit</a>
+    </div>
+    <div style="margin-top:20px; text-align:center;">
+      <button onclick="restart()" style="font-size:10px; color:var(--text-dim); background:none; border:none; cursor:pointer; text-decoration:underline; text-underline-offset:3px;">Retake the quiz ↺</button>
+    </div>
+  </div>
+
+</div>
+
+<footer>The Sovereign Woman — She is not broken. She is the blueprint.</footer>
+
+<script>
+  const scores = {};
+  const selected = {};
+
+  function select(q, btn, c, p, g) {
+    document.querySelectorAll('#q' + q + ' .opt').forEach(o => o.classList.remove('selected'));
+    btn.classList.add('selected');
+    selected[q] = { c, p, g };
+    document.getElementById('next' + q).disabled = false;
+  }
+
+  function next(q) {
+    if (!selected[q]) return;
+    scores['q' + q] = selected[q];
+    document.getElementById('q' + q).classList.remove('active');
+
+    const nextQ = q + 1;
+    const pct = Math.round((nextQ - 1) / 5 * 100);
+    document.getElementById('progFill').style.width = pct + '%';
+
+    if (nextQ <= 5) {
+      document.getElementById('q' + nextQ).classList.add('active');
+      document.getElementById('progLabel').textContent = 'Question ' + nextQ + ' of 5';
+    } else {
+      document.getElementById('progFill').style.width = '100%';
+      document.getElementById('progLabel').textContent = 'Complete';
+      showResult();
+    }
+  }
+
+  function showResult() {
+    const cTotal = (scores.q1?.c || 0) + (scores.q2?.c || 0);
+    const pTotal = (scores.q3?.p || 0) + (scores.q4?.p || 0);
+    const gTotal = scores.q5?.g || 0;
+
+    const cPct = Math.round((cTotal / 6) * 100);
+    const pPct = Math.round((pTotal / 6) * 100);
+    const gPct = Math.round((gTotal / 3) * 100);
+    const overall = Math.round((cPct + pPct + gPct) / 3);
+
+    document.getElementById('sClarity').textContent = cPct + '%';
+    document.getElementById('sProtect').textContent = pPct + '%';
+    document.getElementById('sGrowth').textContent = gPct + '%';
+    setTimeout(() => {
+      document.getElementById('bClarity').style.width = cPct + '%';
+      document.getElementById('bProtect').style.width = pPct + '%';
+      document.getElementById('bGrowth').style.width = gPct + '%';
+    }, 100);
+
+    const path = getPath(cPct, pPct, gPct, overall);
+    document.getElementById('pathCard').innerHTML = path.card;
+    document.getElementById('freyaClose').textContent = path.close;
+    document.getElementById('result').classList.add('show');
+    window.scrollTo({ top: document.getElementById('result').offsetTop - 80, behavior: 'smooth' });
+  }
+
+  function getPath(c, p, g, overall) {
+    if (overall < 30) return {
+      card: '<div class="path-eyebrow">Your path — The Foundation</div><div class="path-title">You are exactly where this was built for.</div><div class="path-desc">You are at the beginning. Not behind — beginning. Every sovereign woman started here. The system was never designed to tell you any of this, so not knowing it is not a failure. Knowing it now is the beginning of everything.</div><ul class="path-steps"><li>Start with Module 1 — Know Your Position. The honest audit.</li><li>Complete the Invisible Tax Calculator. Name the number.</li><li>Open the Net Worth Tracker. See clearly for the first time.</li><li>Join The Sovereign Circle. You need women who are building too.</li><li>Your first goal: 3 months of runway. Then we build from there.</li></ul>',
+      close: '"The most important moment in this journey is the one where you stop avoiding the numbers. You have done that today. That took courage. I will be with you for every step that follows."'
+    };
+    if (p < 30) return {
+      card: '<div class="path-eyebrow">Your path — The Shield</div><div class="path-title">You have clarity. Now we protect what you have.</div><div class="path-desc">You understand your position. You have some financial awareness. But your assets are not yet protected — and what is not protected can be taken. Before you build more, you need to secure what exists.</div><ul class="path-steps"><li>Complete the Asset Protection Document Checklist immediately.</li><li>Understand what you own in your name alone — and what you do not.</li><li>Module 3 — The Wealth Protection System. Start here.</li><li>Consider your first gold purchase. Start with one coin. Something yours.</li><li>Get the key legal documents in place before anything else.</li></ul>',
+      close: '"You have done the harder work of seeing clearly. Now we make sure that what you have built cannot be dissolved by someone else\'s choices. Sovereignty begins with protection."'
+    };
+    if (g < 40) return {
+      card: '<div class="path-eyebrow">Your path — The Builder</div><div class="path-title">Protected. Now we build.</div><div class="path-desc">You have clarity and you have protection. The foundation is solid. What is missing is the architecture of growth — assets that compound, income that does not only depend on your time, wealth that outlasts any crisis.</div><ul class="path-steps"><li>Module 4 — Income Architecture. Multiple streams, designed by you.</li><li>Build your gold position intentionally using the Gold Investment Checklist.</li><li>Use Goldvest to practice buying and selling before you invest for real.</li><li>Set a 5-year wealth target using the Net Worth Tracker projection tool.</li><li>Consider Module 5 — The Operator Playbook.</li></ul>',
+      close: '"You have done what most women never do — you protected yourself before you needed to. Now we build something that earns while you live your life. The next 90 days will change your trajectory."'
+    };
+    return {
+      card: '<div class="path-eyebrow">Your path — The Sovereign</div><div class="path-title">You are already building. Now we scale.</div><div class="path-desc">You have clarity, protection, and growth momentum. You are not starting — you are accelerating. The work here is about architecture: making sure every asset, every income stream, and every structure is optimised for the long game.</div><ul class="path-steps"><li>Complete all 6 modules — your foundation is strong enough to hold them.</li><li>Join The Sovereign Circle — you belong here.</li><li>Explore the Operator Playbook. Your knowledge has real market value.</li><li>Build your legacy plan — the financial inheritance you leave your children.</li><li>Consider mentoring women earlier in the path. Sovereignty shared multiplies.</li></ul>',
+      close: '"You came here already building. What I want to give you now is the architecture to make it unbreakable — and the community of women who are doing the same."'
+    };
+  }
+
+  function restart() {
+    Object.keys(scores).forEach(k => delete scores[k]);
+    Object.keys(selected).forEach(k => delete selected[k]);
+    document.querySelectorAll('.question-screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('result').classList.remove('show');
+    document.getElementById('q1').classList.add('active');
+    document.getElementById('progFill').style.width = '0%';
+    document.getElementById('progLabel').textContent = 'Question 1 of 5';
+    document.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+    document.querySelectorAll('.next-btn').forEach(b => b.disabled = true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  (function() {
+    const saved = localStorage.getItem('sov-theme-pref');
+    if (saved === 'rose') {
+      document.documentElement.setAttribute('data-theme', 'rose');
+      document.getElementById('toggleLabel').textContent = 'Switch to Obsidian Room';
+    }
+  })();
+
+  window.toggleTheme = function() {
+    const root = document.documentElement;
+    const next = root.getAttribute('data-theme') === 'dark' ? 'rose' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('sov-theme-pref', next);
+    document.getElementById('toggleLabel').textContent = next === 'dark' ? 'Switch to Rose Room' : 'Switch to Obsidian Room';
+  };
+</script>
+
+
+  <!-- WHATSAPP BUTTON -->
+  <div style="position:fixed; bottom:28px; right:28px; z-index:500;">
+    <a id="wa-btn-universal"
+      href="https://wa.me/33626532438?text=Hello%20Freya%2C%20I%20found%20The%20Sovereign%20Woman%20and%20I%27d%20love%20to%20know%20more."
+      target="_blank" rel="noopener"
+      style="width:54px; height:54px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(37,211,102,0.3); transition:transform 0.2s; text-decoration:none;"
+      onmouseover="this.style.transform='scale(1.08)';"
+      onmouseout="this.style.transform='scale(1)';"
+      aria-label="Chat on WhatsApp">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+      </svg>
+    </a>
+  </div>
+  <script>
+  (function(){
+    var lang = localStorage.getItem('sov-lang') || 'en';
+    var btn = document.getElementById('wa-btn-universal');
+    if (btn) btn.href = lang === 'fr'
+      ? 'https://wa.me/33626532438?text=Bonjour%20Freya%2C%20j%27ai%20d%C3%A9couvert%20The%20Sovereign%20Woman%20et%20j%27aimerais%20en%20savoir%20plus.'
+      : 'https://wa.me/33626532438?text=Hello%20Freya%2C%20I%20found%20The%20Sovereign%20Woman%20and%20I%27d%20love%20to%20know%20more.';
+  })();
+  </script>
+</body>
+</html>

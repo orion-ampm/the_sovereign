@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 1 — Know Your Position — The Sovereign Woman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root[data-theme="dark"] {
+    --gold: #c9a84c; --gold-light: #f0d080; --gold-dim: rgba(201,168,76,0.12);
+    --black: #080808; --surface: #121212; --surface2: #1a1a1a;
+    --text: #f5f0e8; --text-muted: #9a9080; --text-dim: #4a4438;
+    --border: rgba(201,168,76,0.15); --border-strong: rgba(201,168,76,0.35);
+    --done: #6fae8f; --done-dim: rgba(111,174,143,0.14);
+  }
+
+  :root[data-theme="rose"] {
+    --gold: #B55E75; --gold-light: #DB9AA4; --gold-dim: rgba(181,94,117,0.10);
+    --black: #fdf6f0; --surface: #ffffff; --surface2: #f9eff3;
+    --text: #2e1a22; --text-muted: #7a4a58; --text-dim: #b89aa4;
+    --border: rgba(181,94,117,0.15); --border-strong: rgba(181,94,117,0.35);
+    --done: #5a9379; --done-dim: rgba(90,147,121,0.10);
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--text); font-family: 'Montserrat', sans-serif; min-height: 100vh; padding-bottom: 100px; transition: background 0.3s, color 0.3s; }
+  ::selection { background: var(--gold-dim); }
+
+  .gold-bar { height: 2px; background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent); }
+
+  nav.sov-nav {
+    padding: 16px 40px; border-bottom: 1px solid var(--border); display: flex; align-items: center;
+    justify-content: space-between; position: sticky; top: 0; z-index: 200; background: var(--black); backdrop-filter: blur(12px);
+  }
+  .sov-nav-left { display: flex; align-items: center; gap: 20px; }
+  .sov-back { font-size: 10px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); text-decoration: none; display: flex; align-items: center; gap: 6px; opacity: 0.7; transition: opacity 0.2s; }
+  .sov-back:hover { opacity: 1; }
+  .sov-back::before { content: '←'; font-size: 14px; }
+  .sov-brand { font-family: 'Playfair Display', serif; font-size: 12px; font-style: italic; color: var(--gold); letter-spacing: 0.1em; text-decoration: none; }
+  .sov-room-toggle { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; border: 1px solid var(--border); padding: 6px 14px; display: flex; align-items: center; gap: 7px; transition: border-color 0.2s, color 0.2s; cursor: pointer; background: none; }
+  .sov-room-toggle:hover { border-color: var(--gold); color: var(--gold); }
+  .sov-room-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--gold); }
+
+  .hero { padding: 56px 40px 28px; max-width: 760px; margin: 0 auto; text-align: center; }
+  .hero-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(30px, 5.5vw, 48px); font-weight: 900; line-height: 1.1; color: var(--text); margin-bottom: 14px; }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-sub { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--text-muted); line-height: 1.7; max-width: 560px; margin: 0 auto; }
+
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 40px; }
+
+  /* PROGRESS TRACKER */
+  .progress-card { background: var(--surface); border: 1px solid var(--border); padding: 20px 24px; margin: 32px 0; }
+  .progress-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+  .progress-label { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); }
+  .progress-count { font-family: 'Playfair Display', serif; font-size: 14px; color: var(--gold); }
+  .progress-track { height: 4px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--gold); border-radius: 2px; transition: width 0.4s ease; width: 0%; }
+
+  /* LESSON NAV PILLS */
+  .lesson-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+  .lesson-pill { font-size: 10px; font-weight: 600; padding: 8px 14px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
+  .lesson-pill:hover { border-color: var(--border-strong); }
+  .lesson-pill.active { border-color: var(--gold); background: var(--gold-dim); color: var(--text); }
+  .lesson-pill.completed { color: var(--done); }
+  .lesson-pill.completed::before { content: '✓ '; }
+
+  /* LESSON CARD */
+  .lesson-card { display: none; }
+  .lesson-card.active { display: block; }
+
+  .lesson-meta { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+  .lesson-num { font-size: 9px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); }
+  .lesson-time { font-size: 10px; color: var(--text-dim); border-left: 1px solid var(--border); padding-left: 14px; }
+
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: clamp(24px, 4vw, 32px); font-weight: 900; color: var(--text); margin-bottom: 24px; line-height: 1.15; }
+
+  .lesson-body { font-size: 15px; color: var(--text-muted); line-height: 1.85; }
+  .lesson-body p { margin-bottom: 18px; }
+  .lesson-body strong { color: var(--text); font-weight: 600; }
+  .lesson-body em { color: var(--gold-light); font-style: italic; }
+
+  .freya-quote {
+    margin: 28px 0; padding: 20px 24px; background: var(--gold-dim); border-left: 2px solid var(--gold);
+    font-family: 'Cormorant Garamond', serif; font-size: 19px; font-style: italic; color: var(--text); line-height: 1.7;
+  }
+
+  .lesson-list { margin: 20px 0; padding-left: 0; list-style: none; }
+  .lesson-list li { padding: 10px 0 10px 28px; border-bottom: 1px solid var(--border); position: relative; font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+  .lesson-list li:last-child { border-bottom: none; }
+  .lesson-list li::before { content: '→'; position: absolute; left: 0; color: var(--gold); }
+  .lesson-list li strong { color: var(--text); }
+
+  /* ACTION BOX */
+  .action-box { margin-top: 32px; padding: 24px 28px; background: var(--surface); border: 1px solid var(--border-strong); }
+  .action-label { font-size: 9px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .action-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+  .action-desc { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; }
+  .action-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 14px 16px; color: var(--text); font-family: 'Cormorant Garamond', serif; font-size: 16px; outline: none; min-height: 90px; resize: vertical; transition: border-color 0.2s; }
+  .action-input:focus { border-color: var(--gold); }
+  .action-input::placeholder { color: var(--text-dim); font-style: italic; }
+  .action-link { display: inline-block; margin-top: 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--border-strong); padding-bottom: 2px; }
+  .action-link:hover { border-color: var(--gold); }
+
+  /* NAV BUTTONS */
+  .lesson-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .ctrl-btn { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 13px 22px; cursor: pointer; transition: all 0.2s; font-family: 'Montserrat', sans-serif; border: 1px solid var(--border-strong); background: transparent; color: var(--text-muted); }
+  .ctrl-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .ctrl-btn.primary { background: var(--gold); color: var(--black); border-color: var(--gold); }
+  .ctrl-btn.primary:hover { background: var(--gold-light); color: var(--black); }
+  .ctrl-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .ctrl-spacer { flex: 1; }
+
+  /* COMPLETION SCREEN */
+  .completion-card { display: none; text-align: center; padding: 50px 30px; background: var(--surface); border: 1px solid var(--border-strong); }
+  .completion-card.show { display: block; }
+  .completion-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+  .completion-title { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 900; color: var(--text); margin-bottom: 16px; }
+  .completion-body { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--text-muted); line-height: 1.75; max-width: 480px; margin: 0 auto 28px; }
+  .completion-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .comp-btn { font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 14px 24px; text-decoration: none; transition: all 0.2s; }
+  .comp-btn.primary { background: var(--gold); color: var(--black); }
+  .comp-btn.primary:hover { background: var(--gold-light); }
+  .comp-btn.secondary { color: var(--gold); border: 1px solid var(--border-strong); }
+  .comp-btn.secondary:hover { border-color: var(--gold); }
+
+  .next-modules { margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--border); }
+  .nm-label { font-size: 9px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 16px; }
+  .nm-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .nm-row:last-child { border-bottom: none; }
+  .nm-name { color: var(--text-muted); }
+  .nm-status { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); border: 1px solid var(--border); padding: 3px 10px; }
+
+  footer { padding: 40px; text-align: center; font-size: 10px; color: var(--text-dim); letter-spacing: 0.05em; }
+
+  @media (max-width: 700px) {
+    .wrap { padding: 0 20px; }
+    .hero { padding: 48px 20px 24px; }
+    nav.sov-nav { padding: 14px 18px; }
+    .lesson-controls { flex-wrap: wrap; gap: 10px; }
+    .ctrl-spacer { display: none; }
+  }
+</style>
+</head>
+<body data-theme="dark">
+
+<!-- PASSWORD GATE -->
+<div id="passwordGate" style="position:fixed; inset:0; z-index:1000; background:var(--black); display:flex; align-items:center; justify-content:center; padding:24px;">
+  <div style="max-width:380px; width:100%; text-align:center;">
+    <div style="font-size:9px; font-weight:700; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); margin-bottom:16px;">The Sovereign Curriculum</div>
+    <h2 style="font-family:'Playfair Display',serif; font-size:26px; font-weight:900; color:var(--text); margin-bottom:14px;">Members only.</h2>
+    <p style="font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:var(--text-muted); line-height:1.7; margin-bottom:28px;">Enter your membership password to access Module 1. Don't have one yet? The curriculum opens to paying members at launch.</p>
+    <input type="password" id="gatePassword" placeholder="Enter password" style="width:100%; background:var(--surface2); border:1px solid var(--border); padding:14px 16px; color:var(--text); font-family:'Montserrat',sans-serif; font-size:14px; outline:none; margin-bottom:12px; text-align:center;" onkeydown="if(event.key==='Enter') checkPassword()">
+    <button onclick="checkPassword()" style="width:100%; padding:14px; border:none; background:var(--gold); color:var(--black); font-size:11px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; cursor:pointer;">Unlock →</button>
+    <div id="gateFeedback" style="margin-top:12px; font-size:12px; min-height:16px;"></div>
+  </div>
+</div>
+
+<div class="gold-bar"></div>
+<nav class="sov-nav">
+  <div class="sov-nav-left">
+    <a href="/the_sovereign/obsidian-room.html" class="sov-back" id="navHomeLink">Home</a>
+    <a href="/the_sovereign/obsidian-room.html" class="sov-brand" id="navBrandLink">The Sovereign Woman</a>
+  </div>
+  <button class="sov-room-toggle" onclick="toggleTheme()">
+    <div class="sov-room-dot"></div>
+    <span id="toggleLabel">Switch to Rose Room</span>
+  </button>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">Module 01 — The Sovereign Curriculum</div>
+  <h1 class="hero-title">Know Your <em>Position.</em></h1>
+  <p class="hero-sub">The honest financial audit — gentle, thorough, non-judgmental. Five lessons. Under 25 minutes total. A starting point you can be proud of.</p>
+</div>
+
+<div class="wrap">
+
+  <div class="progress-card">
+    <div class="progress-top">
+      <span class="progress-label">Your progress</span>
+      <span class="progress-count" id="progressCount">0 of 5 lessons</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <div class="lesson-nav" id="lessonNav"></div>
+
+  <!-- LESSON 1 -->
+  <div class="lesson-card" id="lesson-1">
+    <div class="lesson-meta"><span class="lesson-num">Lesson 1 of 5</span><span class="lesson-time">4 min read</span></div>
+    <h2 class="lesson-title">Why You Don't Know What You're Worth<br>(And Why That's Not Your Fault)</h2>
+    <div class="lesson-body">
+      <p>If you opened this module already feeling slightly defensive — bracing for a lecture about how you should have started tracking your money years ago — Freya wants to stop you right there.</p>
+      <p>Not knowing your exact financial position is not a personal failing. It is, for most women, the predictable result of a system that was never built to make this easy, transparent, or expected of you.</p>
+      <p>Consider what you were actually taught. Most women receive far less direct financial education growing up than men — not because they're less capable, but because money conversations were quietly directed elsewhere. Add to that years of joint accounts where one partner "handles" the finances, career pauses for caregiving with no pay and no pension contribution, and a culture that still finds it slightly impolite for a woman to ask directly what something costs or what she's owed — and not knowing your number isn't a mystery. It's architecture.</p>
+      <div class="freya-quote">"You were not careless. You were never handed the full picture — and somewhere along the way, not looking started to feel safer than looking and not understanding what you saw."</div>
+      <p>Here is the part that matters most: <strong>the moment you decide to look is the moment everything starts to change.</strong> Not because the number itself transforms anything instantly — but because clarity is the only foundation strong enough to build on. You cannot protect what you cannot see. You cannot grow what you haven't measured. And you cannot make confident decisions about a future you've never actually mapped.</p>
+      <p>This module will not ask you to be perfect. It will ask you to be honest, one number at a time, starting now.</p>
+    </div>
+    <div class="action-box">
+      <div class="action-label">Before you continue</div>
+      <div class="action-title">Name one money belief you inherited</div>
+      <div class="action-desc">Not researched. Not taught in school. Just absorbed — from a parent, a partner, a culture. Write the sentence exactly as it lives in your head.</div>
+      <textarea class="action-input" id="reflect-1" placeholder="e.g. 'Money talk is rude.' 'He's better with numbers than me.' 'I'll deal with it later.'"></textarea>
+    </div>
+    <div class="lesson-controls">
+      <button class="ctrl-btn" disabled>← Previous</button>
+      <div class="ctrl-spacer"></div>
+      <button class="ctrl-btn primary" onclick="completeLesson(1)">Mark complete & continue →</button>
+    </div>
+  </div>
+
+  <!-- LESSON 2 -->
+  <div class="lesson-card" id="lesson-2">
+    <div class="lesson-meta"><span class="lesson-num">Lesson 2 of 5</span><span class="lesson-time">5 min read</span></div>
+    <h2 class="lesson-title">The Invisible Tax —<br>Calculating What It's Actually Cost You</h2>
+    <div class="lesson-body">
+      <p>There is a tax most women pay their entire lives without ever seeing it itemized. Freya calls it <em>the invisible tax</em> — the cumulative financial cost of unpaid caregiving, career pauses, the wage gap, and the countless small accommodations that quietly redirect money and opportunity away from women, year after year.</p>
+      <p>It is called invisible because no one ever sends you the bill directly. It shows up instead as a smaller pension, a thinner emergency fund, a retirement date pushed further out, a "we'll figure it out eventually" that somehow never resolves.</p>
+      <p>The reason this lesson matters is simple: <strong>you cannot fix a number you've never calculated.</strong> Vague awareness that "things have been harder financially" doesn't move you forward. A specific number does. A specific number can be planned against, advocated for, and — over time — closed.</p>
+      <div class="freya-quote">"This number will probably make you angry. Let it. Anger pointed at a real, named cause is one of the most productive emotions you'll feel in this entire curriculum."</div>
+      <p>This is also the moment Freya wants to be very direct with you: calculating your invisible tax is not about blame, and it's not about resentment toward any specific person. It's about precision. It's the difference between feeling generally behind and knowing exactly what you're behind by — and exactly what closing that gap requires.</p>
+    </div>
+    <div class="action-box">
+      <div class="action-label">Your action for this lesson</div>
+      <div class="action-title">Open the Invisible Tax Calculator</div>
+      <div class="action-desc">This is the tool this entire lesson points to. Walk through it now — even a rough first pass. Come back here once you have your number.</div>
+      <a href="/the_sovereign/invisible-tax-calculator.html" class="action-link">Open the Invisible Tax Calculator →</a>
+    </div>
+    <div class="lesson-controls">
+      <button class="ctrl-btn" onclick="goToLesson(1)">← Previous</button>
+      <div class="ctrl-spacer"></div>
+      <button class="ctrl-btn primary" onclick="completeLesson(2)">Mark complete & continue →</button>
+    </div>
+  </div>
+
+  <!-- LESSON 3 -->
+  <div class="lesson-card" id="lesson-3">
+    <div class="lesson-meta"><span class="lesson-num">Lesson 3 of 5</span><span class="lesson-time">5 min read</span></div>
+    <h2 class="lesson-title">Your Real Net Worth —<br>Building the Number You Can Stand On</h2>
+    <div class="lesson-body">
+      <p>Net worth is the simplest number in personal finance to define and the hardest for most people — women especially — to actually sit down and calculate. The formula is nothing more than this:</p>
+      <p style="font-family: 'Playfair Display', serif; font-size: 22px; color: var(--gold); text-align: center; margin: 28px 0;">Everything you own<br>− Everything you owe<br>= Your net worth</p>
+      <p>That's the entire equation. What makes it feel complicated isn't the math — it's the emotional weight of actually looking. Many women avoid this number for years, not from laziness, but because an unexamined number feels somehow safer than a confirmed one. Freya wants you to know: <strong>the number itself, whatever it is, has never once changed by being avoided.</strong> It only changes once you can see it clearly enough to act on it.</p>
+      <p>There's a second reason this number matters specifically for you. Net worth is the one financial metric that is entirely <em>yours</em> — not your household's, not your partner's, not a shared account's. When calculated correctly, in your name specifically, it becomes the clearest possible answer to the question: <em>if everything changed tomorrow, what would I actually have?</em></p>
+      <ul class="lesson-list">
+        <li><strong>Assets to include:</strong> cash, savings, investments, retirement accounts, property in your name, any hard assets like gold you hold independently</li>
+        <li><strong>Liabilities to include:</strong> credit card balances, loans, your share of any joint debt, anything you owe regardless of size</li>
+        <li><strong>What to leave out:</strong> jointly-held assets where ownership is genuinely unclear — note those separately rather than guessing</li>
+      </ul>
+    </div>
+    <div class="action-box">
+      <div class="action-label">Your action for this lesson</div>
+      <div class="action-title">Open the Net Worth Tracker</div>
+      <div class="action-desc">Enter every number, even the uncomfortable ones. Especially the uncomfortable ones. This is the foundation every later module builds on.</div>
+      <a href="/the_sovereign/net-worth-tracker.html" class="action-link">Open the Net Worth Tracker →</a>
+    </div>
+    <div class="lesson-controls">
+      <button class="ctrl-btn" onclick="goToLesson(2)">← Previous</button>
+      <div class="ctrl-spacer"></div>
+      <button class="ctrl-btn primary" onclick="completeLesson(3)">Mark complete & continue →</button>
+    </div>
+  </div>
+
+  <!-- LESSON 4 -->
+  <div class="lesson-card" id="lesson-4">
+    <div class="lesson-meta"><span class="lesson-num">Lesson 4 of 5</span><span class="lesson-time">4 min read</span></div>
+    <h2 class="lesson-title">What Fear Sounds Like<br>vs. What Clarity Sounds Like</h2>
+    <div class="lesson-body">
+      <p>By now you've likely calculated two real numbers — your invisible tax, and a first pass at your net worth. Freya wants to pause here, before the next module, to talk about something that isn't a number at all: the voice in your head that's been narrating this entire process.</p>
+      <p>Fear and clarity often discuss the exact same facts — but they sound completely different doing it. Learning to tell them apart is one of the most useful skills in this entire curriculum, because <strong>fear convinces you to stop looking, while clarity is what actually lets you act.</strong></p>
+      <div class="freya-quote">Fear says: "I probably don't even want to know."<br>Clarity says: "Now I know. So what's the next true thing I do with this?"</div>
+      <div class="freya-quote">Fear says: "This number means I've failed."<br>Clarity says: "This number means I finally have a real starting point."</div>
+      <div class="freya-quote">Fear says: "It's too late to fix this now."<br>Clarity says: "The earliest possible moment to start was the moment I knew. That moment is right now."</div>
+      <p>Notice that clarity is never cheerful in a forced way, and it never minimizes what's hard. It simply refuses to stop at the discomfort. Fear treats a hard number as a verdict. Clarity treats the exact same number as data — useful, specific, and entirely workable.</p>
+      <p>This distinction will come up again and again throughout the curriculum, especially in Module 3 when we talk about protection. The goal is never to silence fear completely — fear, used well, can sharpen your attention. The goal is to notice when fear has quietly taken the wheel, and to hand it back to clarity.</p>
+    </div>
+    <div class="action-box">
+      <div class="action-label">Before you continue</div>
+      <div class="action-title">Catch fear's voice, just once</div>
+      <div class="action-desc">Think of one financial thought you've had recently that stopped you from acting. Write it exactly as fear said it — then rewrite it in clarity's voice.</div>
+      <textarea class="action-input" id="reflect-4" placeholder="Fear said: ... / Clarity says instead: ..."></textarea>
+    </div>
+    <div class="lesson-controls">
+      <button class="ctrl-btn" onclick="goToLesson(3)">← Previous</button>
+      <div class="ctrl-spacer"></div>
+      <button class="ctrl-btn primary" onclick="completeLesson(4)">Mark complete & continue →</button>
+    </div>
+  </div>
+
+  <!-- LESSON 5 -->
+  <div class="lesson-card" id="lesson-5">
+    <div class="lesson-meta"><span class="lesson-num">Lesson 5 of 5</span><span class="lesson-time">4 min read</span></div>
+    <h2 class="lesson-title">Your Starting Point Statement —<br>Writing Down Where You Are</h2>
+    <div class="lesson-body">
+      <p>This final lesson asks for something simple and, for many women, surprisingly difficult: a single written statement of exactly where you stand right now, in your own words, with no qualifiers and no apology attached.</p>
+      <p>Notice the instinct, if it shows up, to soften this. To write "I'm <em>kind of</em> behind" instead of naming the real number. To add "but it's not that bad, lots of people are in this position" before you've even finished the sentence. Freya wants you to resist that instinct, just this once. <strong>A starting point doesn't need to be impressive. It only needs to be true.</strong></p>
+      <p>This statement becomes the first entry of your Blueprint Journal — the same document you'll return to in 30, 60, and 90 days to measure real, factual movement. Without an honest starting point, there is nothing to measure progress against. With one, every future lesson in this curriculum has something concrete to build on.</p>
+      <div class="freya-quote">"She is not broken. She is the blueprint. And every blueprint begins with an honest measurement — not a flattering one."</div>
+      <p>Write it now, while the numbers from this module are still fresh. You don't need to feel proud of it yet. You only need it to be accurate.</p>
+    </div>
+    <div class="action-box">
+      <div class="action-label">Your Module 1 completion</div>
+      <div class="action-title">Write your starting point statement</div>
+      <div class="action-desc">One to three sentences. Your net worth, your invisible tax number, and one honest sentence about how you feel reading them together. No editing for politeness.</div>
+      <textarea class="action-input" id="reflect-5" placeholder="Today, my net worth is ___. My invisible tax is approximately ___. Reading these together, I feel ___."></textarea>
+    </div>
+    <div class="lesson-controls">
+      <button class="ctrl-btn" onclick="goToLesson(4)">← Previous</button>
+      <div class="ctrl-spacer"></div>
+      <button class="ctrl-btn primary" onclick="completeLesson(5)">Complete Module 1 →</button>
+    </div>
+  </div>
+
+  <!-- COMPLETION SCREEN -->
+  <div class="completion-card" id="completionCard">
+    <div class="completion-eyebrow">Module 1 — Complete</div>
+    <h2 class="completion-title">You know where you stand.</h2>
+    <p class="completion-body">That is not a small thing. Most people never do this — not because they couldn't, but because no one ever told them it was the first real step. You took it.</p>
+    <div class="completion-actions">
+      <a href="/the_sovereign/module-2-gold-womans-asset.html" class="comp-btn primary">Next — Module 2: Gold as a Woman's Asset →</a>
+      <a href="/the_sovereign/blueprint-journal.html" class="comp-btn secondary">Save in Blueprint Journal</a>
+    </div>
+    <div style="margin-top:28px; padding:18px 22px; background:var(--gold-dim); border-left:2px solid var(--gold); font-size:12px; color:var(--text-muted); line-height:1.7; text-align:left;">
+      <strong style="color:var(--text); font-weight:600;">Freya recommends next:</strong> You know where you stand. Now Module 2 shows you why gold specifically is the asset that protects the position you just mapped.
+    </div>
+
+    <div class="next-modules">
+      <div class="nm-label">What comes next</div>
+      <div class="nm-row"><span class="nm-name">Module 2 — Gold as a Woman's Asset</span><span class="nm-status">In progress</span></div>
+      <div class="nm-row"><span class="nm-name">Module 3 — The Wealth Protection System</span><span class="nm-status">In progress</span></div>
+      <div class="nm-row"><span class="nm-name">Module 4 — Income Architecture</span><span class="nm-status">In progress</span></div>
+      <div class="nm-row"><span class="nm-name">Module 5 — The Operator Playbook</span><span class="nm-status">In progress</span></div>
+      <div class="nm-row"><span class="nm-name">Module 6 — The Sovereign Circle</span><span class="nm-status">In progress</span></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>The Sovereign Woman — She is not broken. She is the blueprint.</footer>
+
+<script>
+  // ===== PASSWORD GATE =====
+  const TIER_PASSWORDS = { tier1: 'sovereign1', tier2: 'sovereign2', tier3: 'sovereign3' };
+  const ACCESS_KEY = 'sov-curriculum-access';
+  const MODULE_MIN_TIER = 'tier1'; // Module 1 unlocks at Tier 1
+
+  const tierRank = { tier1: 1, tier2: 2, tier3: 3 };
+
+  function hasAccess() {
+    const saved = localStorage.getItem(ACCESS_KEY);
+    if (!saved) return false;
+    return tierRank[saved] >= tierRank[MODULE_MIN_TIER];
+  }
+
+  function checkPassword() {
+    const input = document.getElementById('gatePassword').value;
+    const feedback = document.getElementById('gateFeedback');
+    const lower = input.trim().toLowerCase();
+    let grantedTier = null;
+    if (lower === TIER_PASSWORDS.tier3.toLowerCase()) grantedTier = 'tier3';
+    else if (lower === TIER_PASSWORDS.tier2.toLowerCase()) grantedTier = 'tier2';
+    else if (lower === TIER_PASSWORDS.tier1.toLowerCase()) grantedTier = 'tier1';
+
+    if (grantedTier) {
+      localStorage.setItem(ACCESS_KEY, grantedTier);
+      document.getElementById('passwordGate').style.display = 'none';
+      initModule();
+    } else {
+      feedback.textContent = "That password doesn't match. Check it and try again.";
+      feedback.style.color = 'var(--down)';
+    }
+  }
+
+  if (hasAccess()) {
+    document.getElementById('passwordGate').style.display = 'none';
+    initModule();
+  }
+
+  const STORAGE_KEY = 'sov-module1-progress';
+  let completed = [];
+
+  function loadProgress() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) completed = JSON.parse(raw);
+    } catch(e) { completed = []; }
+  }
+
+  function saveProgress() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(completed));
+  }
+
+  function renderNav() {
+    const nav = document.getElementById('lessonNav');
+    nav.innerHTML = '';
+    for (let i = 1; i <= 5; i++) {
+      const pill = document.createElement('button');
+      pill.className = 'lesson-pill' + (completed.includes(i) ? ' completed' : '');
+      pill.textContent = 'Lesson ' + i;
+      pill.onclick = () => goToLesson(i);
+      nav.appendChild(pill);
+    }
+  }
+
+  function updateProgress() {
+    const count = completed.length;
+    document.getElementById('progressCount').textContent = count + ' of 5 lessons';
+    document.getElementById('progressFill').style.width = (count / 5 * 100) + '%';
+  }
+
+  function goToLesson(n) {
+    document.querySelectorAll('.lesson-card').forEach(c => c.classList.remove('active'));
+    document.getElementById('completionCard').classList.remove('show');
+    document.getElementById('lesson-' + n).classList.add('active');
+    document.querySelectorAll('.lesson-pill').forEach((p, i) => {
+      p.classList.toggle('active', i === n - 1);
+    });
+    window.scrollTo({ top: document.querySelector('.progress-card').offsetTop - 100, behavior: 'smooth' });
+  }
+
+  function completeLesson(n) {
+    if (!completed.includes(n)) {
+      completed.push(n);
+      saveProgress();
+    }
+    renderNav();
+    updateProgress();
+
+    if (n < 5) {
+      goToLesson(n + 1);
+      // re-mark active pill correctly after nav re-render
+      document.querySelectorAll('.lesson-pill').forEach((p, i) => {
+        p.classList.toggle('active', i === n);
+      });
+    } else {
+      document.querySelectorAll('.lesson-card').forEach(c => c.classList.remove('active'));
+      document.getElementById('completionCard').classList.add('show');
+      window.scrollTo({ top: document.querySelector('.completion-card').offsetTop - 100, behavior: 'smooth' });
+    }
+  }
+
+  // INIT
+  function initModule() {
+    loadProgress();
+    renderNav();
+    updateProgress();
+    if (completed.length >= 5) {
+      document.getElementById('completionCard').classList.add('show');
+    } else {
+      const startAt = completed.length > 0 ? Math.max(...completed) + 1 : 1;
+      goToLesson(Math.min(startAt, 5));
+    }
+  }
+
+  if (hasAccess()) {
+    initModule();
+  }
+
+  // THEME TOGGLE
+  (function() {
+    const saved = localStorage.getItem('sov-theme-pref');
+    if (saved === 'rose') {
+      document.documentElement.setAttribute('data-theme', 'rose');
+      document.getElementById('toggleLabel').textContent = 'Switch to Obsidian Room';
+    }
+  })();
+
+  window.toggleTheme = function() {
+    const root = document.documentElement;
+    const current = root.getAttribute('data-theme');
+    const next = current === 'dark' ? 'rose' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('sov-theme-pref', next);
+    document.getElementById('toggleLabel').textContent = next === 'dark' ? 'Switch to Rose Room' : 'Switch to Obsidian Room';
+  };
+</script>
+
+
+  <!-- WHATSAPP BUTTON -->
+  <div style="position:fixed; bottom:28px; right:28px; z-index:500;">
+    <a id="wa-btn-universal"
+      href="https://wa.me/33626532438?text=Hello%20Freya%2C%20I%20found%20The%20Sovereign%20Woman%20and%20I%27d%20love%20to%20know%20more."
+      target="_blank" rel="noopener"
+      style="width:54px; height:54px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(37,211,102,0.3); transition:transform 0.2s; text-decoration:none;"
+      onmouseover="this.style.transform='scale(1.08)';"
+      onmouseout="this.style.transform='scale(1)';"
+      aria-label="Chat on WhatsApp">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+      </svg>
+    </a>
+  </div>
+  <script>
+  (function(){
+    var lang = localStorage.getItem('sov-lang') || 'en';
+    var btn = document.getElementById('wa-btn-universal');
+    if (btn) btn.href = lang === 'fr'
+      ? 'https://wa.me/33626532438?text=Bonjour%20Freya%2C%20j%27ai%20d%C3%A9couvert%20The%20Sovereign%20Woman%20et%20j%27aimerais%20en%20savoir%20plus.'
+      : 'https://wa.me/33626532438?text=Hello%20Freya%2C%20I%20found%20The%20Sovereign%20Woman%20and%20I%27d%20love%20to%20know%20more.';
+  })();
+  </script>
+</body>
+</html>

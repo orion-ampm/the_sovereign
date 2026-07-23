@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trade History — Goldvest — The Sovereign Woman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root[data-theme="dark"] {
+    --gold: #c9a84c; --gold-light: #f0d080; --gold-dim: rgba(201,168,76,0.12);
+    --black: #080808; --surface: #121212; --surface2: #1a1a1a;
+    --text: #f5f0e8; --text-muted: #9a9080; --text-dim: #4a4438;
+    --border: rgba(201,168,76,0.15); --border-strong: rgba(201,168,76,0.35);
+    --up: #6fae8f; --up-dim: rgba(111,174,143,0.14);
+    --down: #c9534a; --down-dim: rgba(201,83,74,0.14);
+  }
+  :root[data-theme="rose"] {
+    --gold: #B55E75; --gold-light: #DB9AA4; --gold-dim: rgba(181,94,117,0.10);
+    --black: #fdf6f0; --surface: #ffffff; --surface2: #f9eff3;
+    --text: #2e1a22; --text-muted: #7a4a58; --text-dim: #b89aa4;
+    --border: rgba(181,94,117,0.15); --border-strong: rgba(181,94,117,0.35);
+    --up: #5a9379; --up-dim: rgba(90,147,121,0.10);
+    --down: #b5544a; --down-dim: rgba(181,84,74,0.10);
+  }
+  body { background: var(--black); color: var(--text); font-family: 'Montserrat', sans-serif; min-height: 100vh; padding-bottom: 100px; transition: background 0.3s, color 0.3s; }
+  .gold-bar { height: 2px; background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent); }
+  nav.sov-nav { padding: 16px 40px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 200; background: var(--black); backdrop-filter: blur(12px); }
+  .sov-nav-left { display: flex; align-items: center; gap: 20px; }
+  .sov-back { font-size: 10px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); text-decoration: none; display: flex; align-items: center; gap: 6px; opacity: 0.7; transition: opacity 0.2s; }
+  .sov-back:hover { opacity: 1; }
+  .sov-back::before { content: '←'; font-size: 14px; }
+  .sov-brand { font-family: 'Playfair Display', serif; font-size: 12px; font-style: italic; color: var(--gold); letter-spacing: 0.1em; text-decoration: none; }
+  .sov-room-toggle { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; border: 1px solid var(--border); padding: 6px 14px; display: flex; align-items: center; gap: 7px; transition: border-color 0.2s, color 0.2s; cursor: pointer; background: none; }
+  .sov-room-toggle:hover { border-color: var(--gold); color: var(--gold); }
+  .sov-room-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--gold); }
+  .hero { padding: 48px 40px 28px; max-width: 760px; margin: 0 auto; text-align: center; }
+  .hero-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 5vw, 44px); font-weight: 900; color: var(--text); margin-bottom: 12px; }
+  .hero-sub { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-style: italic; color: var(--text-muted); }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 40px; }
+
+  .summary-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin: 28px 0; }
+  .summary-card { background: var(--surface); border: 1px solid var(--border); padding: 16px 18px; }
+  .summary-label { font-size: 9px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
+  .summary-value { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--text); }
+
+  .filter-row { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .filter-btn { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 14px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); cursor: pointer; }
+  .filter-btn.active { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+
+  .history-table { background: var(--surface); border: 1px solid var(--border); }
+  .hist-row { display: grid; grid-template-columns: 90px 1fr 90px 90px 100px 110px; gap: 10px; align-items: center; padding: 13px 18px; border-bottom: 1px solid var(--border); font-size: 12px; }
+  .hist-row:last-child { border-bottom: none; }
+  .hist-row.header { background: var(--surface2); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); }
+  .hist-side { font-weight: 700; }
+  .hist-side.buy { color: var(--up); } .hist-side.sell { color: var(--down); }
+  .hist-product { color: var(--text); }
+  .hist-num { color: var(--text-muted); text-align: right; }
+  .hist-date { color: var(--text-dim); font-size: 11px; }
+
+  .empty-state { text-align: center; padding: 60px 20px; }
+  .empty-text { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--text-dim); margin-bottom: 20px; }
+  .empty-link { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--border-strong); padding-bottom: 2px; }
+
+  footer { padding: 40px; text-align: center; font-size: 10px; color: var(--text-dim); letter-spacing: 0.05em; }
+
+  @media (max-width: 760px) {
+    .wrap { padding: 0 20px; }
+    .summary-row { grid-template-columns: repeat(2,1fr); }
+    .hist-row { grid-template-columns: 56px 1fr 60px; font-size: 11px; }
+    .hist-row span:nth-child(4), .hist-row span:nth-child(5), .hist-row span:nth-child(6) { display: none; }
+    nav.sov-nav { padding: 14px 18px; }
+  }
+</style>
+</head>
+<body data-theme="dark">
+
+<div class="gold-bar"></div>
+<nav class="sov-nav">
+  <div class="sov-nav-left">
+    <a href="/the_sovereign/goldvest.html" class="sov-back">Goldvest</a>
+    <a href="/the_sovereign/obsidian-room.html" class="sov-brand">The Sovereign Woman</a>
+  </div>
+  <button class="sov-room-toggle" onclick="toggleTheme()">
+    <div class="sov-room-dot"></div>
+    <span id="toggleLabel">Switch to Rose Room</span>
+  </button>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">Goldvest</div>
+  <h1 class="hero-title">Your trade history.</h1>
+  <p class="hero-sub">Every buy. Every sell. Nothing hidden, nothing rounded away.</p>
+</div>
+
+<div class="wrap">
+  <div class="summary-row" id="summaryRow"></div>
+  <div class="filter-row">
+    <button class="filter-btn active" id="filterAll" onclick="setFilter('all')">All trades</button>
+    <button class="filter-btn" id="filterBuy" onclick="setFilter('buy')">Buys only</button>
+    <button class="filter-btn" id="filterSell" onclick="setFilter('sell')">Sells only</button>
+  </div>
+  <div class="history-table" id="historyTable"></div>
+</div>
+
+<footer>The Sovereign Woman — She is not broken. She is the blueprint.</footer>
+
+<script>
+  const STORAGE_KEY = 'goldvest-portfolio-v2';
+  let currentFilter = 'all';
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch(e) {}
+    return { cash: 10000, holdings: {}, log: [] };
+  }
+
+  const state = loadState();
+  const log = state.log || [];
+
+  function setFilter(f) {
+    currentFilter = f;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('filter' + f.charAt(0).toUpperCase() + f.slice(1)).classList.add('active');
+    renderTable();
+  }
+
+  function renderSummary() {
+    const buys = log.filter(l => l.side === 'buy');
+    const sells = log.filter(l => l.side === 'sell');
+    const totalBought = buys.reduce((s,l) => s + l.total, 0);
+    const totalSold = sells.reduce((s,l) => s + l.total, 0);
+
+    document.getElementById('summaryRow').innerHTML = `
+      <div class="summary-card"><div class="summary-label">Total trades</div><div class="summary-value">${log.length}</div></div>
+      <div class="summary-card"><div class="summary-label">Buy orders</div><div class="summary-value">${buys.length}</div></div>
+      <div class="summary-card"><div class="summary-label">Sell orders</div><div class="summary-value">${sells.length}</div></div>
+      <div class="summary-card"><div class="summary-label">Total volume</div><div class="summary-value">$${(totalBought + totalSold).toLocaleString(undefined,{maximumFractionDigits:0})}</div></div>
+    `;
+  }
+
+  function renderTable() {
+    const wrap = document.getElementById('historyTable');
+    const filtered = currentFilter === 'all' ? log : log.filter(l => l.side === currentFilter);
+
+    if (filtered.length === 0) {
+      wrap.innerHTML = `<div class="empty-state"><div class="empty-text">No trades match this filter yet.</div><a href="/the_sovereign/goldvest.html" class="empty-link">Go place a trade →</a></div>`;
+      return;
+    }
+
+    const rows = filtered.map(l => {
+      const d = new Date(l.date);
+      const dateStr = d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) + ' · ' + d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+      return `
+        <div class="hist-row">
+          <span class="hist-side ${l.side}">${l.side.toUpperCase()}</span>
+          <span class="hist-product">${l.productName}</span>
+          <span class="hist-num">${l.qty} unit${l.qty > 1 ? 's' : ''}</span>
+          <span class="hist-num">$${(l.unitPrice || (l.total / l.qty)).toFixed(2)}</span>
+          <span class="hist-num">$${l.total.toFixed(2)}</span>
+          <span class="hist-date">${dateStr}</span>
+        </div>`;
+    }).join('');
+
+    wrap.innerHTML = `
+      <div class="hist-row header">
+        <span>Side</span><span>Product</span><span>Qty</span><span>Unit Price</span><span>Total</span><span>Date</span>
+      </div>
+      ${rows}
+    `;
+  }
+
+  if (log.length === 0) {
+    document.getElementById('summaryRow').style.display = 'none';
+    document.querySelector('.filter-row').style.display = 'none';
+  } else {
+    renderSummary();
+  }
+  renderTable();
+
+  (function() {
+    const saved = localStorage.getItem('sov-theme-pref');
+    if (saved === 'rose') {
+      document.documentElement.setAttribute('data-theme', 'rose');
+      document.getElementById('toggleLabel').textContent = 'Switch to Obsidian Room';
+    }
+  })();
+  window.toggleTheme = function() {
+    const root = document.documentElement;
+    const current = root.getAttribute('data-theme');
+    const next = current === 'dark' ? 'rose' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('sov-theme-pref', next);
+    document.getElementById('toggleLabel').textContent = next === 'dark' ? 'Switch to Rose Room' : 'Switch to Obsidian Room';
+  };
+</script>
+
+
+  <!-- WHATSAPP BUTTON -->
+  <div style="position:fixed; bottom:28px; right:28px; z-index:500;">
+    <a id="wa-btn-universal"
+      href="https://wa.me/33626532438?text=Hello%20Freya%2C%20I%20found%20The%20Sovereign%20Woman%20and%20I%27d%20love%20to%20know%20more."
+      target="_blank" rel="noopener"
+      style="width:54px; height:54px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(37,211,102,0.3); transition:transform 0.2s; text-decoration:none;"
+      onmouseover="this.style.transform='scale(1.08)';"
+      onmouseout="this.style.transform='scale(1)';"
+      aria-label="Chat on WhatsApp">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+      </svg>
+    </a>
+  </div>
+  <script>
+  (function(){
+    var lang = localStorage.getItem('sov-lang') || 'en';
+    var btn = document.getElementById('wa-btn-universal');
+    if (btn) btn.href = lang === 'fr'
+      ? 'https://wa.me/33626532438?text=Bonjour%20Freya%2C%20j%27ai%20d%C3%A9couvert%20The%20Sovereign%20Woman%20et%20j%27aimerais%20en%20savoir%20plus.'
+      : 'https://wa.me/33626532438?text=Hello%20Freya%2C%20I%20found%20The%20Sovereign%20Woman%20and%20I%27d%20love%20to%20know%20more.';
+  })();
+  </script>
+</body>
+</html>

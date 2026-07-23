@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 2 — Gold as a Woman's Asset — The Sovereign Woman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root[data-theme="dark"] {
+    --gold: #c9a84c; --gold-light: #f0d080; --gold-dim: rgba(201,168,76,0.12);
+    --black: #080808; --surface: #121212; --surface2: #1a1a1a;
+    --text: #f5f0e8; --text-muted: #9a9080; --text-dim: #4a4438;
+    --border: rgba(201,168,76,0.15); --border-strong: rgba(201,168,76,0.35);
+    --done: #6fae8f; --done-dim: rgba(111,174,143,0.14);
+  }
+
+  :root[data-theme="rose"] {
+    --gold: #B55E75; --gold-light: #DB9AA4; --gold-dim: rgba(181,94,117,0.10);
+    --black: #fdf6f0; --surface: #ffffff; --surface2: #f9eff3;
+    --text: #2e1a22; --text-muted: #7a4a58; --text-dim: #b89aa4;
+    --border: rgba(181,94,117,0.15); --border-strong: rgba(181,94,117,0.35);
+    --done: #5a9379; --done-dim: rgba(90,147,121,0.10);
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--text); font-family: 'Montserrat', sans-serif; min-height: 100vh; padding-bottom: 100px; transition: background 0.3s, color 0.3s; }
+  ::selection { background: var(--gold-dim); }
+
+  .gold-bar { height: 2px; background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent); }
+
+  nav.sov-nav { padding: 16px 40px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 200; background: var(--black); backdrop-filter: blur(12px); }
+  .sov-nav-left { display: flex; align-items: center; gap: 20px; }
+  .sov-back { font-size: 10px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); text-decoration: none; display: flex; align-items: center; gap: 6px; opacity: 0.7; transition: opacity 0.2s; }
+  .sov-back:hover { opacity: 1; }
+  .sov-back::before { content: '←'; font-size: 14px; }
+  .sov-brand { font-family: 'Playfair Display', serif; font-size: 12px; font-style: italic; color: var(--gold); letter-spacing: 0.1em; text-decoration: none; }
+  .sov-room-toggle { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); border: 1px solid var(--border); padding: 6px 14px; display: flex; align-items: center; gap: 7px; transition: border-color 0.2s, color 0.2s; cursor: pointer; background: none; }
+  .sov-room-toggle:hover { border-color: var(--gold); color: var(--gold); }
+  .sov-room-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--gold); }
+
+  .hero { padding: 56px 40px 28px; max-width: 760px; margin: 0 auto; text-align: center; }
+  .hero-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(30px, 5.5vw, 48px); font-weight: 900; line-height: 1.1; color: var(--text); margin-bottom: 14px; }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-sub { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--text-muted); line-height: 1.7; max-width: 560px; margin: 0 auto; }
+
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 40px; }
+
+  .progress-card { background: var(--surface); border: 1px solid var(--border); padding: 20px 24px; margin: 32px 0; }
+  .progress-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+  .progress-label { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); }
+  .progress-count { font-family: 'Playfair Display', serif; font-size: 14px; color: var(--gold); }
+  .progress-track { height: 4px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--gold); border-radius: 2px; transition: width 0.4s ease; width: 0%; }
+
+  .lesson-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+  .lesson-pill { font-size: 10px; font-weight: 600; padding: 8px 14px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
+  .lesson-pill:hover { border-color: var(--border-strong); }
+  .lesson-pill.active { border-color: var(--gold); background: var(--gold-dim); color: var(--text); }
+  .lesson-pill.completed { color: var(--done); }
+  .lesson-pill.completed::before { content: '✓ '; }
+
+  .lesson-card { display: none; }
+  .lesson-card.active { display: block; }
+
+  .lesson-meta { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+  .lesson-num { font-size: 9px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); }
+  .lesson-time { font-size: 10px; color: var(--text-dim); border-left: 1px solid var(--border); padding-left: 14px; }
+
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: clamp(24px, 4vw, 32px); font-weight: 900; color: var(--text); margin-bottom: 24px; line-height: 1.15; }
+
+  .lesson-body { font-size: 15px; color: var(--text-muted); line-height: 1.85; }
+  .lesson-body p { margin-bottom: 18px; }
+  .lesson-body strong { color: var(--text); font-weight: 600; }
+  .lesson-body em { color: var(--gold-light); font-style: italic; }
+
+  .freya-quote { margin: 28px 0; padding: 20px 24px; background: var(--gold-dim); border-left: 2px solid var(--gold); font-family: 'Cormorant Garamond', serif; font-size: 19px; font-style: italic; color: var(--text); line-height: 1.7; }
+
+  .lesson-list { margin: 20px 0; padding-left: 0; list-style: none; }
+  .lesson-list li { padding: 10px 0 10px 28px; border-bottom: 1px solid var(--border); position: relative; font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+  .lesson-list li:last-child { border-bottom: none; }
+  .lesson-list li::before { content: '→'; position: absolute; left: 0; color: var(--gold); }
+  .lesson-list li strong { color: var(--text); }
+
+  .comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0; }
+  .compare-card { background: var(--surface); border: 1px solid var(--border); padding: 16px 18px; }
+  .compare-label { font-size: 9px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 10px; }
+  .compare-body { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+  .compare-body strong { color: var(--text); font-weight: 500; }
+
+  .checklist { margin: 20px 0; }
+  .check-item { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+  .check-item:last-child { border-bottom: none; }
+  .check-item strong { color: var(--text); font-weight: 500; }
+  .check-num { width: 22px; height: 22px; border-radius: 50%; background: var(--gold-dim); border: 1px solid var(--border-strong); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: var(--gold); flex-shrink: 0; margin-top: 1px; }
+
+  .warning-box { margin: 24px 0; padding: 16px 20px; background: rgba(201,83,74,0.08); border-left: 2px solid #c9534a; font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+  .warning-box strong { color: var(--text); font-weight: 600; }
+
+  .action-box { margin-top: 32px; padding: 24px 28px; background: var(--surface); border: 1px solid var(--border-strong); }
+  .action-label { font-size: 9px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .action-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+  .action-desc { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; }
+  .action-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 14px 16px; color: var(--text); font-family: 'Cormorant Garamond', serif; font-size: 16px; outline: none; min-height: 90px; resize: vertical; transition: border-color 0.2s; }
+  .action-input:focus { border-color: var(--gold); }
+  .action-input::placeholder { color: var(--text-dim); font-style: italic; }
+  .action-link { display: inline-block; margin-top: 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--border-strong); padding-bottom: 2px; }
+  .action-link:hover { border-color: var(--gold); }
+
+  .lesson-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .ctrl-btn { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 13px 22px; cursor: pointer; transition: all 0.2s; font-family: 'Montserrat', sans-serif; border: 1px solid var(--border-strong); background: transparent; color: var(--text-muted); }
+  .ctrl-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .ctrl-btn.primary { background: var(--gold); color: var(--black); border-color: var(--gold); }
+  .ctrl-btn.primary:hover { background: var(--gold-light); color: var(--black); }
+  .ctrl-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .ctrl-spacer { flex: 1; }
+
+  .completion-card { display: none; text-align: center; padding: 50px 30px; background: var(--surface); border: 1px solid var(--border-strong); }
+  .completion-card.show { display: block; }
+  .completion-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+  .completion-title { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 900; color: var(--text); margin-bottom: 16px; }
+  .completion-body { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--text-muted); line-height: 1.75; max-width: 480px; margin: 0 auto 28px; }
+  .completion-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .comp-btn { font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 14px 24px; text-decoration: none; transition: all 0.2s; }
+  .comp-btn.primary { background: var(--gold); color: var(--black); }
+  .comp-btn.primary:hover { background: var(--gold-light); }
+  .comp-btn.secondary { color: var(--gold); border: 1px solid var(--border-strong); }
+  .comp-btn.secondary:hover { border-color: var(--gold); }
+
+  .next-modules { margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--border); text-align: left; }
+  .nm-label { font-size: 9px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 16px; }
+  .nm-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .nm-row:last-child { border-bottom: none; }
+  .nm-name { color: var(--text-muted); }
+  .nm-status { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); border: 1px solid var(--border); padding: 3px 10px; }
+  .nm-done { color: var(--done); border-color: var(--done); }
+
+  footer { padding: 40px; text-align: center; font-size: 10px; color: var(--text-dim); letter-spacing: 0.05em; }
+
+  @media (max-width: 700px) {
+    .wrap { padding: 0 20px; }
+    .hero { padding: 48px 20px 24px; }
+    nav.sov-nav { padding: 14px 18px; }
+    .lesson-controls { flex-wrap: wrap; gap: 10px; }
+    .ctrl-spacer { display: none; }
+    .comparison-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body data-theme="dark">
+
+<!-- PASSWORD GATE -->
+<div id="passwordGate" style="position:fixed; inset:0; z-index:1000; background:var(--black); display:flex; align-items:center; justify-content:center; padding:24px;">
+  <div style="max-width:380px; width:100%; text-align:center;">
+    <div style="font-size:9px; font-weight:700; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); margin-bottom:16px;">The Sovereign Curriculum</div>
+    <h2 style="font-family:'Playfair Display',serif; font-size:26px; font-weight:900; color:var(--text); margin-bottom:14px;">Members only.</h2>
+    <p style="font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:var(--text-muted); line-height:1.7; margin-bottom:28px;">Enter your membership password to access Module 2.</p>
+    <input type="password" id="gatePassword" placeholder="Enter password" style="width:100%; background:var(--surface2); border:1px solid var(--border); padding:14px 16px; color:var(--text); font-family:'Montserrat',sans-serif; font-size:14px; outline:none; margin-bottom:12px; text-align:center;" onkeydown="if(event.key==='Enter') checkPassword()">
+    <button onclick="checkPassword()" style="width:100%; padding:14px; border:none; background:var(--gold); color:var(--black); font-size:11px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; cursor:pointer;">Unlock →</button>
+    <div id="gateFeedback" style="margin-top:12px; font-size:12px; min-height:16px;"></div>
+  </div>
+</div>
+
+<div class="gold-bar"></div>
+<nav class="sov-nav">
+  <div class="sov-nav-left">
+    <a href="/the_sovereign/obsidian-room.html" class="sov-back" id="navHomeLink">Home</a>
+    <a href="/the_sovereign/obsidian-room.html" class="sov-brand" id="navBrandLink">The Sovereign Woman</a>
+  </div>
+  <button class="sov-room-toggle" onclick="toggleTheme()">
+    <div class="sov-room-dot"></div>
+    <span id="toggleLabel">Switch to Rose Room</span>
+  </button>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">Module 02 — The Sovereign Curriculum</div>
+  <h1 class="hero-title">Gold as a <em>Woman's Asset.</em></h1>
+  <p class="hero-sub">Why hard assets hit differently for women. How gold actually works. How to buy it, hold it, and protect it — eight years of industry knowledge, distilled into five lessons.</p>
+</div>
+
+<div class="wrap">
+
+  <div class="progress-card">
+    <div class="progress-top">
+      <span class="progress-label">Your progress</span>
+      <span class="progress-count" id="progressCount">0 of 5 lessons</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <div class="lesson-nav" id="lessonNav"></div>
+
+  <!-- LESSON 1 -->
+  <div class="lesson-card" id="lesson-1">
+    <div class="lesson-meta"><span class="lesson-num">Lesson 1 of 5</span><span class="lesson-time">4 min read</span></div>
+    <h2 class="lesson-title">Why Gold Hits Differently<br>for Women</h2>
+    <div class="lesson-body">
+      <p>Most financial education treats gold as one investment option among many — alongside stocks, bonds, and property. Something you might add to a diversified portfolio once you've covered the basics. A defensive play. A hedge. Maybe 5–10% of your assets if you're cautious.</p>
+      <p>Freya wants to reframe that entirely — not because the conventional view is wrong, but because it misses the specific reason gold matters more, structurally and practically, to women than to almost any other group of investors.</p>
+      <p><strong>Here is what gold actually is, in practical terms:</strong> it is a physical asset that belongs to whoever holds it. It has no counterparty. It requires no bank, no institution, no joint account, no court's permission to access. It cannot be frozen. It cannot be divided without your knowledge. It cannot be claimed by someone else's debt or decision without physically taking it from you.</p>
+      <div class="freya-quote">"The night I understood the difference between an asset and a claim on an asset — not in theory, but sitting alone with three children and a bank account I was no longer sure I could access — gold stopped being an investment to me. It became the only form of ownership I trusted completely."</div>
+      <p>For the average man investing in a stable two-income household with no history of financial control or coercion, gold's physical independence is a theoretical advantage. For women — statistically more likely to experience divorce, financial abuse, career interruption, and single-income periods — that same independence is a <em>practical</em> one.</p>
+      <p>This is not about fear. It is about understanding, precisely, why a particular tool serves your situation better than another one. A lawyer isn't pessimistic because they have a will. You are not pessimistic because you own gold.</p>
+    </div>
+    <div class="action-box">
+      <div class="action-label">Before you continue</div>
+      <div class="action-title">Name your real reason</div>
+      <div class="action-desc">Not the theoretical reason to own gold. Your personal reason — the specific scenario, the specific fear, or the specific independence you want that gold could provide. Write it plainly.</div>
+      <textarea class="action-input" id="reflect-1" placeholder="e.g. 'I want something that is mine alone, that no one can access or claim without my permission...'"></textarea>
+    </div>
+    <div class="lesson-controls">
+      <button class="ctrl-btn" disabled>← Previous</button>
+      <div class="ctrl-spacer"></div>
+      <button class="ctrl-btn primary" onclick="completeLesson(1)">Mark complete & continue →</button>
+    </div>
+  </div>
+
+  <!-- LESSON 2 -->
+  <div class="lesson-card" id="lesson-2">
+    <div class="lesson-meta"><span class="lesson-num">Lesson 2 of 5</span><span class="lesson-time">5 min read</span></div>
+    <h2 class="lesson-title">How Gold Actually Works —<br>The Language You Need</h2>
+    <div class="lesson-body">
+      <p>Walking into a gold dealer without understanding the basic vocabulary is one of the most reliable ways to overpay. Not because dealers are necessarily dishonest — many are entirely legitimate — but because a buyer who doesn't know the language cannot tell the difference between a fair price and an inflated one. This lesson closes that gap.</p>
+      <p><strong>Spot price</strong> is the single most important number in any gold transaction. It is the current global market price for one troy ounce of gold, set continuously by international trading. Every other price you'll encounter — the dealer's sell price, your buyback value, the premium on a particular coin — is calculated starting from spot. Know this number before you walk in, and you immediately change the nature of the conversation.</p>
+      <p><strong>The troy ounce</strong> is not the same as the ounce you use in a kitchen. A troy ounce is 31.1035 grams — slightly heavier than a standard ounce. Every gold price quoted globally is per troy ounce unless explicitly stated otherwise.</p>
+      <p><strong>Premium</strong> is the amount added on top of spot price. It covers minting costs, distribution, and dealer margin. A premium is not inherently unfair — it is simply the cost of turning raw gold into a coin or bar you can hold. What matters is whether the premium is reasonable for what you're buying. For common bullion coins, a fair buy premium is typically 3–8% over spot. If someone quotes you 25% over spot for a standard 1oz coin, that is not a deal — that is an expensive lesson if you don't catch it.</p>
+      <div class="freya-quote">"The first question I learned to ask every dealer was simple: 'What is spot today, and what premium are you charging?' A legitimate dealer answers immediately. A dealer who pivots, deflects, or treats the question as impolite is giving you information about whether to continue the conversation."</div>
+      <p><strong>Fineness</strong> is gold's purity — expressed as parts per thousand. 999.9 fineness means 99.99% pure gold, the standard for investment-grade bars and coins. You will also see karat for jewelry: 24K is pure gold, 18K is 75% gold. For investment purposes, you want 999 or 999.9 fineness — anything lower means you are paying for gold but receiving something diluted with other metals.</p>
+      <p><strong>Buyback rate</strong> is the price a dealer will pay to buy gold back from you — always below spot, since dealers need a margin. The gap between a dealer's sell price and buyback price is where the real cost of ownership lives. A reputable dealer's buyback rate stays close to spot. A wide, unexplained gap is a signal worth noticing.</p>
+    </div>
+    <div class="action-box">
+      <div class="action-label">Your action for this lesson</div>
+      <div class="action-title">Look up today's spot price</div>
+      <div class="action-desc">Go to Goldvest, check the live spot price, and write down today's number. Then calculate: what would a fair 5% premium on one troy ounce cost you today? Get comfortable with this math — it's the foundation of every real purchasing decision.</div>
+      <a href="/the_sovereign/goldvest.html" class="action-link">Open Goldvest for live spot price →</a>
+    </div>
+    <div class="lesson-controls">
+      <button class="ctrl-btn" onclick="goToLesson(1)">← Previous</button>
+      <div class="ctrl-spacer"></div>
+      <button class="ctrl-btn primary" onclick="completeLesson(2)">Mark complete & continue →</button>
+    </div>
+  </div>
+
+  <!-- LESSON 3 -->
+  <div class="lesson-card" id="lesson-3">
+    <div class="lesson-meta"><span class="lesson-num">Lesson 3 of 5</span><span class="lesson-time">5 min read</span></div>
+    <h2 class="lesson-title">The Forms of Gold —<br>and Which Ones Actually Serve You</h2>
+    <div class="lesson-body">
+      <p>Not all gold is equal in the way that matters most to us: physical independence. Some forms of gold ownership give you everything the asset is capable of providing. Others give you only part of it — often the part that is most convenient for the institution, not for you.</p>
+
+      <div class="comparison-grid">
+        <div class="compare-card">
+          <div class="compare-label">Physical gold — coins & bars</div>
+          <div class="compare-body"><strong>You hold it. It is yours.</strong> No counterparty. No institution required to access it. No digital record required to prove ownership. The most complete form of the asset. Coins tend to carry slightly higher premiums than bars of the same weight, but are easier to sell in smaller amounts and more widely recognized.</div>
+        </div>
+        <div class="compare-card">
+          <div class="compare-label">Gold ETFs & paper gold</div>
+          <div class="compare-body"><strong>You own a claim on gold, not gold itself.</strong> Traded like a stock. Convenient, liquid, no storage concerns. But in a real crisis — bank freeze, institution failure, legal dispute — you own a right to gold that someone else holds. That distinction matters exactly when it matters most.</div>
+        </div>
+        <div class="compare-card">
+          <div class="compare-label">Gold jewelry</div>
+          <div class="compare-body"><strong>Real gold, but not investment gold.</strong> Jewelry carries high making charges, is rarely pure 999 fineness, and sells back at melt value — often far below what you paid. Beautiful, meaningful, and an asset — but not a substitute for bullion if financial protection is your goal.</div>
+        </div>
+        <div class="compare-card">
+          <div class="compare-label">Allocated vault storage</div>
+          <div class="compare-body"><strong>Physical gold, stored professionally.</strong> Your specific bars or coins sit in a vault with your name attached — not pooled with others. Insured. Secure. A valid choice for larger holdings. Costs roughly 0.3–1% annually. The key word is <em>allocated</em> — unallocated storage gives you a claim on a pool of gold, not specific pieces.</div>
+        </div>
+      </div>
+
+      <div class="freya-quote">"Eight years in this industry taught me one thing most retail buyers never discover: the word 'gold' can describe anything from a 999.9 LBMA bar in your own hands to a digital entry in a financial institution's ledger that you can't access when their systems go down. These are not the same thing. Know what you're actually buying."</div>
+
+      <p>For The Sovereign Woman's purposes — protection first, growth second — the hierarchy is clear: <strong>physical coins or bars in your own possession or allocated storage, documented, insured, and in your name alone.</strong> Everything else can supplement this. Nothing should replace it.</p>
+
+      <ul class="lesson-list">
+        <li><strong>Best for a first purchase:</strong> 1oz bullion coin from a recognized mint (Krugerrand, Maple Leaf, Britannia, Vienna Philharmonic) — widely recognized, easily resold, liquid globally</li>
+        <li><strong>Best for larger amounts:</strong> 100g or 1oz bars from an LBMA-accredited refiner — lower premiums, same purity, slightly less liquid than coins for small sales</li>
+        <li><strong>Best for very small starting amounts:</strong> 1g or 5g bars — higher premium percentage, but accessible entry point if budget is the constraint</li>
+        <li><strong>Worth avoiding for protection purposes:</strong> any "gold account" or "digital gold" where you never hold the physical metal</li>
+      </ul>
+    </div>
+    <div class="action-box">
+      <div class="action-label">Before you continue</div>
+      <div class="action-title">Decide your first form</div>
+      <div class="action-desc">Based on what you've just read, which form of gold makes the most sense for your first purchase? Write it down along with your reasoning — not someone else's recommendation, yours.</div>
+      <textarea class="action-input" id="reflect-3" placeholder="e.g. 'I'd start with a 1oz coin because it's most recognizable and I want to be able to sell it easily if I need to...'"></textarea>
+    </div>
+    <div class="lesson-controls">
+      <button class="ctrl-btn" onclick="goToLesson(2)">← Previous</button>
+      <div class="ctrl-spacer"></div>
+      <button class="ctrl-btn primary" onclick="completeLesson(3)">Mark complete & continue →</button>
+    </div>
+  </div>
+
+  <!-- LESSON 4 -->
+  <div class="lesson-card" id="lesson-4">
+    <div class="lesson-meta"><span class="lesson-num">Lesson 4 of 5</span><span class="lesson-time">5 min read</span></div>
+    <h2 class="lesson-title">How to Buy Your First<br>Piece of Gold</h2>
+    <div class="lesson-body">
+      <p>Most people's first gold purchase is either impulsive — they see gold go up in the news and buy without preparation — or paralyzed — they research endlessly and never buy at all. This lesson is the middle path: a clear, methodical process that replaces anxiety with competence.</p>
+
+      <div class="checklist">
+        <div class="check-item"><div class="check-num">1</div><div><strong>Know spot price before you go.</strong> Look it up within an hour of your appointment or purchase. The price moves, so real-time knowledge matters. Goldvest shows this live.</div></div>
+        <div class="check-item"><div class="check-num">2</div><div><strong>Decide what you're buying before you walk in.</strong> Product, weight, quantity — decided in advance. Walking in without this decided puts you in a reactive position where upselling is easy.</div></div>
+        <div class="check-item"><div class="check-num">3</div><div><strong>Ask for the premium explicitly.</strong> "What premium are you charging over spot today for this product?" This one question separates informed buyers from uninformed ones in the dealer's eyes — and it should. Know the answer before you agree to anything.</div></div>
+        <div class="check-item"><div class="check-num">4</div><div><strong>Compare at least two dealers.</strong> For any purchase above a few hundred euros/dollars, checking a second dealer's price takes ten minutes and often saves meaningfully. Premiums vary between dealers for the exact same product.</div></div>
+        <div class="check-item"><div class="check-num">5</div><div><strong>Ask about the buyback rate.</strong> Before you buy, ask what they'd pay to buy it back from you today. This tells you the real cost of ownership — the spread — before you commit. A reputable dealer gives you this number without hesitation.</div></div>
+        <div class="check-item"><div class="check-num">6</div><div><strong>Get a receipt with full details.</strong> Product name, weight, fineness, total price paid, date, and dealer information. This is your documentation. Keep it permanently — not just until you sell.</div></div>
+        <div class="check-item"><div class="check-num">7</div><div><strong>Verify the piece before you leave.</strong> Weight, hallmark, assay certificate if it's a bar. Legitimate dealers expect this. Any pushback on basic verification is significant information.</div></div>
+      </div>
+
+      <div class="warning-box">
+        <strong>Red flags that should end the conversation immediately:</strong> a dealer who can't or won't tell you the spot premium they're charging; a price significantly above what other dealers quote for the same product; pressure to decide quickly; reluctance to provide a full receipt; "special deals" on gold that isn't from a recognized mint or LBMA-accredited refiner.
+      </div>
+
+      <div class="freya-quote">"The question most first-time buyers forget to ask is the buyback rate. They ask what it costs to buy. They don't ask what they'd receive selling it back tomorrow. That gap — the spread — is the real cost of ownership, and every informed buyer knows it before they agree to anything."</div>
+    </div>
+    <div class="action-box">
+      <div class="action-label">Your action for this lesson</div>
+      <div class="action-title">Practice the conversation in Goldvest</div>
+      <div class="action-desc">Open Goldvest. Choose a product. Look at the buy price versus the sell price. That gap is the premium spread made visible. Practice buying and selling until the numbers feel familiar — that familiarity is exactly what protects you in a real dealer conversation.</div>
+      <a href="/the_sovereign/goldvest.html" class="action-link">Open Goldvest to practice →</a>
+    </div>
+    <div class="lesson-controls">
+      <button class="ctrl-btn" onclick="goToLesson(3)">← Previous</button>
+      <div class="ctrl-spacer"></div>
+      <button class="ctrl-btn primary" onclick="completeLesson(4)">Mark complete & continue →</button>
+    </div>
+  </div>
+
+  <!-- LESSON 5 -->
+  <div class="lesson-card" id="lesson-5">
+    <div class="lesson-meta"><span class="lesson-num">Lesson 5 of 5</span><span class="lesson-time">4 min read</span></div>
+    <h2 class="lesson-title">How to Hold It, Store It,<br>and Protect What You've Built</h2>
+    <div class="lesson-body">
+      <p>Buying gold is the first decision. Storing it correctly is the second — and it is where most first-time buyers are least prepared, because nobody talks about it until after the purchase is made.</p>
+
+      <p>There are three realistic storage options, each with real tradeoffs:</p>
+
+      <ul class="lesson-list">
+        <li><strong>At home.</strong> Maximum control. Immediate access. Zero cost. But requires real security — at minimum a quality safe bolted to the structure, not just sitting in a wardrobe. Home insurance rarely covers gold above a low threshold without a specific rider. If your home is searched, burgled, or destroyed, physical gold at home is gone.</li>
+        <li><strong>Bank safe deposit box.</strong> More secure than home. Relatively affordable annually. But: accessible only during banking hours. Not insured by the bank beyond a modest amount in most jurisdictions. And critically — in a banking crisis, the box may be temporarily inaccessible. The physical independence of gold is partially compromised here.</li>
+        <li><strong>Professional vault / allocated storage.</strong> The most secure option for meaningful holdings. Insured, audited, accessible within notice periods. Costs roughly 0.3–1% of value annually. The key is insisting on <em>allocated</em> storage — your specific pieces, identified, separate from anyone else's holdings. Not pooled. Not a claim. Yours.</li>
+      </ul>
+
+      <div class="freya-quote">"The most important thing I learned about storage: wherever you keep it, write it down somewhere safe that your trusted people can find. Gold that nobody knows you own dies with you — or worse, gets missed in a legal process that was supposed to protect your interests."</div>
+
+      <p><strong>Documentation is not optional.</strong> For every piece of gold you own: keep your purchase receipt, the assay certificate if it came with one, your insurance documentation, and a note of the storage location — in a secure place that your trusted executor, lawyer, or trusted family member can access if you cannot.</p>
+
+      <p><strong>Insurance.</strong> Standard home contents insurance almost never covers gold adequately. Check your policy's specific limit for valuables and precious metals. For holdings beyond that limit, a separate precious metals insurance rider is not expensive and is the difference between a covered loss and an uncovered one.</p>
+
+      <p><strong>Who knows.</strong> This is more nuanced than it sounds. You need at least one trusted person to know you hold gold and where. You do not need everyone in your life to know. Gold's physical independence only protects you if the information about it is protected too.</p>
+    </div>
+    <div class="action-box">
+      <div class="action-label">Your Module 2 completion</div>
+      <div class="action-title">Write your gold ownership plan</div>
+      <div class="action-desc">Based on everything in this module: what form of gold will you buy first, from what kind of dealer, stored where, insured how, and who will know. One paragraph. Specific. Yours.</div>
+      <textarea class="action-input" id="reflect-5" placeholder="My first gold purchase will be... I'll store it... I'll document it by... The one person who will know is..."></textarea>
+    </div>
+    <div class="lesson-controls">
+      <button class="ctrl-btn" onclick="goToLesson(4)">← Previous</button>
+      <div class="ctrl-spacer"></div>
+      <button class="ctrl-btn primary" onclick="completeLesson(5)">Complete Module 2 →</button>
+    </div>
+  </div>
+
+  <!-- COMPLETION -->
+  <div class="completion-card" id="completionCard">
+    <div class="completion-eyebrow">Module 2 — Complete</div>
+    <h2 class="completion-title">You speak gold now.</h2>
+    <p class="completion-body">Spot price, premium, fineness, buyback rate, allocated storage — the language that separates informed buyers from everyone else. You have it. Use it.</p>
+    <div class="completion-actions">
+      <a href="/the_sovereign/module-3-wealth-protection.html" class="comp-btn primary">Next — Module 3: The Wealth Protection System →</a>
+      <a href="/the_sovereign/gold-investment-checklist.html" class="comp-btn secondary">Gold Investment Checklist</a>
+    </div>
+    <div style="margin-top:28px; padding:18px 22px; background:var(--gold-dim); border-left:2px solid var(--gold); font-size:12px; color:var(--text-muted); line-height:1.7; text-align:left;">
+      <strong style="color:var(--text); font-weight:600;">Freya recommends next:</strong> Module 3 — The Wealth Protection System. You now know how gold works. Now we protect everything you have — with the five documents, the legal framework, and the 90-day plan.
+    </div>
+    <div class="next-modules">
+      <div class="nm-label">Your curriculum progress</div>
+      <div class="nm-row"><span class="nm-name">Module 1 — Know Your Position</span><span class="nm-status nm-done">Complete ✓</span></div>
+      <div class="nm-row"><span class="nm-name">Module 2 — Gold as a Woman's Asset</span><span class="nm-status nm-done">Complete ✓</span></div>
+      <div class="nm-row"><span class="nm-name">Module 3 — The Wealth Protection System</span><span class="nm-status">In progress</span></div>
+      <div class="nm-row"><span class="nm-name">Module 4 — Income Architecture</span><span class="nm-status">In progress</span></div>
+      <div class="nm-row"><span class="nm-name">Module 5 — The Operator Playbook</span><span class="nm-status">In progress</span></div>
+      <div class="nm-row"><span class="nm-name">Module 6 — The Sovereign Circle</span><span class="nm-status">In progress</span></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>The Sovereign Woman — She is not broken. She is the blueprint.</footer>
+
+<script>
+  const TIER_PASSWORDS = { tier1: 'sovereign1', tier2: 'sovereign2', tier3: 'sovereign3' };
+  const ACCESS_KEY = 'sov-curriculum-access';
+  const MODULE_MIN_TIER = 'tier1';
+  const tierRank = { tier1: 1, tier2: 2, tier3: 3 };
+
+  function hasAccess() {
+    const saved = localStorage.getItem(ACCESS_KEY);
+    if (!saved) return false;
+    return tierRank[saved] >= tierRank[MODULE_MIN_TIER];
+  }
+
+  function checkPassword() {
+    const input = document.getElementById('gatePassword').value;
+    const feedback = document.getElementById('gateFeedback');
+    const lower = input.trim().toLowerCase();
+    let grantedTier = null;
+    if (lower === TIER_PASSWORDS.tier3.toLowerCase()) grantedTier = 'tier3';
+    else if (lower === TIER_PASSWORDS.tier2.toLowerCase()) grantedTier = 'tier2';
+    else if (lower === TIER_PASSWORDS.tier1.toLowerCase()) grantedTier = 'tier1';
+
+    if (grantedTier) {
+      localStorage.setItem(ACCESS_KEY, grantedTier);
+      document.getElementById('passwordGate').style.display = 'none';
+      initModule();
+    } else {
+      feedback.textContent = "That password doesn't match. Check it and try again.";
+      feedback.style.color = 'var(--down, #c9534a)';
+    }
+  }
+
+  if (hasAccess()) {
+    document.getElementById('passwordGate').style.display = 'none';
+    initModule();
+  }
+
+  const STORAGE_KEY = 'sov-module2-progress';
+  let completed = [];
+
+  function loadProgress() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) completed = JSON.parse(raw);
+    } catch(e) { completed = []; }
+  }
+
+  function saveProgress() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(completed));
+  }
+
+  function renderNav() {
+    const nav = document.getElementById('lessonNav');
+    nav.innerHTML = '';
+    for (let i = 1; i <= 5; i++) {
+      const pill = document.createElement('button');
+      pill.className = 'lesson-pill' + (completed.includes(i) ? ' completed' : '');
+      pill.textContent = 'Lesson ' + i;
+      pill.onclick = () => goToLesson(i);
+      nav.appendChild(pill);
+    }
+  }
+
+  function updateProgress() {
+    const count = completed.length;
+    document.getElementById('progressCount').textContent = count + ' of 5 lessons';
+    document.getElementById('progressFill').style.width = (count / 5 * 100) + '%';
+  }
+
+  function goToLesson(n) {
+    document.querySelectorAll('.lesson-card').forEach(c => c.classList.remove('active'));
+    document.getElementById('completionCard').classList.remove('show');
+    document.getElementById('lesson-' + n).classList.add('active');
+    document.querySelectorAll('.lesson-pill').forEach((p, i) => {
+      p.classList.toggle('active', i === n - 1);
+    });
+    window.scrollTo({ top: document.querySelector('.progress-card').offsetTop - 100, behavior: 'smooth' });
+  }
+
+  function completeLesson(n) {
+    if (!completed.includes(n)) {
+      completed.push(n);
+      saveProgress();
+    }
+    renderNav();
+    updateProgress();
+    if (n < 5) {
+      goToLesson(n + 1);
+      document.querySelectorAll('.lesson-pill').forEach((p, i) => {
+        p.classList.toggle('active', i === n);
+      });
+    } else {
+      document.querySelectorAll('.lesson-card').forEach(c => c.classList.remove('active'));
+      document.getElementById('completionCard').classList.add('show');
+      window.scrollTo({ top: document.getElementById('completionCard').offsetTop - 100, behavior: 'smooth' });
+    }
+  }
+
+  function initModule() {
+    loadProgress();
+    renderNav();
+    updateProgress();
+    if (completed.length >= 5) {
+      document.getElementById('completionCard').classList.add('show');
+    } else {
+      const startAt = completed.length > 0 ? Math.max(...completed) + 1 : 1;
+      goToLesson(Math.min(startAt, 5));
+    }
+  }
+
+  if (hasAccess()) { initModule(); }
+
+  (function() {
+    const saved = localStorage.getItem('sov-theme-pref');
+    if (saved === 'rose') {
+      document.documentElement.setAttribute('data-theme', 'rose');
+      document.getElementById('toggleLabel').textContent = 'Switch to Obsidian Room';
+    }
+  })();
+
+  window.toggleTheme = function() {
+    const root = document.documentElement;
+    const current = root.getAttribute('data-theme');
+    const next = current === 'dark' ? 'rose' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('sov-theme-pref', next);
+    document.getElementById('toggleLabel').textContent = next === 'dark' ? 'Switch to Rose Room' : 'Switch to Obsidian Room';
+  };
+</script>
+
+
+  <!-- WHATSAPP BUTTON -->
+  <div style="position:fixed; bottom:28px; right:28px; z-index:500;">
+    <a id="wa-btn-universal"
+      href="https://wa.me/33626532438?text=Hello%20Freya%2C%20I%20found%20The%20Sovereign%20Woman%20and%20I%27d%20love%20to%20know%20more."
+      target="_blank" rel="noopener"
+      style="width:54px; height:54px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(37,211,102,0.3); transition:transform 0.2s; text-decoration:none;"
+      onmouseover="this.style.transform='scale(1.08)';"
+      onmouseout="this.style.transform='scale(1)';"
+      aria-label="Chat on WhatsApp">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+      </svg>
+    </a>
+  </div>
+  <script>
+  (function(){
+    var lang = localStorage.getItem('sov-lang') || 'en';
+    var btn = document.getElementById('wa-btn-universal');
+    if (btn) btn.href = lang === 'fr'
+      ? 'https://wa.me/33626532438?text=Bonjour%20Freya%2C%20j%27ai%20d%C3%A9couvert%20The%20Sovereign%20Woman%20et%20j%27aimerais%20en%20savoir%20plus.'
+      : 'https://wa.me/33626532438?text=Hello%20Freya%2C%20I%20found%20The%20Sovereign%20Woman%20and%20I%27d%20love%20to%20know%20more.';
+  })();
+  </script>
+</body>
+</html>

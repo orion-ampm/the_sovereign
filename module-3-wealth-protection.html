@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 3 — The Wealth Protection System — The Sovereign Woman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root[data-theme="dark"] {
+    --gold: #c9a84c; --gold-light: #f0d080; --gold-dim: rgba(201,168,76,0.12);
+    --black: #080808; --surface: #121212; --surface2: #1a1a1a; --surface3: #222;
+    --text: #f5f0e8; --text-muted: #9a9080; --text-dim: #4a4438;
+    --border: rgba(201,168,76,0.15); --border-strong: rgba(201,168,76,0.35);
+    --up: #6fae8f; --up-dim: rgba(111,174,143,0.14);
+    --down: #c9534a; --down-dim: rgba(201,83,74,0.14);
+    --warn: #c9a84c; --warn-dim: rgba(201,168,76,0.12);
+    --table-felt: #0d1f0d;
+  }
+
+  :root[data-theme="rose"] {
+    --gold: #B55E75; --gold-light: #DB9AA4; --gold-dim: rgba(181,94,117,0.10);
+    --black: #fdf6f0; --surface: #ffffff; --surface2: #f9eff3; --surface3: #f4e8ec;
+    --text: #2e1a22; --text-muted: #7a4a58; --text-dim: #b89aa4;
+    --border: rgba(181,94,117,0.15); --border-strong: rgba(181,94,117,0.35);
+    --up: #5a9379; --up-dim: rgba(90,147,121,0.10);
+    --down: #b5544a; --down-dim: rgba(181,84,74,0.10);
+    --warn: #B55E75; --warn-dim: rgba(181,94,117,0.10);
+    --table-felt: #0d1f0d;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--text); font-family: 'Montserrat', sans-serif; min-height: 100vh; padding-bottom: 100px; transition: background 0.3s, color 0.3s; }
+  ::selection { background: var(--gold-dim); }
+
+  .gold-bar { height: 2px; background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent); }
+
+  nav.sov-nav { padding: 16px 40px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 200; background: var(--black); backdrop-filter: blur(12px); }
+  .sov-nav-left { display: flex; align-items: center; gap: 20px; }
+  .sov-back { font-size: 10px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); text-decoration: none; display: flex; align-items: center; gap: 6px; opacity: 0.7; transition: opacity 0.2s; }
+  .sov-back:hover { opacity: 1; }
+  .sov-back::before { content: '←'; font-size: 14px; }
+  .sov-brand { font-family: 'Playfair Display', serif; font-size: 12px; font-style: italic; color: var(--gold); text-decoration: none; letter-spacing: 0.1em; }
+  .sov-room-toggle { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); border: 1px solid var(--border); padding: 6px 14px; display: flex; align-items: center; gap: 7px; transition: border-color 0.2s, color 0.2s; cursor: pointer; background: none; }
+  .sov-room-toggle:hover { border-color: var(--gold); color: var(--gold); }
+  .sov-room-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--gold); }
+
+  /* ============ GATE ============ */
+  #passwordGate { position: fixed; inset: 0; z-index: 1000; background: var(--black); display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .gate-inner { max-width: 380px; width: 100%; text-align: center; }
+  .gate-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 900; color: var(--text); margin-bottom: 10px; }
+  .gate-sub { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-style: italic; color: var(--text-muted); line-height: 1.7; margin-bottom: 28px; }
+  .gate-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+  #gatePassword { width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 14px 16px; color: var(--text); font-family: 'Montserrat', sans-serif; font-size: 14px; outline: none; margin-bottom: 12px; text-align: center; }
+  #gatePassword:focus { border-color: var(--gold); }
+  .gate-btn { width: 100%; padding: 14px; border: none; background: var(--gold); color: var(--black); font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; }
+  .gate-btn:hover { background: var(--gold-light); }
+  #gateFeedback { margin-top: 10px; font-size: 12px; min-height: 16px; color: var(--down); }
+
+  /* ============ HERO ============ */
+  .hero { padding: 56px 40px 28px; max-width: 760px; margin: 0 auto; text-align: center; }
+  .hero-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 5vw, 46px); font-weight: 900; line-height: 1.1; color: var(--text); margin-bottom: 14px; }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-sub { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--text-muted); line-height: 1.7; max-width: 560px; margin: 0 auto 10px; }
+
+  /* ============ PROGRESS ============ */
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 40px; }
+  .progress-card { background: var(--surface); border: 1px solid var(--border); padding: 20px 24px; margin: 28px 0; }
+  .progress-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+  .progress-label { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); }
+  .progress-count { font-family: 'Playfair Display', serif; font-size: 14px; color: var(--gold); }
+  .progress-track { height: 4px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--gold); border-radius: 2px; transition: width 0.4s ease; width: 0%; }
+
+  /* ============ NAV PILLS ============ */
+  .lesson-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+  .lesson-pill { font-size: 10px; font-weight: 600; padding: 8px 14px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
+  .lesson-pill:hover { border-color: var(--border-strong); }
+  .lesson-pill.active { border-color: var(--gold); background: var(--gold-dim); color: var(--text); }
+  .lesson-pill.completed { color: var(--up); }
+  .lesson-pill.completed::before { content: '✓ '; }
+
+  /* ============ LESSONS ============ */
+  .lesson-card { display: none; }
+  .lesson-card.active { display: block; animation: fadeUp 0.3s ease; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .lesson-meta { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+  .lesson-num { font-size: 9px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); }
+  .lesson-time { font-size: 10px; color: var(--text-dim); border-left: 1px solid var(--border); padding-left: 14px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: clamp(22px, 4vw, 30px); font-weight: 900; color: var(--text); margin-bottom: 24px; line-height: 1.2; }
+  .lesson-body { font-size: 15px; color: var(--text-muted); line-height: 1.85; }
+  .lesson-body p { margin-bottom: 18px; }
+  .lesson-body strong { color: var(--text); font-weight: 600; }
+  .lesson-body em { color: var(--gold-light); font-style: italic; }
+
+  .freya-quote { margin: 28px 0; padding: 20px 24px; background: var(--gold-dim); border-left: 2px solid var(--gold); font-family: 'Cormorant Garamond', serif; font-size: 19px; font-style: italic; color: var(--text); line-height: 1.7; }
+
+  .lesson-list { margin: 20px 0; padding-left: 0; list-style: none; }
+  .lesson-list li { padding: 10px 0 10px 28px; border-bottom: 1px solid var(--border); position: relative; font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+  .lesson-list li:last-child { border-bottom: none; }
+  .lesson-list li::before { content: '→'; position: absolute; left: 0; color: var(--gold); }
+  .lesson-list li strong { color: var(--text); }
+
+  .doc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+  .doc-card { background: var(--surface); border: 1px solid var(--border); padding: 16px 18px; }
+  .doc-num { font-size: 28px; font-weight: 900; font-family: 'Playfair Display', serif; color: var(--gold); line-height: 1; margin-bottom: 6px; }
+  .doc-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .doc-body { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+
+  .warn-box { margin: 24px 0; padding: 16px 20px; background: var(--down-dim); border-left: 2px solid var(--down); font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+  .warn-box strong { color: var(--text); font-weight: 600; }
+
+  .plan-row { display: flex; gap: 14px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .plan-row:last-child { border-bottom: none; }
+  .plan-week { width: 56px; flex-shrink: 0; font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); padding-top: 2px; }
+  .plan-actions { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+  .plan-actions strong { color: var(--text); font-weight: 600; display: block; margin-bottom: 4px; }
+
+  /* ============ ACTION BOX ============ */
+  .action-box { margin-top: 32px; padding: 24px 28px; background: var(--surface); border: 1px solid var(--border-strong); }
+  .action-label { font-size: 9px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .action-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+  .action-desc { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; }
+  .action-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 14px 16px; color: var(--text); font-family: 'Cormorant Garamond', serif; font-size: 16px; outline: none; min-height: 90px; resize: vertical; transition: border-color 0.2s; }
+  .action-input:focus { border-color: var(--gold); }
+  .action-input::placeholder { color: var(--text-dim); font-style: italic; }
+  .action-link { display: inline-block; margin-top: 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--border-strong); padding-bottom: 2px; }
+
+  /* ============ CONTROLS ============ */
+  .lesson-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .ctrl-btn { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 13px 22px; cursor: pointer; transition: all 0.2s; font-family: 'Montserrat', sans-serif; border: 1px solid var(--border-strong); background: transparent; color: var(--text-muted); }
+  .ctrl-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .ctrl-btn.primary { background: var(--gold); color: var(--black); border-color: var(--gold); }
+  .ctrl-btn.primary:hover { background: var(--gold-light); }
+  .ctrl-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .ctrl-spacer { flex: 1; }
+
+  /* ============ GAMBLING TABLE ============ */
+  .table-wrap { background: var(--table-felt); border: 2px solid rgba(201,168,76,0.3); padding: 28px; margin: 0 0 32px; position: relative; }
+  .table-wrap::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent); }
+  .table-title { font-size: 10px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(201,168,76,0.7); text-align: center; margin-bottom: 20px; }
+  .table-instruction { font-size: 11px; color: rgba(255,255,255,0.4); text-align: center; margin-bottom: 18px; font-style: italic; }
+  .assets-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; margin-bottom: 20px; }
+  .asset-chip { border: 1px solid rgba(201,168,76,0.2); background: rgba(0,0,0,0.4); padding: 10px 14px; cursor: pointer; transition: all 0.15s; position: relative; }
+  .asset-chip:hover { border-color: rgba(201,168,76,0.5); }
+  .asset-chip.on-table { border-color: rgba(201,168,76,0.6); background: rgba(201,168,76,0.1); }
+  .asset-chip.won { border-color: #6fae8f; background: rgba(111,174,143,0.15); }
+  .asset-chip.lost { border-color: #c9534a; background: rgba(201,83,74,0.15); }
+  .chip-name { font-size: 12px; font-weight: 500; color: #f5f0e8; }
+  .chip-name.won { color: #6fae8f; }
+  .chip-name.lost { color: #c9534a; text-decoration: line-through; }
+  .chip-val { font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+  .chip-tag { font-size: 8px; font-weight: 700; padding: 2px 6px; display: inline-block; margin-top: 5px; }
+  .tag-safe { background: rgba(111,174,143,0.2); color: #6fae8f; }
+  .tag-joint { background: rgba(201,168,76,0.2); color: #c9a84c; }
+  .tag-exposed { background: rgba(201,83,74,0.2); color: #c9534a; }
+  .chip-result { position: absolute; top: 8px; right: 10px; font-size: 14px; }
+
+  .side-bet-row { display: flex; align-items: center; gap: 20px; background: rgba(0,0,0,0.3); border: 1px solid rgba(201,168,76,0.15); padding: 16px 20px; margin-bottom: 20px; }
+  .coin { width: 58px; height: 58px; border-radius: 50%; border: 2px solid rgba(201,168,76,0.4); background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; flex-shrink: 0; transition: all 0.15s; user-select: none; }
+  .coin:hover { border-color: rgba(201,168,76,0.8); }
+  .coin.heads { border-color: #6fae8f; background: rgba(111,174,143,0.15); }
+  .coin.tails { border-color: #c9534a; background: rgba(201,83,74,0.15); }
+  .coin-flipping { animation: coinFlip 0.12s infinite; }
+  @keyframes coinFlip { 0%,100% { transform: scaleX(1); } 50% { transform: scaleX(0.1); } }
+  .coin-info { flex: 1; }
+  .coin-title { font-size: 12px; font-weight: 600; color: #f5f0e8; margin-bottom: 4px; }
+  .coin-sub { font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.5; font-style: italic; }
+  .coin-label { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 6px; display: block; }
+  .coin-label.heads { color: #6fae8f; }
+  .coin-label.tails { color: #c9534a; }
+  .coin-label.pending { color: rgba(201,168,76,0.6); cursor: pointer; }
+
+  .wheel-area { text-align: center; margin-bottom: 20px; }
+  .wheel { width: 90px; height: 90px; border-radius: 50%; border: 2px solid rgba(201,168,76,0.3); background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; font-size: 26px; margin: 0 auto 14px; }
+  .spin-btn { background: var(--gold); color: #080808; border: none; font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 12px 24px; cursor: pointer; transition: background 0.2s; font-family: 'Montserrat', sans-serif; }
+  .spin-btn:hover:not(:disabled) { background: var(--gold-light); }
+  .spin-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .reset-table-btn { background: transparent; color: rgba(201,168,76,0.5); border: 1px solid rgba(201,168,76,0.2); font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 18px; cursor: pointer; margin-left: 10px; font-family: 'Montserrat', sans-serif; }
+
+  .verdict-box { display: none; padding: 20px 24px; margin-top: 16px; position: relative; }
+  .verdict-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, currentColor, transparent); opacity: 0.3; }
+  .verdict-box.show { display: block; }
+  .verdict-box.win { background: rgba(111,174,143,0.1); border: 1px solid rgba(111,174,143,0.3); }
+  .verdict-box.loss { background: rgba(201,83,74,0.1); border: 1px solid rgba(201,83,74,0.3); }
+  .verdict-box.mixed { background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.25); }
+  .verdict-tally { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+  .tally-cell { text-align: center; padding: 8px 14px; border-radius: 2px; flex: 1; min-width: 80px; }
+  .tally-cell.kept { background: rgba(111,174,143,0.15); }
+  .tally-cell.lost-c { background: rgba(201,83,74,0.15); }
+  .tally-cell.emo { background: rgba(0,0,0,0.2); }
+  .tally-num { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; }
+  .tally-num.k { color: #6fae8f; } .tally-num.l { color: #c9534a; } .tally-num.e { color: #f5f0e8; }
+  .tally-label { font-size: 9px; color: rgba(255,255,255,0.4); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .verdict-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: #f5f0e8; margin-bottom: 10px; }
+  .verdict-body { font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 12px; }
+  .verdict-emotional { border-left: 2px solid rgba(255,255,255,0.2); padding: 10px 14px; font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.6; margin-bottom: 12px; font-style: italic; }
+  .verdict-freya { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-style: italic; color: rgba(201,168,76,0.9); line-height: 1.7; }
+
+  .table-disclaimer { font-size: 10px; color: rgba(255,255,255,0.25); text-align: center; margin-top: 16px; font-style: italic; }
+
+  /* ============ COMPLETION ============ */
+  .completion-card { display: none; text-align: center; padding: 50px 30px; background: var(--surface); border: 1px solid var(--border-strong); }
+  .completion-card.show { display: block; }
+  .completion-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+  .completion-title { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 900; color: var(--text); margin-bottom: 16px; }
+  .completion-body { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--text-muted); line-height: 1.75; max-width: 480px; margin: 0 auto 28px; }
+  .completion-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .comp-btn { font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 14px 24px; text-decoration: none; transition: all 0.2s; cursor: pointer; border: none; font-family: 'Montserrat', sans-serif; }
+  .comp-btn.primary { background: var(--gold); color: var(--black); }
+  .comp-btn.primary:hover { background: var(--gold-light); }
+  .comp-btn.secondary { color: var(--gold); border: 1px solid var(--border-strong); background: transparent; }
+  .next-modules { margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--border); text-align: left; }
+  .nm-label { font-size: 9px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 16px; }
+  .nm-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .nm-row:last-child { border-bottom: none; }
+  .nm-name { color: var(--text-muted); }
+  .nm-status { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); border: 1px solid var(--border); padding: 3px 10px; }
+  .nm-done { color: var(--up); border-color: var(--up); }
+
+  footer { padding: 40px; text-align: center; font-size: 10px; color: var(--text-dim); letter-spacing: 0.05em; }
+
+  @media (max-width: 700px) {
+    .wrap { padding: 0 20px; }
+    .hero { padding: 48px 20px 24px; }
+    nav.sov-nav { padding: 14px 18px; }
+    .lesson-controls { flex-wrap: wrap; gap: 10px; }
+    .ctrl-spacer { display: none; }
+    .doc-grid { grid-template-columns: 1fr; }
+    .assets-grid { grid-template-columns: 1fr; }
+    .side-bet-row { flex-direction: column; }
+  }
+</style>
+</head>
+<body data-theme="dark">
+
+<!-- GATE -->
+<div id="passwordGate">
+  <div class="gate-inner">
+    <div class="gate-eyebrow">The Sovereign Curriculum</div>
+    <div class="gate-title">Members only.</div>
+    <div class="gate-sub">Enter your membership password to access Module 3.</div>
+    <input type="password" id="gatePassword" placeholder="Enter password" onkeydown="if(event.key==='Enter') checkPassword()">
+    <button class="gate-btn" onclick="checkPassword()">Unlock →</button>
+    <div id="gateFeedback"></div>
+  </div>
+</div>
+
+<div class="gold-bar"></div>
+<nav class="sov-nav">
+  <div class="sov-nav-left">
+    <a href="/the_sovereign/obsidian-room.html" class="sov-back">Home</a>
+    <a href="/the_sovereign/obsidian-room.html" class="sov-brand">The Sovereign Woman</a>
+  </div>
+  <button class="sov-room-toggle" onclick="toggleTheme()">
+    <div class="sov-room-dot"></div>
+    <span id="toggleLabel">Switch to Rose Room</span>
+  </button>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">Module 03 — The Sovereign Curriculum</div>
+  <h1 class="hero-title">The Wealth<br><em>Protection System.</em></h1>
+  <p class="hero-sub">An unprotected divorce is gambling. You didn't choose to sit at this table. But knowing the rules changes everything about how you leave it — and this module makes sure you never sit down unprepared again.</p>
+</div>
+
+<div class="wrap">
+
+  <!-- GAMBLING TABLE OPENING -->
+  <div class="table-wrap">
+    <div class="table-title">The Divorce Table — place your bets</div>
+    <div class="table-instruction">Click to place assets on the table. Flip the coin. Then spin.</div>
+
+    <div class="assets-grid" id="assetsGrid"></div>
+
+    <div class="side-bet-row">
+      <div class="coin" id="coin" onclick="flipCoin()">🪙</div>
+      <div class="coin-info">
+        <div class="coin-title">The side bet — Emotional security</div>
+        <div class="coin-sub">No court can award it. No settlement divides it. But it changes everything about who walks out of that room and how.</div>
+        <span class="coin-label pending" id="coinLabel" onclick="flipCoin()">Flip to place your side bet →</span>
+      </div>
+    </div>
+
+    <div class="wheel-area">
+      <div class="wheel" id="wheel"><span id="wheelInner">⚖️</span></div>
+      <button class="spin-btn" id="spinBtn" onclick="spin()" disabled>Spin the wheel →</button>
+      <button class="reset-table-btn" onclick="resetTable()">↺ Reset</button>
+    </div>
+
+    <div class="verdict-box" id="verdictBox">
+      <div class="verdict-tally" id="verdictTally"></div>
+      <div class="verdict-title" id="verdictTitle"></div>
+      <div class="verdict-body" id="verdictBody"></div>
+      <div class="verdict-emotional" id="verdictEmotional"></div>
+      <div class="verdict-freya" id="verdictFreya"></div>
+    </div>
+
+    <div class="table-disclaimer">This is a simulation. The outcomes are based on general legal principles — not legal advice, and not a prediction of any specific case. What changes real outcomes is what you do before you ever sit at this table.</div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-card">
+    <div class="progress-top">
+      <span class="progress-label">Your progress</span>
+      <span class="progress-count" id="progressCount">0 of 5 lessons</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <div class="lesson-nav" id="lessonNav"></div>
+
+  <!-- LESSON 1 -->
+  <div class="lesson-card" id="lesson-1">
+    <div class="lesson-meta"><span class="lesson-num">Lesson 1 of 5</span><span class="lesson-time">4 min read</span></div>
+    <h2 class="lesson-title">The Rules of the Game<br>You Are Already Playing</h2>
+    <div class="lesson-body">
+      <p>You just played the divorce table. You saw which assets survived and which ones the house took. Now Freya wants to tell you something important: <strong>that game is already running.</strong> Not someday. Right now, today, whether you are married, partnered, cohabiting, or simply sharing a financial life with another person.</p>
+      <p>Most women discover the rules of this game only when the game ends — when a relationship concludes, when a partner dies, when a business dissolves, when a health crisis forces the question. By then, the hands have already been dealt. The assets are already titled. The documents either exist or they don't.</p>
+      <p>Understanding the rules of the game you are in doesn't make you pessimistic. It makes you a player instead of a spectator. A lawyer isn't pessimistic because they have a will. A doctor isn't pessimistic because they have health insurance. And you are not pessimistic because you understand how asset division actually works in your jurisdiction and have structured your finances accordingly.</p>
+      <div class="freya-quote">"The women who lose the most in divorce are almost never the ones who had the fewest assets. They are the ones who didn't know which assets were actually theirs — until someone else's lawyer told them."</div>
+      <p>There are two categories of financial power dynamic that affect women disproportionately, and understanding both is the foundation of everything in this module:</p>
+      <ul class="lesson-list">
+        <li><strong>Invisible financial control:</strong> when one partner manages, controls, or withholds financial information from the other — sometimes with conscious intent, often simply through inertia and unexamined habit. The result is the same: one person makes financial decisions and the other lives with consequences they didn't choose and can't predict.</li>
+        <li><strong>Structural financial vulnerability:</strong> when the legal and institutional rules of asset ownership, debt, inheritance, and taxation disadvantage women systemically — not because of any individual's choices, but because those systems were built before women had equal standing within them. Career pauses, joint accounts, jointly-held property with no formal agreement — these are structural vulnerabilities, not personal failures.</li>
+      </ul>
+      <p>This module addresses both. Not with anger — with precision. You cannot fix what you cannot name. This lesson names it.</p>
+    </div>
+    <div class="action-box">
+      <div class="action-label">Before you continue</div>
+      <div class="action-title">Name the dynamic you are currently in</div>
+      <div class="action-desc">Not what you wish were true. What is actually true right now. Are you in invisible financial control? Structural vulnerability? Both? Neither — and if neither, how did you build that position?</div>
+      <textarea class="action-input" id="reflect-1" placeholder="Be specific. Name the dynamic, not the feeling."></textarea>
+    </div>
+    <div class="lesson-controls">
+      <button class="ctrl-btn" disabled>← Previous</button>
+      <div class="ctrl-spacer"></div>
+      <button class="ctrl-btn primary" onclick="completeLesson(1)">Mark complete & continue →</button>
+    </div>
+  </div>
+
+  <!-- LESSON 2 -->
+  <div class="lesson-card" id="lesson-2">
+    <div class="lesson-meta"><span class="lesson-num">Lesson 2 of 5</span><span class="lesson-time">5 min read</span></div>
+    <h2 class="lesson-title">What the Law Actually Says<br>About What Is Yours</h2>
+    <div class="lesson-body">
+      <p>Freya is not a lawyer. This lesson will not tell you what a court in your specific jurisdiction would do in your specific case — that is what lawyers are for, and Module 3 ends with a clear action to go speak to one. What this lesson gives you is something more valuable for right now: <strong>the framework that every family court in every country operates within</strong>, so that when you do walk into that conversation, you already understand the terrain.</p>
+      <p>Almost all legal systems that deal with marital or partnership property divide assets into two categories. The names vary by country, but the distinction is nearly universal:</p>
+      <ul class="lesson-list">
+        <li><strong>Separate property:</strong> assets you owned before the relationship began, plus assets received as individual gifts or inheritance during the relationship, plus anything documented as exclusively yours. Courts generally do not divide separate property — they return it to its original owner. The critical word is <em>documented</em>. Without documentation, the court has no way to distinguish separate property from marital property.</li>
+        <li><strong>Marital or community property:</strong> assets acquired during the relationship, income earned during the relationship, and in many jurisdictions, the increase in value of separate property that occurred during the relationship. Courts divide this — sometimes equally, sometimes based on contribution, sometimes based on need. The exact formula depends on your jurisdiction.</li>
+      </ul>
+      <div class="freya-quote">"The single most important sentence in family law is this: what you cannot prove is yours, the court will treat as shared. Documentation is not bureaucracy. It is the difference between keeping what you built and losing it."</div>
+      <p>Four things courts look at in every jurisdiction, regardless of country:</p>
+      <ul class="lesson-list">
+        <li><strong>Whose name is on it.</strong> Property titled in your name alone is the strongest starting position. Joint titling without a formal agreement about what each person contributed invites dispute.</li>
+        <li><strong>When it was acquired.</strong> Before the relationship, during the relationship, or after separation each carries different weight in most legal systems.</li>
+        <li><strong>Where the money came from.</strong> If you bought something during the relationship with money inherited from your mother, but can prove the source, many jurisdictions will protect that asset. Without proof of source, it is treated as marital.</li>
+        <li><strong>What was agreed.</strong> Prenuptial agreements, postnuptial agreements, cohabitation agreements, formal partnership agreements — written, witnessed agreements about what belongs to whom carry significant legal weight in almost every jurisdiction.</li>
+      </ul>
+      <div class="warn-box"><strong>What this means practically:</strong> right now, today, before any crisis: gather documentation proving what you owned before the relationship, where your significant assets came from, and what is titled in your name alone. This one afternoon of paperwork is worth more than any single financial decision you will make this year.</div>
+    </div>
+    <div class="action-box">
+      <div class="action-label">Your action for this lesson</div>
+      <div class="action-title">List three assets you own and their documentation status</div>
+      <div class="action-desc">Three things you own or contribute to financially. For each: what is it, whose name is it in, and do you have documentation of origin? Be honest about the gaps.</div>
+      <textarea class="action-input" id="reflect-2" placeholder="Asset 1: ... / Name: ... / Documentation: ...&#10;Asset 2: ...&#10;Asset 3: ..."></textarea>
+    </div>
+    <div class="lesson-controls">
+      <button class="ctrl-btn" onclick="goToLesson(1)">← Previous</button>
+      <div class="ctrl-spacer"></div>
+      <button class="ctrl-btn primary" onclick="completeLesson(2)">Mark complete & continue →</button>
+    </div>
+  </div>
+
+  <!-- LESSON 3 -->
+  <div class="lesson-card" id="lesson-3">
+    <div class="lesson-meta"><span class="lesson-num">Lesson 3 of 5</span><span class="lesson-time">5 min read</span></div>
+    <h2 class="lesson-title">The Five Documents Every Woman<br>Needs Before She Needs Them</h2>
+    <div class="lesson-body">
+      <p>Every item on this list exists for the same reason: to replace uncertainty with fact, in writing, witnessed, before a crisis forces the question. None of these are morbid. All of them are acts of love — toward yourself, toward your children, toward the version of you that will face a hard situation one day and deserve to have these answers already settled.</p>
+
+      <div class="doc-grid">
+        <div class="doc-card">
+          <div class="doc-num">01</div>
+          <div class="doc-name">A will</div>
+          <div class="doc-body">Without a will, your assets distribute according to your country's intestacy rules — which may not reflect what you actually want, and almost certainly do not account for the nuances of your real relationships. A basic will is not expensive and can be completed in an afternoon with a solicitor.</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-num">02</div>
+          <div class="doc-name">Power of attorney</div>
+          <div class="doc-body">Designates who can make legal and financial decisions on your behalf if you cannot — due to illness, accident, or incapacity. Without this document, even the people who love you most may be unable to act, and courts must appoint a guardian instead. This takes time no crisis can afford.</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-num">03</div>
+          <div class="doc-name">Beneficiary designations</div>
+          <div class="doc-body">Pensions, life insurance policies, and retirement accounts pass outside a will — they go directly to whoever you named as beneficiary when you signed up, even if that was fifteen years ago and you have since divorced or remarried. Review these annually. An out-of-date beneficiary designation is one of the most common and most preventable legal disasters in estate planning.</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-num">04</div>
+          <div class="doc-name">A pre- or postnuptial agreement</div>
+          <div class="doc-body">Not a prediction that the relationship will fail — a clear record of what each person brought in, what was agreed about how assets would be divided, and what protects children from previous relationships. Postnuptial agreements can be created at any point during a marriage, not only before. In many jurisdictions, these documents carry significant legal weight.</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-num">05</div>
+          <div class="doc-name">Asset declaration and documentation file</div>
+          <div class="doc-body">Not a legal document — a practical one. A record of what you own, when you acquired it, where it came from, and where the documentation is stored. Bank statements, property deeds, investment account records, gold purchase receipts, inheritance documentation. In a filing system your trusted executor can find. This single file is worth more than almost any other item on this list in practical terms.</div>
+        </div>
+      </div>
+
+      <div class="freya-quote">"None of these documents ask you to believe the relationship will end. They ask you to be the kind of woman who is prepared for everything — because prepared women make better decisions in every situation, not just the worst ones."</div>
+    </div>
+    <div class="action-box">
+      <div class="action-label">Your action for this lesson</div>
+      <div class="action-title">Which of these five do you have? Which are missing?</div>
+      <div class="action-desc">Check each one against your current reality. Be honest — partial counts as partial, not complete. Write what exists and what doesn't.</div>
+      <textarea class="action-input" id="reflect-3" placeholder="Will: ✓/✗&#10;Power of attorney: &#10;Beneficiary designations reviewed: &#10;Pre/postnuptial agreement: &#10;Asset documentation file: "></textarea>
+    </div>
+    <div class="lesson-controls">
+      <button class="ctrl-btn" onclick="goToLesson(2)">← Previous</button>
+      <div class="ctrl-spacer"></div>
+      <button class="ctrl-btn primary" onclick="completeLesson(3)">Mark complete & continue →</button>
+    </div>
+  </div>
+
+  <!-- LESSON 4 -->
+  <div class="lesson-card" id="lesson-4">
+    <div class="lesson-meta"><span class="lesson-num">Lesson 4 of 5</span><span class="lesson-time">4 min read</span></div>
+    <h2 class="lesson-title">Gold as the Asset<br>That Survives Everything</h2>
+    <div class="lesson-body">
+      <p>Every asset class you own sits inside a system. Your bank account exists inside your bank's system, inside your country's banking system, inside the global financial system. Your investment portfolio sits inside a brokerage, regulated by a government body, dependent on market infrastructure. Your pension depends on the solvency of the institution managing it. Your property depends on the legal system that enforces your title to it.</p>
+      <p>None of these systems are likely to fail. But <strong>all of them can be temporarily interrupted, frozen, disputed, or accessed by parties other than you</strong> — by a divorcing spouse's lawyer, by a court order, by a bank's fraud detection system, by a government's emergency powers, by an institution's own insolvency. The history of financial crises is a history of assets that turned out to be less accessible than people assumed.</p>
+      <p>Physical gold — coins and bars you hold directly, or that sit in allocated storage with your name specifically attached to specific pieces — sits outside every one of those systems. It cannot be frozen. It cannot be remotely accessed. It cannot be confiscated without physically taking it from wherever it is. It has no counterparty: its value is not contingent on another entity keeping a promise.</p>
+      <div class="freya-quote">"I work in gold professionally. I have for eight years. I do not own gold because I believe the financial system will collapse. I own gold because I understand, precisely, what it means to hold an asset that no institution can reach without my direct participation. For a woman who has ever had her financial autonomy reduced, that specific property of gold is not theoretical. It is the point."</div>
+      <p>In the context of wealth protection specifically — which is what this module is about — gold plays a role no other asset class can replicate:</p>
+      <ul class="lesson-list">
+        <li><strong>It is physically separable:</strong> you can hold it independently of any joint account, any shared investment, any co-owned property. It is yours because you hold it — not because a document says so, though that matters too.</li>
+        <li><strong>It is privately transferable:</strong> in most jurisdictions, small amounts of physical gold can be bought and sold without creating a paper trail through the banking system. This is not about hiding assets — it is about having assets that are genuinely independent.</li>
+        <li><strong>It is internationally recognized:</strong> a gold coin minted in South Africa is worth its spot price in France, Portugal, the UK, or anywhere else. Currency collapses and banking crises are jurisdiction-specific. Gold's value is not.</li>
+        <li><strong>It is not correlated with financial markets:</strong> when stock markets fall in a crisis, gold historically holds or gains. Having gold means having an asset whose value is not moving in the same direction as everything else you own.</li>
+      </ul>
+      <p>This does not mean gold should be your only asset, or even your primary one. It means that a woman building a genuine protection layer needs at least some portion of her wealth in a form that no institution, no court order issued before she can respond, and no partner's financial decisions can reach without her physical cooperation.</p>
+    </div>
+    <div class="action-box">
+      <div class="action-label">Before you continue</div>
+      <div class="action-title">Do you hold any gold independently?</div>
+      <div class="action-desc">Not in a joint account. Not as part of a shared investment. In your name, or physically in your possession. If yes — how much, in what form? If no — what would your first purchase look like, based on what you learned in Module 2?</div>
+      <textarea class="action-input" id="reflect-4" placeholder="Currently: ... / First purchase plan: ..."></textarea>
+    </div>
+    <div class="lesson-controls">
+      <button class="ctrl-btn" onclick="goToLesson(3)">← Previous</button>
+      <div class="ctrl-spacer"></div>
+      <button class="ctrl-btn primary" onclick="completeLesson(4)">Mark complete & continue →</button>
+    </div>
+  </div>
+
+  <!-- LESSON 5 -->
+  <div class="lesson-card" id="lesson-5">
+    <div class="lesson-meta"><span class="lesson-num">Lesson 5 of 5</span><span class="lesson-time">5 min read</span></div>
+    <h2 class="lesson-title">Building Your Protection Layer —<br>The 90-Day Plan</h2>
+    <div class="lesson-body">
+      <p>Awareness without action is just anxiety with better vocabulary. This final lesson turns everything in Module 3 into a sequenced, realistic plan you can start this week and complete within ninety days. Not someday. This week, this month, this quarter.</p>
+      <p>The reason for ninety days specifically: protection is not a single action. It is a series of decisions, each of which requires a conversation, an appointment, a document, or a purchase. Trying to do all of it in one weekend produces paralysis. Spread across twelve weeks, it produces a genuinely protected position — without upending your life.</p>
+
+      <div class="plan-row">
+        <div class="plan-week">Week 1–2</div>
+        <div class="plan-actions">
+          <strong>The documentation audit</strong>
+          Gather every document that establishes what is yours: bank statements showing pre-relationship balances, property deeds, investment account records, inheritance documentation, gold purchase receipts, business ownership records. Put them in one place — physical or digital, but organized and accessible to someone you trust. This is your asset declaration file. It does not need to be complete to be started.
+        </div>
+      </div>
+      <div class="plan-row">
+        <div class="plan-week">Week 3–4</div>
+        <div class="plan-actions">
+          <strong>The beneficiary review</strong>
+          Check every pension, life insurance policy, and retirement account you hold. Confirm who is named as beneficiary. Update any that are out of date — an ex-partner, a deceased relative, or simply blank where you intended to return to it. This is the single most common and most easily fixed legal vulnerability in personal finances.
+        </div>
+      </div>
+      <div class="plan-row">
+        <div class="plan-week">Week 5–6</div>
+        <div class="plan-actions">
+          <strong>The legal consultation</strong>
+          Book one hour with a family lawyer in your jurisdiction. Not to begin a process — to understand your position. Bring your asset documentation file. Ask: what would be considered mine in a separation, what would be considered shared, and what would I need to document better to protect my separate assets? One hour changes what you know permanently.
+        </div>
+      </div>
+      <div class="plan-row">
+        <div class="plan-week">Week 7–8</div>
+        <div class="plan-actions">
+          <strong>The independent account</strong>
+          If you do not already have a meaningful amount of savings in an account in your name alone — open one and begin contributing to it. Even a modest amount each month, consistently, builds a runway and establishes an independent financial identity with a paper trail. This is not about distrust. It is about having a floor that is yours regardless of what happens.
+        </div>
+      </div>
+      <div class="plan-row">
+        <div class="plan-week">Week 9–10</div>
+        <div class="plan-actions">
+          <strong>The first gold purchase</strong>
+          If you do not already hold physical gold independently, make your first purchase. One coin. One small bar. Something in your name, documented, stored safely, insured. Use The Gold Tongue to understand the terms. Use Goldvest to get comfortable with the pricing. Then walk into a reputable dealer prepared. This is the asset that sits outside every system. Start with one piece.
+        </div>
+      </div>
+      <div class="plan-row">
+        <div class="plan-week">Week 11–12</div>
+        <div class="plan-actions">
+          <strong>The will and power of attorney</strong>
+          Book an appointment with a solicitor — often the same one from week five, or a separate estate planning specialist. Have a basic will drafted and signed. Designate a power of attorney. These do not need to be complex to be valid. A simple, witnessed, signed will is infinitely better than none. Two documents. One afternoon. Done.
+        </div>
+      </div>
+
+      <div class="freya-quote">"At the end of ninety days, you will not be a different person. But you will have a documentation file, a reviewed beneficiary list, a lawyer who knows your position, an independent account, a piece of physical gold, and a signed will. That is not a small thing. That is the protection layer that most women spend their entire lives without building — because no one told them it was possible to build it in ninety days."</div>
+    </div>
+    <div class="action-box">
+      <div class="action-label">Your Module 3 completion</div>
+      <div class="action-title">Write your 90-day commitment</div>
+      <div class="action-desc">Not a wish. A commitment. What is the first specific thing you will do this week — and what is the one item from the 90-day plan that you are most overdue on?</div>
+      <textarea class="action-input" id="reflect-5" placeholder="This week I will... / I am most overdue on... / By the end of 90 days I will have..."></textarea>
+    </div>
+    <div class="lesson-controls">
+      <button class="ctrl-btn" onclick="goToLesson(4)">← Previous</button>
+      <div class="ctrl-spacer"></div>
+      <button class="ctrl-btn primary" onclick="completeLesson(5)">Complete Module 3 →</button>
+    </div>
+  </div>
+
+  <!-- COMPLETION -->
+  <div class="completion-card" id="completionCard">
+    <div class="completion-eyebrow">Module 3 — Complete</div>
+    <h2 class="completion-title">You are no longer playing without knowing the rules.</h2>
+    <p class="completion-body">The table was always running. Now you know what's on it, who can reach it, and how to protect what is genuinely yours — before anyone else makes that decision for you.</p>
+    <div class="completion-actions">
+      <a href="/the_sovereign/asset-protection-checklist.html" class="comp-btn primary">Open the Asset Protection Checklist →</a>
+      <a href="/the_sovereign/divorce-proof-wealth-audit.html" class="comp-btn secondary">Revisit the Divorce-Proof Audit</a>
+    </div>
+    <div style="margin-top:28px; padding:18px 22px; background:var(--gold-dim); border-left:2px solid var(--gold); font-size:12px; color:var(--text-muted); line-height:1.7; text-align:left;">
+      <strong style="color:var(--text); font-weight:600;">Freya recommends next:</strong> Module 4 — Income Architecture. You have protected what exists. Now we build what grows. Multiple income streams, designed around your real life — not the idealized version of it.
+    </div>
+    <div class="next-modules">
+      <div class="nm-label">Your curriculum progress</div>
+      <div class="nm-row"><span class="nm-name">Module 1 — Know Your Position</span><span class="nm-status nm-done">Complete ✓</span></div>
+      <div class="nm-row"><span class="nm-name">Module 2 — Gold as a Woman's Asset</span><span class="nm-status nm-done">Complete ✓</span></div>
+      <div class="nm-row"><span class="nm-name">Module 3 — The Wealth Protection System</span><span class="nm-status nm-done">Complete ✓</span></div>
+      <div class="nm-row"><span class="nm-name">Module 4 — Income Architecture</span><span class="nm-status">In progress</span></div>
+      <div class="nm-row"><span class="nm-name">Module 5 — The Operator Playbook</span><span class="nm-status">In progress</span></div>
+      <div class="nm-row"><span class="nm-name">Module 6 — The Sovereign Circle</span><span class="nm-status">In progress</span></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>The Sovereign Woman — She is not broken. She is the blueprint.</footer>
+
+<script>
+  // ===== GATE =====
+  const TIER_PASSWORDS = { tier1: 'sovereign1', tier2: 'sovereign2', tier3: 'sovereign3' };
+  const ACCESS_KEY = 'sov-curriculum-access';
+  const tierRank = { tier1: 1, tier2: 2, tier3: 3 };
+  function hasAccess() { const s = localStorage.getItem(ACCESS_KEY); return s && tierRank[s] >= tierRank['tier2']; }
+  function checkPassword() {
+    const input = document.getElementById('gatePassword').value;
+    const lower = input.trim().toLowerCase();
+    let tier = null;
+    if (lower === TIER_PASSWORDS.tier3) tier = 'tier3';
+    else if (lower === TIER_PASSWORDS.tier2) tier = 'tier2';
+    else if (lower === TIER_PASSWORDS.tier1) tier = 'tier1';
+    if (tier) {
+      localStorage.setItem(ACCESS_KEY, tier);
+      document.getElementById('passwordGate').style.display = 'none';
+      initModule();
+    } else {
+      document.getElementById('gateFeedback').textContent = "That password doesn\'t match. Check it and try again.";
+    }
+  }
+  if (hasAccess()) { document.getElementById('passwordGate').style.display = 'none'; initModule(); }
+
+  // ===== GAMBLING TABLE =====
+  const ASSETS = [
+    { id: 'home', name: 'Family home', value: '\u20ac280,000', protection: 'joint-unclear', tag: 'joint', label: 'No clear agreement' },
+    { id: 'savings', name: 'Joint savings', value: '\u20ac24,000', protection: 'joint-unclear', tag: 'joint', label: 'Joint account' },
+    { id: 'gold', name: 'Gold coins', value: '\u20ac8,500', protection: 'sole-name', tag: 'safe', label: 'Your name only' },
+    { id: 'pension', name: 'Your pension', value: '\u20ac45,000', protection: 'sole-name', tag: 'safe', label: 'Individual pension' },
+    { id: 'jewelry', name: 'Inherited jewelry', value: '\u20ac6,000', protection: 'undocumented', tag: 'exposed', label: 'No documentation' },
+    { id: 'car', name: 'Family car', value: '\u20ac18,000', protection: 'joint-unclear', tag: 'joint', label: 'Jointly registered' },
+    { id: 'business', name: 'Side business', value: '\u20ac32,000', protection: 'undocumented', tag: 'exposed', label: 'No legal structure' },
+    { id: 'crypto', name: 'Personal crypto', value: '\u20ac5,200', protection: 'sole-name', tag: 'safe', label: 'Your wallet only' },
+  ];
+  const OUTCOMES = {
+    'sole-name': { keep: true },
+    'joint-unclear': { keep: false },
+    'undocumented': { keep: false },
+  };
+  let tableSelected = new Set();
+  let coinResult = null;
+  let tableSpun = false;
+  let tableResults = {};
+  let coinFlipping = false;
+
+  function renderAssets() {
+    const grid = document.getElementById('assetsGrid');
+    grid.innerHTML = ASSETS.map(a => {
+      const isOn = tableSelected.has(a.id);
+      const res = tableResults[a.id];
+      let cls = 'asset-chip' + (res === true ? ' won' : res === false ? ' lost' : isOn ? ' on-table' : '');
+      const tagClass = a.tag === 'safe' ? 'tag-safe' : a.tag === 'joint' ? 'tag-joint' : 'tag-exposed';
+      const nameCls = 'chip-name' + (res === true ? ' won' : res === false ? ' lost' : '');
+      const badge = res === true ? '<span class="chip-result">\u2713</span>' : res === false ? '<span class="chip-result">\u2717</span>' : '';
+      return '<div class="' + cls + '" onclick="toggleAsset(\'' + a.id + '\')">' + badge + '<div class="' + nameCls + '">' + a.name + '</div><div class="chip-val">' + a.value + '</div><span class="chip-tag ' + tagClass + '">' + a.label + '</span></div>';
+    }).join('');
+    document.getElementById('spinBtn').disabled = tableSelected.size === 0 || coinResult === null || tableSpun;
+  }
+
+  function toggleAsset(id) {
+    if (tableSpun) return;
+    tableSelected.has(id) ? tableSelected.delete(id) : tableSelected.add(id);
+    renderAssets();
+  }
+
+  function flipCoin() {
+    if (tableSpun || coinFlipping) return;
+    coinFlipping = true;
+    const coin = document.getElementById('coin');
+    const label = document.getElementById('coinLabel');
+    coin.classList.add('coin-flipping');
+    let flips = 0;
+    const emojis = ['\uD83E\uDE99', '\u2B55', '\uD83E\uDE99', '\u2B55'];
+    const iv = setInterval(function() {
+      coin.textContent = emojis[flips % emojis.length];
+      flips++;
+      if (flips > 16) {
+        clearInterval(iv);
+        coin.classList.remove('coin-flipping');
+        coinResult = Math.random() < 0.5 ? 'heads' : 'tails';
+        if (coinResult === 'heads') {
+          coin.textContent = '\uD83D\uDC9B';
+          coin.className = 'coin heads';
+          label.textContent = 'Emotionally stable';
+          label.className = 'coin-label heads';
+        } else {
+          coin.textContent = '\uD83D\uDDA4';
+          coin.className = 'coin tails';
+          label.textContent = 'Emotionally shaken';
+          label.className = 'coin-label tails';
+        }
+        coinFlipping = false;
+        renderAssets();
+      }
+    }, 80);
+  }
+
+  const spinEmojis = ['\u2696\uFE0F', '\uD83D\uDC8D', '\uD83C\uDFE0', '\uD83D\uDCB0', '\uD83D\uDCDC', '\uD83C\uDFB2', '\uD83D\uDCE6', '\u2696\uFE0F'];
+  function spin() {
+    if (tableSelected.size === 0 || coinResult === null) return;
+    tableSpun = true;
+    document.getElementById('spinBtn').disabled = true;
+    let count = 0;
+    const iv = setInterval(function() {
+      document.getElementById('wheelInner').textContent = spinEmojis[count % spinEmojis.length];
+      count++;
+      if (count > 22) {
+        clearInterval(iv);
+        document.getElementById('wheelInner').textContent = '\u2696\uFE0F';
+        resolveTable();
+      }
+    }, 80);
+  }
+
+  function resolveTable() {
+    tableResults = {};
+    let kept = 0, lost = 0;
+    tableSelected.forEach(function(id) {
+      const a = ASSETS.find(function(x) { return x.id === id; });
+      const o = OUTCOMES[a.protection];
+      tableResults[id] = o.keep;
+      o.keep ? kept++ : lost++;
+    });
+    renderAssets();
+    showVerdict(kept, lost);
+  }
+
+  function showVerdict(kept, lost) {
+    const vb = document.getElementById('verdictBox');
+    const isHeads = coinResult === 'heads';
+    let cls, title, body, emotional, freya;
+    if (lost === 0 && isHeads) {
+      cls = 'win'; title = 'You leave the table whole.';
+      body = 'Every asset was protected. You arrived emotionally steady. This is what deliberate preparation looks like.';
+      emotional = '\uD83D\uDC9B Your emotional security held. You knew what you owned. That knowledge is its own armour.';
+      freya = '"This is sovereignty. Not luck. Not the absence of difficulty. The presence of preparation."';
+    } else if (lost === 0 && !isHeads) {
+      cls = 'mixed'; title = 'The assets survived. You arrived shaken.';
+      body = 'The court found nothing to divide. But you arrived without the emotional foundation that makes clear decisions possible. The money is safe. The person may still need rebuilding.';
+      emotional = '\uD83D\uDDA4 Emotional security was absent. Financial protection was present. One out of two matters enormously. It is not enough.';
+      freya = '"Module 3 builds both. The documents protect the assets. The rest of this curriculum builds the woman who knows how to use them."';
+    } else if (kept === 0 && !isHeads) {
+      cls = 'loss'; title = 'The house took everything. You were already on your knees.';
+      body = 'Nothing was protected. Nothing remained. And you arrived without the emotional foundation to fight for any of it. This is the hardest version of this table. It is the most common one.';
+      emotional = '\uD83D\uDDA4 This is the table I sat at. This is why I built everything that follows.';
+      freya = '"You are not here because you failed. You are here because no one told you the rules before the game started. That changes today."';
+    } else {
+      cls = isHeads ? 'mixed' : 'loss';
+      title = 'You kept ' + kept + '. The house took ' + lost + '.';
+      body = 'The protected assets stayed yours. The unprotected ones were divided by a court that had no reason to favour you. The gap between what you kept and what you lost is exactly what Module 3 closes.';
+      emotional = (isHeads ? '\uD83D\uDC9B Emotional stability helped you absorb the losses without losing yourself.' : '\uD83D\uDDA4 Financial loss and emotional fragility happened simultaneously. That doubles the recovery time.');
+      freya = '"Notice what survived: the gold, the individual pension, the things in your name. Notice what the house took: everything joint, everything undocumented. The lesson writes itself."';
+    }
+    vb.className = 'verdict-box show ' + cls;
+    document.getElementById('verdictTally').innerHTML =
+      '<div class="tally-cell kept"><div class="tally-num k">' + kept + '</div><div class="tally-label">you keep</div></div>' +
+      '<div class="tally-cell lost-c"><div class="tally-num l">' + lost + '</div><div class="tally-label">house takes</div></div>' +
+      '<div class="tally-cell emo"><div class="tally-num e">' + (isHeads ? '\uD83D\uDC9B' : '\uD83D\uDDA4') + '</div><div class="tally-label">' + (isHeads ? 'stable' : 'shaken') + '</div></div>';
+    document.getElementById('verdictTitle').textContent = title;
+    document.getElementById('verdictBody').textContent = body;
+    document.getElementById('verdictEmotional').textContent = emotional;
+    document.getElementById('verdictFreya').textContent = freya;
+  }
+
+  function resetTable() {
+    tableSelected.clear(); tableResults = {}; tableSpun = false; coinResult = null;
+    document.getElementById('coin').textContent = '\uD83E\uDE99';
+    document.getElementById('coin').className = 'coin';
+    document.getElementById('coinLabel').textContent = 'Flip to place your side bet \u2192';
+    document.getElementById('coinLabel').className = 'coin-label pending';
+    document.getElementById('wheelInner').textContent = '\u2696\uFE0F';
+    document.getElementById('verdictBox').className = 'verdict-box';
+    document.getElementById('spinBtn').disabled = true;
+    renderAssets();
+  }
+
+  // ===== MODULE PROGRESS =====
+  const STORAGE_KEY = 'sov-module3-progress';
+  let completed = [];
+  function loadProgress() { try { const r = localStorage.getItem(STORAGE_KEY); if (r) completed = JSON.parse(r); } catch(e) { completed = []; } }
+  function saveProgress() { localStorage.setItem(STORAGE_KEY, JSON.stringify(completed)); }
+  function renderNav() {
+    const nav = document.getElementById('lessonNav');
+    nav.innerHTML = '';
+    for (let i = 1; i <= 5; i++) {
+      const pill = document.createElement('button');
+      pill.className = 'lesson-pill' + (completed.includes(i) ? ' completed' : '');
+      pill.textContent = 'Lesson ' + i;
+      pill.onclick = (function(n) { return function() { goToLesson(n); }; })(i);
+      nav.appendChild(pill);
+    }
+  }
+  function updateProgress() {
+    const count = completed.length;
+    document.getElementById('progressCount').textContent = count + ' of 5 lessons';
+    document.getElementById('progressFill').style.width = (count / 5 * 100) + '%';
+  }
+  function goToLesson(n) {
+    document.querySelectorAll('.lesson-card').forEach(function(c) { c.classList.remove('active'); });
+    document.getElementById('completionCard').classList.remove('show');
+    document.getElementById('lesson-' + n).classList.add('active');
+    document.querySelectorAll('.lesson-pill').forEach(function(p, i) { p.classList.toggle('active', i === n - 1); });
+    window.scrollTo({ top: document.querySelector('.progress-card').offsetTop - 100, behavior: 'smooth' });
+  }
+  function completeLesson(n) {
+    if (!completed.includes(n)) { completed.push(n); saveProgress(); }
+    renderNav(); updateProgress();
+    if (n < 5) {
+      goToLesson(n + 1);
+      document.querySelectorAll('.lesson-pill').forEach(function(p, i) { p.classList.toggle('active', i === n); });
+    } else {
+      document.querySelectorAll('.lesson-card').forEach(function(c) { c.classList.remove('active'); });
+      document.getElementById('completionCard').classList.add('show');
+      window.scrollTo({ top: document.getElementById('completionCard').offsetTop - 100, behavior: 'smooth' });
+    }
+  }
+  function initModule() {
+    loadProgress(); renderNav(); updateProgress();
+    renderAssets();
+    if (completed.length >= 5) {
+      document.getElementById('completionCard').classList.add('show');
+    } else {
+      const startAt = completed.length > 0 ? Math.max.apply(null, completed) + 1 : 1;
+      goToLesson(Math.min(startAt, 5));
+    }
+  }
+  if (hasAccess()) initModule();
+
+  // ===== THEME =====
+  (function() {
+    const saved = localStorage.getItem('sov-theme-pref');
+    if (saved === 'rose') { document.documentElement.setAttribute('data-theme', 'rose'); document.getElementById('toggleLabel').textContent = 'Switch to Obsidian Room'; }
+  })();
+  window.toggleTheme = function() {
+    const root = document.documentElement;
+    const next = root.getAttribute('data-theme') === 'dark' ? 'rose' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('sov-theme-pref', next);
+    document.getElementById('toggleLabel').textContent = next === 'dark' ? 'Switch to Rose Room' : 'Switch to Obsidian Room';
+  };
+</script>
+
+
+  <!-- WHATSAPP BUTTON -->
+  <div style="position:fixed; bottom:28px; right:28px; z-index:500;">
+    <a id="wa-btn-universal"
+      href="https://wa.me/33626532438?text=Hello%20Freya%2C%20I%20found%20The%20Sovereign%20Woman%20and%20I%27d%20love%20to%20know%20more."
+      target="_blank" rel="noopener"
+      style="width:54px; height:54px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(37,211,102,0.3); transition:transform 0.2s; text-decoration:none;"
+      onmouseover="this.style.transform='scale(1.08)';"
+      onmouseout="this.style.transform='scale(1)';"
+      aria-label="Chat on WhatsApp">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+      </svg>
+    </a>
+  </div>
+  <script>
+  (function(){
+    var lang = localStorage.getItem('sov-lang') || 'en';
+    var btn = document.getElementById('wa-btn-universal');
+    if (btn) btn.href = lang === 'fr'
+      ? 'https://wa.me/33626532438?text=Bonjour%20Freya%2C%20j%27ai%20d%C3%A9couvert%20The%20Sovereign%20Woman%20et%20j%27aimerais%20en%20savoir%20plus.'
+      : 'https://wa.me/33626532438?text=Hello%20Freya%2C%20I%20found%20The%20Sovereign%20Woman%20and%20I%27d%20love%20to%20know%20more.';
+  })();
+  </script>
+</body>
+</html>
