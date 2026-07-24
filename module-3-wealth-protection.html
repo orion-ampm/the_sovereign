@@ -9,7 +9,7 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root[data-theme="dark"] {
+  :root {
     --gold: #c9a84c; --gold-light: #f0d080; --gold-dim: rgba(201,168,76,0.12);
     --black: #080808; --surface: #121212; --surface2: #1a1a1a; --surface3: #222;
     --text: #f5f0e8; --text-muted: #9a9080; --text-dim: #4a4438;
@@ -17,17 +17,6 @@
     --up: #6fae8f; --up-dim: rgba(111,174,143,0.14);
     --down: #c9534a; --down-dim: rgba(201,83,74,0.14);
     --warn: #c9a84c; --warn-dim: rgba(201,168,76,0.12);
-    --table-felt: #0d1f0d;
-  }
-
-  :root[data-theme="rose"] {
-    --gold: #B55E75; --gold-light: #DB9AA4; --gold-dim: rgba(181,94,117,0.10);
-    --black: #fdf6f0; --surface: #ffffff; --surface2: #f9eff3; --surface3: #f4e8ec;
-    --text: #2e1a22; --text-muted: #7a4a58; --text-dim: #b89aa4;
-    --border: rgba(181,94,117,0.15); --border-strong: rgba(181,94,117,0.35);
-    --up: #5a9379; --up-dim: rgba(90,147,121,0.10);
-    --down: #b5544a; --down-dim: rgba(181,84,74,0.10);
-    --warn: #B55E75; --warn-dim: rgba(181,94,117,0.10);
     --table-felt: #0d1f0d;
   }
 
@@ -249,7 +238,7 @@
   }
 </style>
 </head>
-<body data-theme="dark">
+<body>
 
 <!-- GATE -->
 <div id="passwordGate" style="position:fixed; top:0; left:0; right:0; bottom:0; width:100vw; height:100vh; z-index:9999; background:#080808; display:flex; align-items:center; justify-content:center; padding:24px;">
@@ -795,18 +784,6 @@
     }
   }
 
-  // ===== THEME =====
-  (function() {
-    const saved = localStorage.getItem('sov-theme-pref');
-    if (saved === 'rose') { document.documentElement.setAttribute('data-theme', 'rose'); document.getElementById('toggleLabel').textContent = 'Switch to Obsidian Room'; }
-  })();
-  window.toggleTheme = function() {
-    const root = document.documentElement;
-    const next = root.getAttribute('data-theme') === 'dark' ? 'rose' : 'dark';
-    root.setAttribute('data-theme', next);
-    localStorage.setItem('sov-theme-pref', next);
-    document.getElementById('toggleLabel').textContent = next === 'dark' ? 'Switch to Rose Room' : 'Switch to Obsidian Room';
-  };
 </script>
 
 
