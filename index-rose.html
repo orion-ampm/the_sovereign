@@ -669,20 +669,20 @@
 <!-- THEME TOGGLE -->
 <a href="/the_sovereign/obsidian-room.html" class="theme-toggle">
   <div class="toggle-dot"></div>
-  <span class="toggle-label">Switch to Obsidian Room</span>
+  <span class="toggle-label" data-i18n="nav.toggle">Switch to Obsidian Room</span>
 </a>
 
 <div class="rose-bar"></div>
 
 <nav style="display:flex; align-items:center; justify-content:space-between; padding:14px 32px; border-bottom:1px solid var(--border); position:sticky; top:0; z-index:200; background:var(--bg); backdrop-filter:blur(12px);">
   <div style="display:flex; align-items:center; gap:16px;">
-    <div class="nav-logo">Orion PM Consulting</div>
+    <div class="nav-logo" data-i18n="nav.logo">Orion PM Consulting</div>
     <div style="display:flex; border:1px solid var(--border-strong); overflow:hidden;">
       <button id="btnEN" onclick="setLang('en')" style="font-size:9px; font-weight:700; letter-spacing:0.15em; padding:5px 12px; cursor:pointer; border:none; font-family:'Montserrat',sans-serif; background:transparent; color:var(--text-muted); transition:all 0.2s;">EN</button>
       <button id="btnFR" onclick="setLang('fr')" style="font-size:9px; font-weight:700; letter-spacing:0.15em; padding:5px 12px; cursor:pointer; border:none; font-family:'Montserrat',sans-serif; background:transparent; color:var(--text-muted); transition:all 0.2s;">FR</button>
     </div>
   </div>
-  <a href="#waitlist" class="nav-cta">Join the waitlist</a>
+  <a href="#waitlist" class="nav-cta" data-i18n="nav.cta">Join the waitlist</a>
 </nav>
 
 <!-- HERO -->
@@ -693,19 +693,19 @@
   <svg class="petal" style="bottom:25%;left:12%;width:50px;animation-delay:4s" viewBox="0 0 60 60"><ellipse cx="30" cy="30" rx="11" ry="26" fill="#B87089" transform="rotate(45 30 30)"/></svg>
   <svg class="petal" style="bottom:30%;right:8%;width:35px;animation-delay:1s" viewBox="0 0 60 60"><ellipse cx="30" cy="30" rx="9" ry="22" fill="#EDC526" transform="rotate(-15 30 30)"/></svg>
 
-  <div class="eyebrow">A Gold & Wealth Toolkit — Orion PM Consulting</div>
+  <div class="eyebrow" data-i18n="hero.eyebrow">A Gold & Wealth Toolkit — Orion PM Consulting</div>
   <h1 class="hero-title">The<br><em>Sovereign</em><br>Woman</h1>
-  <p class="hero-subtitle">You were not bad with money. You were just never given the full system — and no one told you how deserving you are of it.</p>
+  <p class="hero-subtitle" data-i18n="hero.sub">You were not bad with money. You were just never given the full system — and no one told you how deserving you are of it.</p>
   <div class="hero-divider"></div>
   <p class="hero-truth">
     Built by a woman with <strong>8 years in the gold industry</strong> who learned financial independence not in a classroom — but in a hospital room, alone, with three children and zero backup.<br><br>
     This is the toolkit she wished she'd had. Offered now, with love, to you.
   </p>
   <form class="waitlist-form" id="waitlist" onsubmit="handleSubmit(event)">
-    <input type="email" placeholder="Your email address" required />
-    <button type="submit">Join the waitlist</button>
+    <input type="email" placeholder="Your email address" data-i18n-ph="waitlist.placeholder" required />
+    <button type="submit" data-i18n="waitlist.btn">Join the waitlist</button>
   </form>
-  <p class="form-note">Early access. No spam. Ever. 🌸</p>
+  <p class="form-note" data-i18n="waitlist.note">Early access. No spam. Ever. 🌸</p>
   <div style="margin-top:32px; display:flex; flex-wrap:wrap; gap:10px; justify-content:center; max-width:600px; margin-left:auto; margin-right:auto;">
     <span style="font-size:11px; color:var(--text-muted); border:1px solid var(--border); padding:7px 14px; letter-spacing:0.02em;">A 6-module curriculum</span>
     <span style="font-size:11px; color:var(--text-muted); border:1px solid var(--border); padding:7px 14px; letter-spacing:0.02em;">10 free interactive tools</span>
@@ -722,15 +722,15 @@
     </div>
   </div>
   <div style="margin-top:36px; padding-top:32px; border-top:1px solid var(--border);">
-    <p style="font-size:10px; font-weight:700; letter-spacing:0.25em; text-transform:uppercase; color:var(--text-muted); margin-bottom:14px;">Not sure where to start?</p>
-    <a href="/the_sovereign/sovereignty-score.html" style="display:inline-block; background:var(--rose, #B55E75); color:#fff; font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; padding:15px 32px; text-decoration:none; transition:background 0.2s;">Let Freya show you your path →</a>
-    <p style="font-size:11px; color:var(--text-muted); margin-top:12px; font-style:italic;">5 questions. 3 dimensions. One clear starting point.</p>
+    <p style="font-size:10px; font-weight:700; letter-spacing:0.25em; text-transform:uppercase; color:var(--text-muted); margin-bottom:14px;" data-i18n="freya.label">Not sure where to start?</p>
+    <a href="/the_sovereign/sovereignty-score.html" style="display:inline-block; background:var(--rose, #B55E75); color:#fff; font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; padding:15px 32px; text-decoration:none; transition:background 0.2s;" data-i18n="freya.cta">Let Freya show you your path →</a>
+    <p style="font-size:11px; color:var(--text-muted); margin-top:12px; font-style:italic;" data-i18n="freya.sub">5 questions. 3 dimensions. One clear starting point.</p>
   </div>
 </section>
 
 <!-- STATS -->
 <section class="section reveal">
-  <div class="section-label">The reality — gently</div>
+  <div class="section-label" data-i18n="stats.label">The reality — gently</div>
   <h2 class="section-title">You are not behind.<br><em>You were never told.</em></h2>
   <p style="font-size:15px;color:var(--text-muted);max-width:580px;line-height:1.85;">These numbers aren't here to frighten you. They're here so you understand — it was never your fault. And now, knowing this, you can begin to change it.</p>
 
@@ -776,7 +776,7 @@
 
 <!-- MODULES -->
 <section class="section reveal">
-  <div class="section-label">What's inside — for you</div>
+  <div class="section-label" data-i18n="inside.label">What's inside — for you</div>
   <h2 class="section-title">Six modules.<br><em>One complete system.</em></h2>
   <div class="modules-grid">
     <a class="module-card" href="/the_sovereign/module-1-know-your-position.html" style="text-decoration:none; color:inherit; display:block; cursor:pointer;"><div class="module-num">Module 01</div><div class="module-title">Know Your Position</div><div class="module-desc">The honest financial audit — gentle, thorough, non-judgmental. Net worth clarity. The invisible tax worksheet. A starting point you can be proud of.</div><span class="module-tag" style="background: var(--rose-blush); color: var(--rose); border-color: var(--rose);">5 lessons — members only →</span></a>
@@ -790,7 +790,7 @@
 
 <!-- DOWNLOADS -->
 <section class="section reveal" style="padding-top:0">
-  <div class="section-label">Your toolkit</div>
+  <div class="section-label" data-i18n="toolkit.label">Your toolkit</div>
   <h2 class="section-title">Everything you need,<br><em>beautifully yours.</em></h2>
 
   <div style="margin-bottom:10px; padding:10px 0 8px; border-bottom:1px solid var(--border);">
@@ -829,7 +829,7 @@
 
 <!-- TIERS -->
 <section class="section reveal">
-  <div class="section-label">Choose your level</div>
+  <div class="section-label" data-i18n="tiers.label">Choose your level</div>
   <h2 class="section-title">Three tiers.<br><em>One destination.</em></h2>
   <p style="font-size:14px;color:var(--text-muted);max-width:480px;line-height:1.85;">Wherever you are right now is the perfect place to begin. Every woman arrives at sovereignty in her own time.</p>
   <div class="tiers-grid">
@@ -925,40 +925,74 @@
     </a>
   </div>
 
+
 <script>
-var SOV_I18N_ROSE = {
-  en: {
-    "crisis.heading": "Are you in immediate crisis?",
-    "crisis.sub": "This is not the moment for a curriculum. We built something for right now.",
-    "crisis.cta": "Emergency resources \u2192",
-    "crisis.wa": "Message us directly on WhatsApp"
-  },
-  fr: {
-    "crisis.heading": "Tu es en crise imm\u00e9diate\u00a0?",
-    "crisis.sub": "Ce n\'est pas le moment pour un curriculum. Nous avons construit quelque chose pour maintenant.",
-    "crisis.cta": "Ressources d\'urgence \u2192",
-    "crisis.wa": "\u00c9cris-nous directement sur WhatsApp"
+(function() {
+  var I18N = {
+    en: {
+      "nav.logo": "Orion PM Consulting",
+      "nav.cta": "Join the waitlist",
+      "nav.toggle": "Switch to Obsidian Room",
+      "hero.eyebrow": "A Gold &amp; Wealth Toolkit &#8212; Orion PM Consulting",
+      "hero.sub": "You were not bad with money. You were just never given the full system &#8212; and no one told you how deserving you are of it.",
+      "waitlist.placeholder": "Your email address",
+      "waitlist.btn": "Join the waitlist",
+      "waitlist.note": "Early access. No spam. Ever.",
+      "freya.label": "Not sure where to start?",
+      "freya.cta": "Let Freya show you your path &#8594;",
+      "freya.sub": "5 questions. 3 dimensions. One clear starting point.",
+      "stats.label": "The reality &#8212; gently",
+      "inside.label": "What&#8217;s inside &#8212; for you",
+      "toolkit.label": "Your toolkit &#8212; tangible tools",
+      "tiers.label": "Choose your level",
+      "crisis.heading": "Are you in immediate crisis?",
+      "crisis.sub": "This is not the moment for a curriculum. We built something for right now.",
+      "crisis.cta": "Emergency resources &#8594;",
+      "crisis.wa": "Message us on WhatsApp",
+      "wa.tooltip": "Chat directly with Freya"
+    },
+    fr: {
+      "nav.logo": "Orion PM Consulting",
+      "nav.cta": "Rejoindre la liste d&#8217;attente",
+      "nav.toggle": "Passer &#224; la Salle Obsidienne",
+      "hero.eyebrow": "Outils d&#8217;or et de patrimoine &#8212; Orion PM Consulting",
+      "hero.sub": "Tu n&#8217;&#233;tais pas mauvaise avec l&#8217;argent. On ne t&#8217;a simplement jamais donn&#233; le syst&#232;me complet &#8212; et personne ne t&#8217;a dit &#224; quel point tu le m&#233;rites.",
+      "waitlist.placeholder": "Votre adresse email",
+      "waitlist.btn": "Rejoindre la liste",
+      "waitlist.note": "Acc&#232;s anticip&#233;. Pas de spam. Jamais.",
+      "freya.label": "Tu ne sais pas par o&#249; commencer&#160;?",
+      "freya.cta": "Laisse Freya te montrer ton chemin &#8594;",
+      "freya.sub": "5 questions. 3 dimensions. Un point de d&#233;part clair.",
+      "stats.label": "La r&#233;alit&#233; &#8212; doucement",
+      "inside.label": "Ce qui est inclus &#8212; pour toi",
+      "toolkit.label": "Ta bo&#238;te &#224; outils &#8212; concrets et gratuits",
+      "tiers.label": "Choisis ton niveau",
+      "crisis.heading": "Tu es en crise imm&#233;diate&#160;?",
+      "crisis.sub": "Ce n&#8217;est pas le moment pour un curriculum. Nous avons construit quelque chose pour maintenant.",
+      "crisis.cta": "Ressources d&#8217;urgence &#8594;",
+      "crisis.wa": "&#201;cris-nous sur WhatsApp",
+      "wa.tooltip": "Discute directement avec Freya"
+    }
+  };
+  var LANG_KEY = 'sov-lang';
+  function apply(lang) {
+    document.querySelectorAll('[data-i18n]').forEach(function(el) {
+      var k = el.getAttribute('data-i18n');
+      if (I18N[lang] && I18N[lang][k] !== undefined) el.innerHTML = I18N[lang][k];
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(function(el) {
+      var k = el.getAttribute('data-i18n-ph');
+      if (I18N[lang] && I18N[lang][k]) el.placeholder = I18N[lang][k];
+    });
+    var en = document.getElementById('btnEN');
+    var fr = document.getElementById('btnFR');
+    if (en) { en.style.background = lang==='en' ? '#B55E75' : 'transparent'; en.style.color = lang==='en' ? '#fff' : ''; }
+    if (fr) { fr.style.background = lang==='fr' ? '#B55E75' : 'transparent'; fr.style.color = lang==='fr' ? '#fff' : ''; }
+    document.documentElement.setAttribute('lang', lang);
   }
-};
-var LANG_KEY = 'sov-lang';
-function applyLangPage(lang) {
-  document.querySelectorAll('[data-i18n]').forEach(function(el) {
-    var key = el.getAttribute('data-i18n');
-    if (SOV_I18N_ROSE[lang] && SOV_I18N_ROSE[lang][key]) el.innerHTML = SOV_I18N_ROSE[lang][key];
-  });
-  var btnEN = document.getElementById('btnEN');
-  var btnFR = document.getElementById('btnFR');
-  if (btnEN) { btnEN.style.background = lang==='en' ? '#B55E75' : 'transparent'; btnEN.style.color = lang==='en' ? '#fff' : ''; }
-  if (btnFR) { btnFR.style.background = lang==='fr' ? '#B55E75' : 'transparent'; btnFR.style.color = lang==='fr' ? '#fff' : ''; }
-  document.documentElement.setAttribute('lang', lang);
-}
-function setLang(lang) {
-  localStorage.setItem(LANG_KEY, lang);
-  applyLangPage(lang);
-  var waBtn = document.getElementById('wa-btn');
-  if (waBtn) waBtn.href = lang === 'fr' ? 'https://wa.me/33626532438?text=Bonjour%2C%20j%27ai%20besoin%20d%27aide%20urgente.' : 'https://wa.me/33626532438?text=Hello%20Freya%2C%20I%20found%20The%20Sovereign%20Woman%20and%20I%27d%20love%20to%20know%20more.';
-}
-(function() { applyLangPage(localStorage.getItem(LANG_KEY) || 'en'); })();
+  window.setLang = function(lang) { localStorage.setItem(LANG_KEY, lang); apply(lang); };
+  apply(localStorage.getItem(LANG_KEY) || 'en');
+})();
 </script>
 </body>
 </html>
