@@ -150,13 +150,14 @@
 <!-- PASSWORD GATE -->
 <div id="passwordGate" style="position:fixed; top:0; left:0; right:0; bottom:0; width:100vw; height:100vh; z-index:9999; background:#080808; display:flex; align-items:center; justify-content:center; padding:24px;">
   <div style="max-width:380px; width:100%; text-align:center;">
-    <div style="font-size:9px; font-weight:700; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); margin-bottom:16px;">The Sovereign Curriculum</div>
-    <h2 style="font-family:'Playfair Display',serif; font-size:26px; font-weight:900; color:var(--text); margin-bottom:14px;">Members only.</h2>
-    <p style="font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:var(--text-muted); line-height:1.7; margin-bottom:28px;">Enter your membership password to access Module 1. Don't have one yet? The curriculum opens to paying members at launch.</p>
-    <input type="password" id="gatePassword" placeholder="Enter password" style="width:100%; background:var(--surface2); border:1px solid var(--border); padding:14px 16px; color:var(--text); font-family:'Montserrat',sans-serif; font-size:14px; outline:none; margin-bottom:12px; text-align:center;" onkeydown="if(event.key==='Enter') checkPassword()">
-    <button onclick="checkPassword()" style="width:100%; padding:14px; border:none; background:var(--gold); color:var(--black); font-size:11px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; cursor:pointer;">Unlock →</button>
-    <div id="gateFeedback" style="margin-top:12px; font-size:12px; min-height:16px;"></div>
+    <div style="font-size:9px; font-weight:700; letter-spacing:0.3em; text-transform:uppercase; color:#c9a84c; margin-bottom:16px;">The Sovereign Curriculum</div>
+    <h2 style="font-family:'Playfair Display',serif; font-size:26px; font-weight:900; color:#f5f0e8; margin-bottom:14px;">Members only.</h2>
+    <p style="font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:#9a9080; line-height:1.7; margin-bottom:28px;">Enter your membership password to access this module. Don't have one yet? The curriculum opens to paying members at launch.</p>
+    <input type="password" id="gatePassword" placeholder="Enter password" style="width:100%; background:#1a1a1a; border:1px solid rgba(201,168,76,0.3); padding:14px 16px; color:#f5f0e8; font-family:'Montserrat',sans-serif; font-size:14px; outline:none; margin-bottom:12px; text-align:center;" onkeydown="if(event.key==='Enter') checkPassword()">
+    <button onclick="checkPassword()" style="width:100%; padding:14px; border:none; background:#c9a84c; color:#080808; font-size:11px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; cursor:pointer; font-family:'Montserrat',sans-serif;">Unlock →</button>
+    <div id="gateFeedback" style="margin-top:12px; font-size:12px; min-height:16px; color:#c9534a;"></div>
   </div>
+</div>
 </div>
 
 <div class="gold-bar"></div>
